@@ -14,3 +14,8 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 
 ### Bocetos
 <img src="resources/DiseñoGenerala.PNG">
+
+### DER
+
+### División del trabajo
+
