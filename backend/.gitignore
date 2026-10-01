@@ -38,8 +38,11 @@ bower_components
 build/Release
 
 # Dependency directories
+*node_modules/
 node_modules/
+node_modules/*
 jspm_packages/
+*jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -67,8 +70,11 @@ web_modules/
 
 # dotenv environment variable files
 .env
+*.env
 .env.*
 !.env.example
+*env
+env*
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
