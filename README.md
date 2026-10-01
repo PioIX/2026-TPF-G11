@@ -18,4 +18,22 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 ### DER
 
 ### División del trabajo
+| Tarea | Responsable | Fecha estimada |
+| ----- | ----------- | -------------- |
+| Back  | Todos       | 09/10          |
+| Inicio de sesión | Allievi y Baldesari | 16/10 |
+| Admin | Ibarzabal y Kutianski | 16/10 |
+| Modo de juego | Allievi y Baldesari | 30/10 |
+| Página de usuario | Ibarzabal y Kutianski | 13/11 |
+| Juego | Allievi y Baldesari | 13/11 |
+| Arreglo de errores | Todos | 19/11 |
+
+### Hitos
+| Hito | Fecha estimada |
+| ----- | -------------- |
+| Inicio de sesión y página de admin | 16/10 |
+| Modo de juego | 30/10 |
+| Juego y página de usuario | 13/11 |
+| Arreglo de errores | 19/11 |
+
 
