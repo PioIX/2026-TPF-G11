@@ -13,10 +13,9 @@ Entretener y unir a familia y amigos.
 Un inicio de sesión, que te envía a la página de admin en caso de ingresar con esa cuenta y que si no te envía a la página de selección de modo de juego, desde ahí se puede ir a la página del usuario donde se pueden ver las partidas jugadas y personalizar el perfil, una vez elegido si quiere jugar de forma local u online, se direcciona al jugador a la página de juego, donde podrá jugar contra su oponente.
 
 ### Bocetos
-<img src="resources/DiseñoGenerala.PNG">
+![Diseño](recursos/img/Img_concepto.png)
 
 ### DER
-
 <img src="docs/DER-TPF.png">
 
 ### División del trabajo
@@ -39,3 +38,5 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 | Arreglo de errores | 19/11 |
 
 
+**Bocetos de la interfaz de la aplicación**  
+![Diseño](recursos/img/Img_concepto.png)
