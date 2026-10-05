@@ -36,7 +36,3 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 | Modo de juego | 30/10 |
 | Juego y página de usuario | 13/11 |
 | Arreglo de errores | 19/11 |
-
-
-**Bocetos de la interfaz de la aplicación**  
-![Diseño](recursos/img/Img_concepto.png)
