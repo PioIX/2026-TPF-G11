@@ -17,6 +17,8 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 
 ### DER
 
+<img src="docs/DER-TPF.png">
+
 ### División del trabajo
 | Tarea | Responsable | Fecha estimada |
 | ----- | ----------- | -------------- |
