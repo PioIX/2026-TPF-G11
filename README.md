@@ -6,7 +6,7 @@ Va a ser una generala que sigue las reglas originales del juego que se va a pode
 ### Problemática/necesidad
 Buscamos preservar un juego de mesa y una estética antigua de forma digital.
 ### Público objetivo
-Cualquiera que busque divertirse jugando con dados y con algún amigo, aunque va a estar especialmente diseñado para jugar con familia (padres, abuelos, hijos, nietos, etc.).
+Cualquiera que busque divertirse jugando con dados y con algún amigo, aunque va a estar pensado especialmente para jugar con la familia en la exposición (padres, abuelos, hijos, nietos, etc.).
 ### Objetivo general
 Entretener y unir a familia y amigos.
 ### Principales funcionalidades
