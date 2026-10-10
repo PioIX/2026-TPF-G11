@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+function realizarQuery(query) {
+}
+
 const sessionMiddleware = session({
   secret: "supersarasa",
   resave: false,
@@ -80,7 +83,25 @@ app.get("/getUsuariosTPF", async function (req, res) {
         SELECT * FROM UsuariosTPF;
     `);
   console.log({ respuesta });
-  res.send(respuesta);
+  // res.send(respuesta);
+  res.json({
+      usuarios: [{
+      id: "ID de ejemplo",
+      nombre: "Nombre de ejemplo",
+      apellido: "Apellido de ejemplo",
+      nombre_de_usuario: "Usuario de ejemplo",
+      contraseña: "Contraseña de ejemplo",
+      email: "email@ejemplo.com"
+    },
+  {
+      id: "ID de ejemplo 2",
+      nombre: "Nombre de ejemplo",
+      apellido: "Apellido de ejemplo",
+      nombre_de_usuario: "Usuario de ejemplo",
+      contraseña: "Contraseña de ejemplo",
+      email: "email@ejemplo.com"
+    }]
+  });
 });
 
 app.get("/getEstadisticasTPF", async function (req, res) {
@@ -229,4 +250,8 @@ app.delete("/deletePartidasTPF", async function (req, res) {
   );
   console.log({ respuesta });
   res.send(respuesta);
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Recurso no encontrado" });
 });
