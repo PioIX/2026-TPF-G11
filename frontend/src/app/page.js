@@ -14,31 +14,6 @@ export default function Home() {
   const [apellido, setApellido] = useState("")
   const [usuario, setUsuario] = useState("")
 
-  function setearMail(event) {
-    setMail(event.target.value)
-    console.log(mail)
-  }
-
-  function setearContraseña(event) {
-    setContraseña(event.target.value)
-    console.log(contraseña)
-  }
-
-  function setearNombre(event) {
-    setNombre(event.target.value)
-    console.log(nombre)
-  }
-
-  function setearApellido(event) {
-    setApellido(event.target.value)
-    console.log(apellido)
-  }
-
-  function setearUsuario(event) {
-    setUsuario(event.target.value)
-    console.log(usuario)
-  }
-
   function iniciarSesion() {
     if (mail === "" || contraseña === "") {
       console.log("Error, datos vacíos")
@@ -91,7 +66,7 @@ export default function Home() {
       };
 
       const fetchData = async () => {
-        const response = await fetch('http://localhost:4000/postRegistro', {
+        const response = await fetch('http://localhost:4000/postUsuariosTPF', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -120,18 +95,18 @@ export default function Home() {
       <h1>¡Bienvenido/a!</h1>
       <h2>Iniciar sesion</h2>
 
-      <Input title={"Mail"} onChange={setearMail()} type={"text"} placeholder={"XxpepitoxX@gmail.com"}></Input>
-      <Input title={"Contraseña"} onChange={setearContraseña()} type={"password"} placeholder={"*******"}></Input>
-      <Button onClick={iniciarSesion()} text={"Iniciar sesion"}></Button>
+      <Input title="Mail" onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com"></Input>
+      <Input title="Contraseña" onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******"></Input>
+      <Button onClick={iniciarSesion} text="Iniciar sesion"></Button>
 
       <hr></hr>
 
       <h2>Registro</h2>
       <p>En caso de querer registrarse, rellene también la siguiente información</p>
-      <Input title={"Nombre"} onChange={setearNombre()} type={"text"} placeholder={"Juan Pedro"}></Input>
-      <Input title={"Apellido"} onChange={setearApellido()} type={"text"} placeholder={"Cruz Gomez"}></Input>
-      <Input title={"Nombre de usuario"} onChange={setearUsuario()} type={"text"} placeholder={"Pepito123"}></Input>
-      <Button onClick={registrarUsuario()} text={"Registrarse"}></Button>
+      <Input title="Nombre" onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro"></Input>
+      <Input title="Apellido" onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez"></Input>
+      <Input title="Nombre de usuario" onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123"></Input>
+      <Button onClick={registrarUsuario} text="Registrarse"></Button>
     </>
   )
 }
