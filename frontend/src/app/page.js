@@ -42,7 +42,7 @@ export default function Home() {
   function iniciarSesion() {
     if (mail === "" || contraseña === "") {
       console.log("Error, datos vacíos")
-      alert("Error: el mail o la contraseña están vacíos")
+      alert("Error: llenar todos los campos")
 
     } else {
       const body = {
@@ -66,11 +66,48 @@ export default function Home() {
           console.log("Error: el mail no existe o la contraseña es inválida")
           alert("Error: el mail o la contraseña son incorrectos")
 
-        } else if (pass) {
-          /* si el usuario es admin */
+        } else if (data.email === "admin" && data.contraseña === "admin") { // cambiar por los datos correctos del admin
+          router.push("/admin")
         } else {
           router.push("/modo-juego");
         };
+      };
+
+      fetchData();
+    }
+  }
+
+  function registrarUsuario() {
+    if (mail === "" || contraseña === "" || nombre === "" || apellido === "" || usuario === "") {
+      console.log("Error, datos vacíos")
+      alert("Error: llenar todos los campos")
+    } else {
+      const body = {
+        email: mail,
+        contraseña: contraseña,
+        nombre: nombre,
+        apellido: apellido,
+        nombre_de_usuario: usuario
+      };
+
+      const fetchData = async () => {
+        const response = await fetch('http://localhost:4000/postRegistro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        console.log(data);
+
+        if (data.length === 0) {
+          console.log("Error: el usuario ya existe")
+          alert("Error: el usuario o el mail ya existen")
+        } else {
+          router.push("/modo-juego");
+        }
+
       };
 
       fetchData();
