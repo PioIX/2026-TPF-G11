@@ -43,7 +43,7 @@ export default function Home() {
           console.log("Error: el mail no existe o la contraseña es inválida");
           alert("Error: el mail o la contraseña son incorrectos");
 
-        } else if (data.email === "admin" && data.contraseña === "admin") { // cambiar por los datos correctos del admin
+        } else if (data[0].email == "admin@admin" && data[0].contraseña == "admin") {
           router.push("/admin");
         } else {
           router.push("/modo-juego");
@@ -79,10 +79,10 @@ export default function Home() {
         console.log(data);
 
         if (data.length === 0) {
+          router.push("/modo-juego");
+        } else {
           console.log("Error: el usuario ya existe")
           alert("Error: el usuario o el mail ya existen")
-        } else {
-          router.push("/modo-juego");
         }
 
       };
