@@ -9,7 +9,9 @@
     "dev": "nodemon index.js",
     "build": "pkg . --targets node18-win-x64 --output build/backend-tp2.exe",
     "dev:a": "cross-env NEXT_DIST_DIR=.next-a PORT=3000 next dev",
-    "dev:b": "cross-env NEXT_DIST_DIR=.next-b PORT=3001 next dev"
+    "dev:b": "cross-env NEXT_DIST_DIR=.next-b PORT=3001 next dev",
+    "pio": "nodemon --env-file=.pio.env index.js",
+    "home": "nodemon --env-file=.home.env index.js"
   },
   "keywords": [
     "socket.io",
@@ -23,6 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.18.2",
+    "mysql2": "^3.24.6",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
