@@ -83,25 +83,7 @@ app.get("/getUsuariosTPF", async function (req, res) {
         SELECT * FROM UsuariosTPF;
     `);
   console.log({ respuesta });
-  // res.send(respuesta);
-  res.json({
-      usuarios: [{
-      id: "ID de ejemplo",
-      nombre: "Nombre de ejemplo",
-      apellido: "Apellido de ejemplo",
-      nombre_de_usuario: "Usuario de ejemplo",
-      contraseña: "Contraseña de ejemplo",
-      email: "email@ejemplo.com"
-    },
-  {
-      id: "ID de ejemplo 2",
-      nombre: "Nombre de ejemplo",
-      apellido: "Apellido de ejemplo",
-      nombre_de_usuario: "Usuario de ejemplo",
-      contraseña: "Contraseña de ejemplo",
-      email: "email@ejemplo.com"
-    }]
-  });
+  res.send(respuesta);
 });
 
 app.get("/getEstadisticasTPF", async function (req, res) {
