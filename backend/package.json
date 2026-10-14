@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build": "pkg . --targets node18-win-x64 --output build/backend-tp2.exe"
+    "build": "pkg . --targets node18-win-x64 --output build/backend-tp2.exe",
+    "dev:a": "cross-env NEXT_DIST_DIR=.next-a PORT=3000 next dev",
+    "dev:b": "cross-env NEXT_DIST_DIR=.next-b PORT=3001 next dev"
   },
   "keywords": [
     "socket.io",

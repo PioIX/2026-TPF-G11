@@ -172,7 +172,7 @@ app.post("/postLogin", async function (req, res) {
 
   console.log("respuesta: ", respuesta);
 
-  res.send(respuesta[0]);
+  res.send(respuesta);
 });
 
 // PUT
