@@ -1,7 +1,14 @@
 :root {
-  --background: url(https://github.com/PioIX/2026_TPIN1_G11/blob/main/recursos/img/fondo1.png?raw=true);
-  background-repeat: no-repeat;
   --foreground: goldenrod;
+  background-image: url(https://github.com/PioIX/2026_TPIN1_G11/blob/main/recursos/img/fondo1.png?raw=true);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+::-webkit-scrollbar{
+  display: none;
 }
 /*
 @media (prefers-color-scheme: dark) {
@@ -41,4 +48,8 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+hr{
+  border: goldenrod 2px dashed;
 }
