@@ -1,14 +1,15 @@
 :root {
-  --background: url(/recursos/img/fondo1.png);
-  --foreground: url(/recursos/img/fondo1.png);
+  --background: url(https://github.com/PioIX/2026_TPIN1_G11/blob/main/recursos/img/fondo1.png?raw=true);
+  background-repeat: no-repeat;
+  --foreground: goldenrod;
 }
-
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: url(/recursos/img/fondo1.png);
     --foreground: url(/recursos/img/fondo1.png);
   }
-}
+}*/
 
 html {
   height: 100%;

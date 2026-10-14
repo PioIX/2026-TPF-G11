@@ -94,7 +94,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
 
-      <img src="/recursos/img/titulo.png" alt="Titulo de generala" title="Generala" className={styles.titleImage}></img>
+      <img src="#" alt="Titulo de generala" title="Generala" className={styles.titleImage}></img>
       <h1>¡Bienvenido/a!</h1>
       <section id="Inicio-sesion">
         <h2>Iniciar sesion</h2>

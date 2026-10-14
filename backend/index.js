@@ -3,6 +3,8 @@ const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
 
+const { realizarQuery } = require("./modulos/mysql.js");
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -122,6 +124,7 @@ app.get("/getLoginEmail", async function (req, res) {
 
 // POST
 app.post("/postUsuariosTPF", async function (req, res) {
+  console.log("POST /postUsuariosTPF")
   console.log(req.body);
   let respuesta = await realizarQuery(
     `SELECT * FROM UsuariosTPF WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND nombre_de_usuario = '${req.body.nombre_de_usuario}' AND contraseña = '${req.body.contraseña}' AND email = '${req.body.email}'`
