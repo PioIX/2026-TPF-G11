@@ -5,6 +5,8 @@ import Input from "@/components/Input"
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 
+import styles from "./page.module.css";
+
 export default function Home() {
   const router = useRouter();
 
@@ -90,23 +92,39 @@ export default function Home() {
   }
 
   return (
-    <>
-      <img src="/recursos/img/titulo.png" alt="Titulo de generala" title="Generala"></img>
+    <main className={styles.main}>
+
+      <img src="/recursos/img/titulo.png" alt="Titulo de generala" title="Generala" className={styles.titleImage}></img>
       <h1>¡Bienvenido/a!</h1>
-      <h2>Iniciar sesion</h2>
-
-      <Input title="Mail" onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com"></Input>
-      <Input title="Contraseña" onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******"></Input>
-      <Button onClick={iniciarSesion} text="Iniciar sesion"></Button>
-
+      <section id="Inicio-sesion">
+        <h2>Iniciar sesion</h2>
+        <div className={styles.inputDiv}>
+          <Input title="Mail: " onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com" className={styles.inputInicio}></Input>
+        </div>
+        <div className={styles.inputDiv}>
+          <Input title="Contraseña: " onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******" className={styles.inputInicio}></Input>
+        </div>
+        <div>
+          <Button onClick={iniciarSesion} text="Iniciar sesion" className={styles.inputButton}></Button>
+        </div>
+      </section>
       <hr></hr>
-
-      <h2>Registro</h2>
-      <p>En caso de querer registrarse, rellene también la siguiente información</p>
-      <Input title="Nombre" onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro"></Input>
-      <Input title="Apellido" onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez"></Input>
-      <Input title="Nombre de usuario" onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123"></Input>
-      <Button onClick={registrarUsuario} text="Registrarse"></Button>
-    </>
+      <section id="Registro">
+        <h2>Registro</h2>
+        <p>En caso de querer registrarse, rellene también la siguiente información</p>
+        <div className={styles.inputDiv}>
+          <Input title="Nombre: " onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro" className={styles.inputInicio}></Input>
+        </div>
+        <div className={styles.inputDiv}>
+          <Input title="Apellido: " onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez" className={styles.inputInicio}></Input>
+        </div>
+        <div className={styles.inputDiv}>
+          <Input title="Nombre de usuario: " onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123" className={styles.inputInicio}></Input>
+        </div>
+        <div>
+          <Button onClick={registrarUsuario} text="Registrarse" className={styles.inputButton}></Button>
+        </div>
+      </section>
+    </main>
   )
 }
