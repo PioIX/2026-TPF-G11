@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+function realizarQuery(query) {
+}
+
 const sessionMiddleware = session({
   secret: "supersarasa",
   resave: false,
@@ -233,4 +236,8 @@ app.delete("/deletePartidasTPF", async function (req, res) {
   );
   console.log({ respuesta });
   res.send(respuesta);
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Recurso no encontrado" });
 });
