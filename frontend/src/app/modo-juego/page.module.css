@@ -1,0 +1,44 @@
+.body{
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    margin-top: 11rem;
+}
+
+.main{
+    display: flex;
+    gap: 4rem;
+    text-align: center;
+
+    margin: auto;
+}
+
+.modoDiv{
+    background-color: antiquewhite;
+    border-radius: 20px;
+    border: goldenrod 3px dashed;
+    margin-bottom: 1rem;
+    text-align: center;
+
+    padding: 1rem;
+
+    height: 23rem;
+    width: 20rem;
+    div{
+        border-radius: 50%;
+        height: 15rem;
+        width: 15rem;
+        margin: auto;
+        border: goldenrod 3px dashed;
+    }
+}
+
+.localImg{
+    background-color: aqua;
+}
+
+.onlineImg{
+    background-color: peru;
+}

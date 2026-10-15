@@ -1,0 +1,9 @@
+.Button {
+  height: fit-content;
+  padding: 15px;
+  border-radius: 30px;
+  border: darkgoldenrod 3px dashed;
+  background-color: darkred;
+  color: antiquewhite;
+}
+
