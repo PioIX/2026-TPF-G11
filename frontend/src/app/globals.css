@@ -1,14 +1,22 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground: goldenrod;
+  background-image: url(https://github.com/PioIX/2026_TPIN1_G11/blob/main/recursos/img/fondo1.png?raw=true);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 
+::-webkit-scrollbar{
+  display: none;
+}
+/*
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: url(/recursos/img/fondo1.png);
+    --foreground: url(/recursos/img/fondo1.png);
   }
-}
+}*/
 
 html {
   height: 100%;
@@ -31,12 +39,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -46,4 +48,8 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+hr{
+  border: goldenrod 2px dashed;
 }

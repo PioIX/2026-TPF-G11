@@ -124,10 +124,12 @@ app.get("/getLoginEmail", async function (req, res) {
 
 // POST
 app.post("/postUsuariosTPF", async function (req, res) {
+  console.log("POST /postUsuariosTPF")
   console.log(req.body);
   let respuesta = await realizarQuery(
-    `SELECT * FROM UsuariosTPF WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND nombre_de_usuario = '${req.body.nombre_de_usuario}' AND contraseña = '${req.body.contraseña}' AND email = '${req.body.email}'`
+    `SELECT * FROM UsuariosTPF WHERE nombre_de_usuario = '${req.body.nombre_de_usuario}' OR email = '${req.body.email}'`
   );
+  console.log(respuesta)
   if (respuesta.length == 0) {
     await realizarQuery(
       `INSERT INTO UsuariosTPF(nombre, apellido, nombre_de_usuario, contraseña, email) VALUES ('${req.body.nombre}', '${req.body.apellido}', '${req.body.nombre_de_usuario}', '${req.body.contraseña}', '${req.body.email}')`
@@ -174,7 +176,7 @@ app.post("/postLogin", async function (req, res) {
 
   console.log("respuesta: ", respuesta);
 
-  res.send(respuesta[0]);
+  res.send(respuesta);
 });
 
 // PUT
