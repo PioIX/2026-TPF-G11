@@ -3,16 +3,13 @@ const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
 
-const { realizarQuery } = require("./modulos/mysql.js");
+const { realizarQuery } = require("./modulos/mysql");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
-
-function realizarQuery(query) {
-}
 
 const sessionMiddleware = session({
   secret: "supersarasa",
