@@ -217,6 +217,15 @@ app.delete("/deleteUsuariosTPF", async function (req, res) {
   res.send(respuesta);
 });
 
+app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
+  console.log(req.body);
+  const respuesta = await realizarQuery(
+    `DELETE FROM UsuariosTPF WHERE id= ${req.body.id}`
+  );
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
 app.delete("/deleteEstadisticasTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
