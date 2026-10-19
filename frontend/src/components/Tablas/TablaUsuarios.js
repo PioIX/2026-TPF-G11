@@ -18,7 +18,7 @@ export default function TablasUsuarios() {
     return (
         <Tabla
             cabecera={["ID", "Nombre", "Apellido", "Usuario","Email", "Contraseña"]}
-            filas={usuarios.map( usuario => {
+            filas={usuarios.length != 0 && usuarios.map( usuario => {
                 const { id, nombre, apellido, nombre_de_usuario, email, contraseña } = usuario;
                 return [id, nombre, apellido, nombre_de_usuario, email, contraseña];
             })}

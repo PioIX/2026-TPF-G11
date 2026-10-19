@@ -8,7 +8,7 @@ export default function Tabla({ cabecera, filas }) {
         <table className={styles.tabla} >
             <Cabecera columnas={cabecera} />
             <tbody>
-                {filas.map((fila, index) => (
+                {filas.length != 0 && filas.map((fila, index) => (
                     <Fila key={`fila-${index}`} id={index} data={fila} />
                 ))}
             </tbody>

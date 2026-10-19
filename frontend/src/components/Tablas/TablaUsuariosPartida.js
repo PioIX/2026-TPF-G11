@@ -18,10 +18,7 @@ export default function TablaUsuariosPartida() {
     return (
         <Tabla
             cabecera={["ID", "ID usuario", "ID partida"]}
-            filas={usuarios_partida.map( usuario_partida => {
-                const { id, id_usuario, id_partida } = usuario_partida;
-                return [id, id_usuario, id_partida];
-            })}
+            filas={usuarios_partida}
         />
     )
 }

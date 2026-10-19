@@ -51,9 +51,7 @@ export default function Agregar({tabla, data}){
         <>
             <h3>Agregar</h3>
             {data.map((item) => {
-                const { id, placeholder } = item;
-                const newValue = {...dataInput, [id]: e.target.value};
-                return <input key={id} className={id} placeholder={placeholder} onChange={(e) => setDataInput(newValue)}/>;
+                return <input key={item.id} className={item.id} placeholder={item.placeholder} onChange={(e) => setDataInput(e.target.value)}/>;
             })}
             <Button text="Agregar" onClick={() => Añadir(dataInput, urls[tabla])}></Button>
         </>
