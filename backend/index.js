@@ -191,8 +191,9 @@ app.put("/putUsuariosTPF", async function (req, res) {
 
 app.put("/putEstadisticasTPF", async function (req, res) {
   console.log(req.body);
+  const porcentaje_victorias = req.body.partidas_totales > 0 ? (req.body.partidas_ganadas / req.body.partidas_totales) * 100 : 0;
   const respuesta = await realizarQuery(
-    `UPDATE EstadisticasTPF SET generalas_totales = ${req.body.generalas_totales}, partidas_ganadas = ${req.body.partidas_ganadas}, partidas_perdidas = ${req.body.partidas_perdidas}, partidas_totales = ${req.body.partidas_totales}, porcentaje_victorias = ${req.body.porcentaje_victorias}, puntaje_historico = ${req.body.puntaje_historico} WHERE id_usuario = ${req.body.id_usuario}`
+    `UPDATE EstadisticasTPF SET generalas_totales = ${req.body.generalas_totales}, partidas_ganadas = ${req.body.partidas_ganadas}, partidas_perdidas = ${req.body.partidas_perdidas}, partidas_totales = ${req.body.partidas_totales}, porcentaje_victorias = ${porcentaje_victorias}, puntaje_historico = ${req.body.puntaje_historico} WHERE id_usuario = ${req.body.id_usuario}`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -212,6 +213,15 @@ app.delete("/deleteUsuariosTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
     `DELETE FROM UsuariosTPF WHERE id_usuario = ${req.body.id_usuario}`
+  );
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
+  console.log(req.body);
+  const respuesta = await realizarQuery(
+    `DELETE FROM UsuariosTPF WHERE id= ${req.body.id}`
   );
   console.log({ respuesta });
   res.send(respuesta);

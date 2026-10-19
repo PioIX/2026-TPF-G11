@@ -1,0 +1,17 @@
+.tabla {
+    border: 3px solid white;
+}
+
+.tabla thead {
+    text-transform: uppercase;
+}
+
+.tabla th,
+.tabla td {
+    border: 1px solid peru;
+}
+
+.tabla tr:nth-child(even) {
+    background-color: gray;
+    color: black;
+}
