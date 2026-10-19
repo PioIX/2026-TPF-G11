@@ -1,9 +1,13 @@
+"use client"
+
 import Button from "@/components/Button";
 
 import styles from "./page.module.css";
 import ButtonStyles from "@/components/Button.module.css";
 
 export default function ModoJuego() {
+    const usuario = localStorage.getItem('user')
+
     return (
         <div className={styles.body}>
             <h1 className={styles.title}>Elija el modo de juego:</h1>

@@ -48,6 +48,7 @@ export default function Home() {
         } else if (data[0].email == "admin@admin" && data[0].contraseña == "admin") {
           router.push("/admin");
         } else {
+          localStorage.setItem('user', data[0].id_usuario)
           router.push("/modo-juego");
         };
       };
@@ -81,6 +82,7 @@ export default function Home() {
         console.log(data);
 
         if (data.length === 0) {
+          localStorage.setItem('user', data[0].id_usuario)
           router.push("/modo-juego");
         } else {
           console.log("Error: el usuario ya existe")
