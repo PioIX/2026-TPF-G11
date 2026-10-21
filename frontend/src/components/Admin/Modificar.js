@@ -58,9 +58,9 @@ export default function Modificar({tabla, data, onClick}){
             <h3>Modificar</h3>
             {data.map((item) => {
                 const { id, placeholder } = item;
-                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})}/>;
+                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""}/>;
             })}
-            <Button text="Modificar" onClick={handleUpdate}></Button>
+            <Button text="Modificar" onClick={(ev) => { handleUpdate(); onClick(ev); setDataInput({}); }}></Button>
         </>
     )
 }
