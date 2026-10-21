@@ -3,7 +3,7 @@
 import Button from "../Button";
 import { useState } from "react";
 
-function Añadir(dataInput, url) {
+function Añadir(dataInput, url, handler) {
     if (!dataInput || Object.keys(dataInput).length === 0) {
         console.log("Error, datos vacíos");
         alert("Error: llenar todos los campos");
@@ -32,6 +32,7 @@ function Añadir(dataInput, url) {
 
     const data = await response.json();
     console.log(data);
+    handler();
     }
 
     fetchData();
@@ -54,7 +55,7 @@ export default function Agregar({tabla, data, onClick}){
                 const { id, placeholder } = item;
                 return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""} />; 
             })}
-            <Button text="Agregar" onClick={(ev) => { Añadir(dataInput, urls[tabla]); onClick(ev); setDataInput({}); }}></Button>
+            <Button text="Agregar" onClick={() => { Añadir(dataInput, urls[tabla], onClick); setDataInput({}); }}></Button>
         </>
     )
 }

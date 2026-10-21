@@ -39,6 +39,7 @@ export default function Eliminar({tabla, data, onClick}){
             const deleted = await Borrar(recordId, urls[tabla], data[0].requestKey ?? data[0].id);
             if (deleted) {
                 onClick();
+                setRecordId("")
             }
         } catch (error) {
             console.error("Error al eliminar el registro:", error);
@@ -50,9 +51,9 @@ export default function Eliminar({tabla, data, onClick}){
         <>
             <h3>Eliminar</h3>
             {data.map(({ id, placeholder }) => (
-                <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setRecordId(target.value)}/>
+                <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setRecordId(target.value)} value={recordId}/>
             ))}
             <Button text="Eliminar" onClick={handleDelete}></Button>
         </>
     )
-}
+}   

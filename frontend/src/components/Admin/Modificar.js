@@ -22,7 +22,11 @@ async function Cambiar(dataInput, url) {
         'Content-Type': 'application/json'
         },
         body: JSON.stringify(dataInput)
-    });
+    }
+
+    
+
+    );
 
     if (!response.ok) {
         throw new Error(`No se pudo modificar el registro (HTTP ${response.status})`);
@@ -60,7 +64,7 @@ export default function Modificar({tabla, data, onClick}){
                 const { id, placeholder } = item;
                 return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""}/>;
             })}
-            <Button text="Modificar" onClick={(ev) => { handleUpdate(); onClick(ev); setDataInput({}); }}></Button>
+            <Button text="Modificar" onClick={() => { handleUpdate(onClick); setDataInput({}); }}></Button>
         </>
     )
 }

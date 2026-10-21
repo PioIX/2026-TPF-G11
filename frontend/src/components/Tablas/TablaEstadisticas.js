@@ -18,8 +18,8 @@ export default function TablaEstadisticas({ refresh }) {
         <Tabla
             cabecera={["ID", "ID usuario", "Generalas totales", "Partidas totales","Partidas ganadas", "Partidas perdidas", "Porcentaje victorias", "Puntaje historico"]}
             filas={estadisticas.map( estadistica => {
-                const { id, id_usuario, generalas_totales, partidas_totales, partidas_ganadas, partidas_perdidas, porcentaje_victorias, puntaje_historico } = estadistica;
-                return [id, id_usuario, generalas_totales, partidas_totales, partidas_ganadas, partidas_perdidas, porcentaje_victorias, puntaje_historico];
+                const { id_estadistica, id_usuario, generalas_totales, partidas_totales, partidas_ganadas, partidas_perdidas, porcentaje_victorias, puntaje_historico } = estadistica;
+                return [id_estadistica, id_usuario, generalas_totales, partidas_totales, partidas_ganadas, partidas_perdidas, porcentaje_victorias.toFixed(1) + " %", puntaje_historico];
             })}
         />
     )
