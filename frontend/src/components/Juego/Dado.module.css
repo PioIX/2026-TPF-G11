@@ -1,0 +1,27 @@
+.Dado{
+    background-color: rgb(255, 255, 255);
+    border: 2px black solid;
+    object-fit: fill;
+
+    height: 100px;
+    width: 100px;
+}
+
+.Dado:hover{
+     filter: drop-shadow(0 0 0.75rem white);
+}
+
+.ganar{
+    animation-name: "winAnimation-dados";
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+}
+
+
+@keyframes winAnimation-dados {
+    0%{transform: rotate(0turn);}
+    50%{transform: rotate(0.25turn);}
+    100%{transform: rotate(-0.25turn);}
+}
