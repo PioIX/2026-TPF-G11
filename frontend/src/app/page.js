@@ -6,6 +6,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
+import ButtonStyles from "@/components/Button.module.css";
+import InputStyles from "@/components/Input.module.css";
 
 export default function Home() {
   const router = useRouter();
@@ -46,7 +48,7 @@ export default function Home() {
         } else if (data[0].email == "admin@admin" && data[0].contraseña == "admin") {
           router.push("/admin");
         } else {
-          router.push("/modo-juego");
+          router.push(`/modo-juego?user=${data[0].id_usuario}`);
         };
       };
 
@@ -79,7 +81,7 @@ export default function Home() {
         console.log(data);
 
         if (data.length === 0) {
-          router.push("/modo-juego");
+          router.push(`/modo-juego?user=${data[0].id_usuario}`);
         } else {
           console.log("Error: el usuario ya existe")
           alert("Error: el usuario o el mail ya existen")
@@ -99,13 +101,13 @@ export default function Home() {
       <section id="Inicio-sesion">
         <h2>Iniciar sesion</h2>
         <div className={styles.inputDiv}>
-          <Input title="Mail: " onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com" className={styles.inputInicio}></Input>
+          <Input title="Mail: " onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com" className={InputStyles.Input}></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Contraseña: " onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******" className={styles.inputInicio}></Input>
+          <Input title="Contraseña: " onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******" className={InputStyles.Input}></Input>
         </div>
         <div>
-          <Button onClick={iniciarSesion} text="Iniciar sesion" className={styles.inputButton}></Button>
+          <Button onClick={iniciarSesion} text="Iniciar sesion" className={ButtonStyles.Button}></Button>
         </div>
       </section>
       <hr></hr>
@@ -113,16 +115,16 @@ export default function Home() {
         <h2>Registro</h2>
         <p>En caso de querer registrarse, rellene también la siguiente información</p>
         <div className={styles.inputDiv}>
-          <Input title="Nombre: " onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro" className={styles.inputInicio}></Input>
+          <Input title="Nombre: " onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro" className={InputStyles.Input}></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Apellido: " onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez" className={styles.inputInicio}></Input>
+          <Input title="Apellido: " onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez" className={InputStyles.Input}></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Nombre de usuario: " onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123" className={styles.inputInicio}></Input>
+          <Input title="Nombre de usuario: " onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123" className={InputStyles.Input}></Input>
         </div>
         <div>
-          <Button onClick={registrarUsuario} text="Registrarse" className={styles.inputButton}></Button>
+          <Button onClick={registrarUsuario} text="Registrarse" className={ButtonStyles.Button}></Button>
         </div>
       </section>
     </main>
