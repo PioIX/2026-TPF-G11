@@ -44,16 +44,17 @@ const urls = {
     estadisticas: 'http://localhost:4000/postEstadisticasTPF'
 };
 
-export default function Agregar({tabla, data}){
+export default function Agregar({tabla, data, onClick}){
     const [dataInput, setDataInput] = useState({});
 
     return(
         <>
             <h3>Agregar</h3>
             {data.map((item) => {
-                return <input key={item.id} className={item.id} placeholder={item.placeholder} onChange={(e) => setDataInput(e.target.value)}/>;
+                const { id, placeholder } = item;
+                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""} />; 
             })}
-            <Button text="Agregar" onClick={() => Añadir(dataInput, urls[tabla])}></Button>
+            <Button text="Agregar" onClick={(ev) => { Añadir(dataInput, urls[tabla]); onClick(ev); setDataInput({}); }}></Button>
         </>
     )
 }

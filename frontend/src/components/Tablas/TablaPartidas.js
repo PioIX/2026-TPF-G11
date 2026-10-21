@@ -3,17 +3,16 @@
 import { useEffect, useState } from "react";
 import Tabla from "./Tabla";
 
-export default function TablaPartidas() {
+export default function TablaPartidas({ refresh }) {
     const [partidas, setPartidas] = useState([])
 
     useEffect(() => {
         fetch('http://localhost:4000/getPartidasTPF')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Se muestra en consola del navegador
-                setPartidas(data.partidas);
+                setPartidas(data);
             });
-    }, [])
+    }, [refresh])
 
     return (
         <Tabla

@@ -3,7 +3,33 @@
 import Button from "../Button";
 import { useState } from "react";
 
+async function Cambiar(dataInput, url) {
+    if (!dataInput || Object.keys(dataInput).length === 0) {
+        alert("Error: llenar todos los campos");
+        return false;
+    }
 
+    for (const key in dataInput) {
+        if (dataInput[key] === "") {
+            alert(`Error: llenar el campo ${key}`);
+            return false;
+        }
+    }
+
+     const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataInput)
+    });
+
+    if (!response.ok) {
+        throw new Error(`No se pudo modificar el registro (HTTP ${response.status})`);
+    }
+
+    return true;
+}
 
 const urls = {
     usuarios: 'http://localhost:4000/putUsuariosTPF',
@@ -12,50 +38,29 @@ const urls = {
     estadisticas: 'http://localhost:4000/putEstadisticasTPF'
 };
 
-export default function Modificar({ tabla, data }) {
+export default function Modificar({tabla, data, onClick}){
     const [dataInput, setDataInput] = useState({});
 
-    function Cambiar(dataInput, url) {
-        if (!dataInput || Object.keys(dataInput).length === 0) {
-            console.log("Error, datos vacíos");
-            alert("Error: llenar todos los campos");
-
-            return;
-        }
-
-        for (const key in dataInput) {
-            if (dataInput[key] === "") {
-                console.log(`Error, el campo ${key} está vacío`);
-                alert(`Error: llenar el campo ${key}`);
-                return;
+    async function handleUpdate() {
+        try {
+            const updated = await Cambiar(dataInput, urls[tabla]);
+            if (updated) {
+                onClick();
             }
+        } catch (error) {
+            console.error("Error al modificar el registro:", error);
+            alert("No se pudo modificar el registro. Revisa la conexión con el servidor.");
         }
-
-        const body = { ...dataInput };
-
-        const fetchData = async () => {
-            const response = await fetch(url, {
-                method: ' PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-
-            const data = await response.json();
-            console.log(data);
-        }
-
-        fetchData();
     }
 
-    return (
+    return(
         <>
             <h3>Modificar</h3>
             {data.map((item) => {
-                return <input key={item.id} className={item.id} placeholder={item.placeholder} onChange={(e) => setDataInput(e.target.value)} />;
+                const { id, placeholder } = item;
+                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})}/>;
             })}
-            <Button text="Modificar" onClick={() => Cambiar(dataInput, urls[tabla])}></Button>
+            <Button text="Modificar" onClick={handleUpdate}></Button>
         </>
     )
 }
