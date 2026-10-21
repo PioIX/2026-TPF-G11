@@ -10,13 +10,6 @@
 ::-webkit-scrollbar{
   display: none;
 }
-/*
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: url(/recursos/img/fondo1.png);
-    --foreground: url(/recursos/img/fondo1.png);
-  }
-}*/
 
 html {
   height: 100%;
@@ -34,7 +27,7 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

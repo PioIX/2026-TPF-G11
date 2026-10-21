@@ -1,10 +1,13 @@
+.section{
+    text-align: right;
+}
 .body{
     text-align: center;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     display: flex;
-    margin-top: 11rem;
+    margin-top: 8rem;
 }
 
 .main{
@@ -33,6 +36,18 @@
         margin: auto;
         border: goldenrod 3px dashed;
     }
+}
+
+.salaDiv{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.escondido{
+    display: none;
 }
 
 .localImg{
