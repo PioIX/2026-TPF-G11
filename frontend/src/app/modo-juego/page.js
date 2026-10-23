@@ -33,7 +33,7 @@ export default function ModoJuego() {
     }
 
     const mostrarSala = () => {
-        if (escondido){
+        if (escondido) {
             setEscondido(false);
         } else {
             setEscondido(true)

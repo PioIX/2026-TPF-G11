@@ -1,5 +1,5 @@
-.Tablon{
-    background-image: url(/recursos/img/fondo-tablero.jpg);
+.Tablero{
+    background-image: url("/recursos/img/fondo-tablero.jpg");
     background-size: cover;
 
     border: 3px goldenrod dashed;

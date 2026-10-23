@@ -95,8 +95,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-
-      <img src="https://github.com/PioIX/2026_TPIN1_G11/blob/main/recursos/img/titulo.png?raw=true" alt="Titulo de generala" title="Generala" className={styles.titleImage}></img>
+      <img src="/recursos/img/titulo.png" alt="Generala" title="Generala" className={styles.titleImage}></img>
       <h1>¡Bienvenido/a!</h1>
       <section id="Inicio-sesion">
         <h2>Iniciar sesion</h2>

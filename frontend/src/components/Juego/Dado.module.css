@@ -1,17 +1,30 @@
-.Dado{
-    background-color: rgb(255, 255, 255);
+.Dado {
+    background-color: #ffffff;
     border: 2px black solid;
-    object-fit: fill;
+    padding: 0%;
 
-    height: 100px;
-    width: 100px;
+    height: 110px;
+    width: 110px;
+
+    border-radius: 20px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        border-radius: inherit;
+    }
 }
 
-.Dado:hover{
-     filter: drop-shadow(0 0 0.75rem white);
+.Dado:hover {
+    filter: drop-shadow(0 0 0.75rem white);
 }
 
-.ganar{
+.DadoBloqueado {
+    filter: drop-shadow(0 0 0.75rem white);
+}
+
+.ganar {
     animation-name: "winAnimation-dados";
     animation-iteration-count: infinite;
     animation-duration: 1s;
@@ -21,7 +34,15 @@
 
 
 @keyframes winAnimation-dados {
-    0%{transform: rotate(0turn);}
-    50%{transform: rotate(0.25turn);}
-    100%{transform: rotate(-0.25turn);}
+    0% {
+        transform: rotate(0turn);
+    }
+
+    50% {
+        transform: rotate(0.25turn);
+    }
+
+    100% {
+        transform: rotate(-0.25turn);
+    }
 }
