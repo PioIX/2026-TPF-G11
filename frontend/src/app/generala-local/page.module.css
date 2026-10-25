@@ -1,0 +1,43 @@
+.Body{
+    margin: auto;
+    width: 85%;
+}
+
+.TituloDiv{
+    width: 75%;
+    height: 4rem;
+    margin: auto;
+
+    background-color: goldenrod;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: center;
+    padding-top: 25px;
+
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    color: saddlebrown;
+}
+
+.Titulo{
+    margin: 0;
+}
+
+.Partes {
+    display: flex;
+    gap: 1rem;
+
+    align-items: center;
+}
+
+.Guia{
+    height: fit-content;
+    width: 20rem;
+    max-height: 30rem;
+
+    padding: 1.5rem;
+    background-color: saddlebrown;
+
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

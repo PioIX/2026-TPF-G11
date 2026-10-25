@@ -6,8 +6,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
-import ButtonStyles from "@/components/Button.module.css";
-import InputStyles from "@/components/Input.module.css";
 
 export default function Home() {
   const router = useRouter();
@@ -100,13 +98,13 @@ export default function Home() {
       <section id="Inicio-sesion">
         <h2>Iniciar sesion</h2>
         <div className={styles.inputDiv}>
-          <Input title="Mail: " onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com" className={InputStyles.Input}></Input>
+          <Input title="Mail: " onChange={(e) => setMail(e.target.value)} type="text" placeholder="XxpepitoxX@gmail.com"></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Contraseña: " onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******" className={InputStyles.Input}></Input>
+          <Input title="Contraseña: " onChange={(e) => setContraseña(e.target.value)} type="password" placeholder="*******"></Input>
         </div>
         <div>
-          <Button onClick={iniciarSesion} text="Iniciar sesion" className={ButtonStyles.Button}></Button>
+          <Button onClick={iniciarSesion} text="Iniciar sesion"></Button>
         </div>
       </section>
       <hr></hr>
@@ -114,16 +112,16 @@ export default function Home() {
         <h2>Registro</h2>
         <p>En caso de querer registrarse, rellene también la siguiente información</p>
         <div className={styles.inputDiv}>
-          <Input title="Nombre: " onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro" className={InputStyles.Input}></Input>
+          <Input title="Nombre: " onChange={(e) => setNombre(e.target.value)} type="text" placeholder="Juan Pedro"></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Apellido: " onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez" className={InputStyles.Input}></Input>
+          <Input title="Apellido: " onChange={(e) => setApellido(e.target.value)} type="text" placeholder="Cruz Gomez"></Input>
         </div>
         <div className={styles.inputDiv}>
-          <Input title="Nombre de usuario: " onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123" className={InputStyles.Input}></Input>
+          <Input title="Nombre de usuario: " onChange={(e) => setUsuario(e.target.value)} type="text" placeholder="Pepito123"></Input>
         </div>
         <div>
-          <Button onClick={registrarUsuario} text="Registrarse" className={ButtonStyles.Button}></Button>
+          <Button onClick={registrarUsuario} text="Registrarse"></Button>
         </div>
       </section>
     </main>

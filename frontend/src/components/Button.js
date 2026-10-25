@@ -1,7 +1,9 @@
 "use client"
 
-export default function Button({onClick, text, className}){
+import ButtonStyles from "@/components/Button.module.css";
+
+export default function Button({onClick, text}){
     return(
-        <button onClick={onClick} className={className}>{text}</button>
+        <button onClick={onClick} className={ButtonStyles.Button}>{text}</button>
     )
 }
