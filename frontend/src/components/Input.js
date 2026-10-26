@@ -1,10 +1,12 @@
 "use client"
 
-export default function Input({title, onChange, type, placeholder, className}){
+import InputStyles from "@/components/Input.module.css";
+
+export default function Input({title, onChange, type, placeholder}){ //si no le quieren dar classname, pongan "null" y listo
     return(
         <>
-            <label>{title}</label>
-            <input onChange={onChange} type={type} placeholder={placeholder} className={className}></input>
+            <h3>{title}</h3>
+            <input onChange={onChange} type={type} placeholder={placeholder} className={InputStyles.Input}></input>
         </>
     )
 }
