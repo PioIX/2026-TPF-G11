@@ -3,6 +3,8 @@
 import Button from "../Button";
 import { useState } from "react";
 
+import styles from "@/components/Admin/InputsStyle.module.css";
+
 async function Cambiar(dataInput, url) {
     if (!dataInput || Object.keys(dataInput).length === 0) {
         alert("Error: llenar todos los campos");
@@ -59,11 +61,13 @@ export default function Modificar({tabla, data, onClick}){
 
     return(
         <>
+        <div>
             <h3>Modificar</h3>
             {data.map((item) => {
                 const { id, placeholder } = item;
-                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""}/>;
+                return <input key={id} className={styles.input} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""}/>;
             })}
+        </div>
             <Button text="Modificar" onClick={() => { handleUpdate(onClick); setDataInput({}); }}></Button>
         </>
     )

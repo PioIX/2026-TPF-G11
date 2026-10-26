@@ -63,14 +63,18 @@ export default function AdminPage() {
   }
 
   return (
-    <>
-      <div className={styles["tablas-container"]}>
-        <TablasUsuarios refresh={refreshId} />
+    <div className={styles.body}>
+      <div className={styles.tablasContainer}>
+        <h1>Usuarios</h1>
+        <TablasUsuarios refresh={refreshId} className={styles.tabla} />
+        <h1>Usuarios Partida</h1>
         <TablaUsuariosPartida refresh={refreshId} />
+        <h1>Partidas</h1>
         <TablaPartidas refresh={refreshId} />
+        <h1>Estadisticas</h1>
         <TablaEstadisticas refresh={refreshId} />
       </div>
-      <div className={styles["admin-actions"]}>
+      <div className={styles.adminActions}>
         <h1>Usuarios</h1>
         <Agregar tabla="usuarios" data={agregarUsuarios} onClick={refreshTables} />
         <Modificar tabla="usuarios" data={modificarUsuarios} onClick={refreshTables} />
@@ -83,6 +87,6 @@ export default function AdminPage() {
         <Modificar tabla="estadisticas" data={modificarEstadisticas} onClick={refreshTables} />
         <Eliminar tabla="estadisticas" data={eliminarEstadisticas} onClick={refreshTables} />
       </div>
-    </>
+    </div>
   )
 }

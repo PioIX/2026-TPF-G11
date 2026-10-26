@@ -3,6 +3,8 @@
 import Button from "../Button";
 import { useState } from "react";
 
+import styles from "@/components/Admin/InputsStyle.module.css";
+
 async function Borrar(id, url, idField) {
     if (id === null || id === "") {
         alert("Error: llenar todos los campos");
@@ -49,10 +51,12 @@ export default function Eliminar({tabla, data, onClick}){
 
     return(
         <>
+        <div>
             <h3>Eliminar</h3>
             {data.map(({ id, placeholder }) => (
-                <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setRecordId(target.value)} value={recordId}/>
+                <input key={id} className={styles.input} placeholder={placeholder} onChange={({ target }) => setRecordId(target.value)} value={recordId}/>
             ))}
+        </div>
             <Button text="Eliminar" onClick={handleDelete}></Button>
         </>
     )

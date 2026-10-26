@@ -3,6 +3,8 @@
 import Button from "../Button";
 import { useState } from "react";
 
+import styles from "@/components/Admin/InputsStyle.module.css";
+
 function Añadir(dataInput, url, handler) {
     if (!dataInput || Object.keys(dataInput).length === 0) {
         console.log("Error, datos vacíos");
@@ -22,17 +24,17 @@ function Añadir(dataInput, url, handler) {
     const body = { ...dataInput };
 
     const fetchData = async () => {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
 
-    const data = await response.json();
-    console.log(data);
-    handler();
+        const data = await response.json();
+        console.log(data);
+        handler();
     }
 
     fetchData();
@@ -45,17 +47,21 @@ const urls = {
     estadisticas: 'http://localhost:4000/postEstadisticasTPF'
 };
 
-export default function Agregar({tabla, data, onClick}){
+export default function Agregar({ tabla, data, onClick }) {
     const [dataInput, setDataInput] = useState({});
 
-    return(
-        <>
-            <h3>Agregar</h3>
-            {data.map((item) => {
-                const { id, placeholder } = item;
-                return <input key={id} className={id} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""} />; 
-            })}
-            <Button text="Agregar" onClick={() => { Añadir(dataInput, urls[tabla], onClick); setDataInput({}); }}></Button>
-        </>
+    return (
+        <div>
+            <div>
+                <h3>Agregar</h3>
+                {data.map((item) => {
+                    const { id, placeholder } = item;
+                    return <input key={id} className={styles.input} placeholder={placeholder} onChange={({ target }) => setDataInput({ ...dataInput, [id]: target.value })} value={dataInput[id] || ""} />;
+                })}
+            </div>
+            <div>
+                <Button text="Agregar" onClick={() => { Añadir(dataInput, urls[tabla], onClick); setDataInput({}); }}></Button>
+            </div>
+        </div>
     )
 }
