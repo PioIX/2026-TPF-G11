@@ -1,6 +1,8 @@
 "use client"
 import { useEffect, useState } from "react";
 
+import styles from "./page.module.css";
+
 import TablasUsuarios from "@/components/Tablas/TablaUsuarios";
 import TablaEstadisticas from "@/components/Tablas/TablaEstadisticas";
 import TablaUsuariosPartida from "@/components/Tablas/TablaUsuariosPartida";
@@ -15,7 +17,6 @@ const modificarEstadisticas = [
   { id: 'partidas_totales', placeholder: 'Partidas totales' },
   { id: 'partidas_ganadas', placeholder: 'Partidas ganadas' },
   { id: 'partidas_perdidas', placeholder: 'Partidas perdidas' },
-  { id: 'puntaje_historico', placeholder: 'Puntaje histórico' },
 ];
 
 const eliminarEstadisticas = [
@@ -53,7 +54,6 @@ const eliminarPartidas = [
 
 export default function AdminPage() {
   const [refreshId, setRefreshId] = useState(0);
-  const [refreshIdAux, setRefreshIdAux] = useState(0);
 
   function refreshTables() {
     console.log(refreshId)
@@ -62,19 +62,15 @@ export default function AdminPage() {
     );
   }
 
-  useEffect(() => {
-    setRefreshIdAux(refreshId)
-  },[refreshId])
-
   return (
     <>
-      <div className="tablas-container">
-        <TablasUsuarios refresh={refreshIdAux} />
-        <TablaUsuariosPartida refresh={refreshIdAux} />
-        <TablaPartidas refresh={refreshIdAux} />
-        <TablaEstadisticas refresh={refreshIdAux} />
+      <div className={styles["tablas-container"]}>
+        <TablasUsuarios refresh={refreshId} />
+        <TablaUsuariosPartida refresh={refreshId} />
+        <TablaPartidas refresh={refreshId} />
+        <TablaEstadisticas refresh={refreshId} />
       </div>
-      <div className="admin-actions">
+      <div className={styles["admin-actions"]}>
         <h1>Usuarios</h1>
         <Agregar tabla="usuarios" data={agregarUsuarios} onClick={refreshTables} />
         <Modificar tabla="usuarios" data={modificarUsuarios} onClick={refreshTables} />
