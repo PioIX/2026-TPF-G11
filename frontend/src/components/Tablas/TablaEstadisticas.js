@@ -13,6 +13,7 @@ export default function TablaEstadisticas({ refresh }) {
                 setEstadisticas(data);
             });
     }, [refresh])
+    
 
     return (
         <Tabla

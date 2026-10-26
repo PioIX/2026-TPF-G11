@@ -42,7 +42,7 @@ export default function ModoJuego() {
     }
 
     const paginaEst = () => {
-        router.push(`/estadisticas`);
+        router.push(`/estadisticas-usuario?user=${userID}`);
     }
 
     return (

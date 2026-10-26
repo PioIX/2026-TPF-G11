@@ -94,6 +94,15 @@ app.get("/getEstadisticasTPF", async function (req, res) {
   res.send(respuesta);
 });
 
+app.get("/getEstadisticasUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        SELECT * FROM EstadisticasTPF WHERE id_usuario = '${req.body.id_usuario}';
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
 app.get("/getUsuariosPartidaTPF", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
