@@ -3,17 +3,16 @@
 import { useEffect, useState } from "react";
 import Tabla from "./Tabla";
 
-export default function TablaUsuariosPartida() {
+export default function TablaUsuariosPartida({ refresh }) {
     const [usuarios_partida, setUsuariosPartida] = useState([])
 
     useEffect(() => {
         fetch('http://localhost:4000/getUsuariosPartidaTPF')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Se muestra en consola del navegador
-                setUsuariosPartida(data.usuarios_partida);
+                setUsuariosPartida(data);
             });
-    }, [])
+    }, [refresh])
 
     return (
         <Tabla

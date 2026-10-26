@@ -3,24 +3,24 @@
 import { useEffect, useState } from "react";
 import Tabla from "./Tabla";
 
-export default function TablasUsuarios() {
+export default function TablasUsuarios({ refresh}) {
     const [usuarios, setUsuarios] = useState([])
 
     useEffect(() => {
+        console.log(refresh)
         fetch('http://localhost:4000/getUsuariosTPF')
             .then(response => response.json())
             .then(data => {
-                console.log(data); // Se muestra en consola del navegador
-                setUsuarios(data.usuarios);
+                setUsuarios(data);
             });
-    }, [])
+    }, [refresh])
 
     return (
         <Tabla
             cabecera={["ID", "Nombre", "Apellido", "Usuario","Email", "Contraseña"]}
             filas={usuarios.map( usuario => {
-                const { id, nombre, apellido, nombre_de_usuario, email, contraseña } = usuario;
-                return [id, nombre, apellido, nombre_de_usuario, email, contraseña];
+                const { id_usuario, nombre, apellido, nombre_de_usuario, email, contraseña } = usuario;
+                return [id_usuario, nombre, apellido, nombre_de_usuario, email, contraseña];
             })}
         />
     )

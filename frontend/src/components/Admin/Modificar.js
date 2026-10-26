@@ -3,38 +3,38 @@
 import Button from "../Button";
 import { useState } from "react";
 
-function Cambiar(dataInput, url) {
-    if (!dataInput || Object.keys(dataInput).length === 0) {
-        console.log("Error, datos vacíos");
-        alert("Error: llenar todos los campos");
+import styles from "@/components/Admin/InputsStyle.module.css";
 
-        return;
+async function Cambiar(dataInput, url) {
+    if (!dataInput || Object.keys(dataInput).length === 0) {
+        alert("Error: llenar todos los campos");
+        return false;
     }
 
     for (const key in dataInput) {
         if (dataInput[key] === "") {
-            console.log(`Error, el campo ${key} está vacío`);
             alert(`Error: llenar el campo ${key}`);
-            return;
+            return false;
         }
     }
 
-    const body = { ...dataInput };
-
-    const fetchData = async () => {
-    const response = await fetch(url, {
-        method: ' PUT',
+     const response = await fetch(url, {
+        method: 'PUT',
         headers: {
         'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body)
-    });
-
-    const data = await response.json();
-    console.log(data);
+        body: JSON.stringify(dataInput)
     }
 
-    fetchData();
+    
+
+    );
+
+    if (!response.ok) {
+        throw new Error(`No se pudo modificar el registro (HTTP ${response.status})`);
+    }
+
+    return true;
 }
 
 const urls = {
@@ -44,18 +44,31 @@ const urls = {
     estadisticas: 'http://localhost:4000/putEstadisticasTPF'
 };
 
-export default function Modificar({tabla, data}){
+export default function Modificar({tabla, data, onClick}){
     const [dataInput, setDataInput] = useState({});
+
+    async function handleUpdate() {
+        try {
+            const updated = await Cambiar(dataInput, urls[tabla]);
+            if (updated) {
+                onClick();
+            }
+        } catch (error) {
+            console.error("Error al modificar el registro:", error);
+            alert("No se pudo modificar el registro. Revisa la conexión con el servidor.");
+        }
+    }
 
     return(
         <>
+        <div>
             <h3>Modificar</h3>
             {data.map((item) => {
                 const { id, placeholder } = item;
-                const newValue = {...dataInput, [id]: e.target.value};
-                return <input key={id} className={id} placeholder={placeholder} onChange={(e) => setDataInput(newValue)}/>;
+                return <input key={id} className={styles.input} placeholder={placeholder} onChange={({ target }) => setDataInput({...dataInput, [id]: target.value})} value={dataInput[id] || ""}/>;
             })}
-            <Button text="Modificar" onClick={() => Cambiar(dataInput, urls[tabla])}></Button>
+        </div>
+            <Button text="Modificar" onClick={() => { handleUpdate(onClick); setDataInput({}); }}></Button>
         </>
     )
 }
