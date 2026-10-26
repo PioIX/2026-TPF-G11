@@ -33,7 +33,12 @@ export default function ModoJuego() {
     }
 
     const mostrarSala = () => {
-        setEscondido(false)
+        if (escondido) {
+            setEscondido(false);
+        } else {
+            setEscondido(true)
+        }
+
     }
 
     const paginaEst = () => {

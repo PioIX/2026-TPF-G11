@@ -1,0 +1,16 @@
+.Vaso{
+    background-image: url(/recursos/img/vaso-dado.png);
+    height: 200px;
+    width: 200px;
+    background-size: cover;
+
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    filter: drop-shadow(0 0 0.75rem white);
+}
+
+.Vaso:hover{
+    background-image: url(/recursos/img/vaso-dado-tirado.png);
+    height: 200px;
+    width: 250px;
+}

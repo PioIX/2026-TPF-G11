@@ -1,16 +1,18 @@
-.section{
+.section {
     text-align: right;
 }
-.body{
+
+.body {
     text-align: center;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     display: flex;
-    margin-top: 8rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
-.main{
+.main {
     display: flex;
     gap: 4rem;
     text-align: center;
@@ -18,7 +20,7 @@
     margin: auto;
 }
 
-.modoDiv{
+.modoDiv {
     background-color: antiquewhite;
     border-radius: 20px;
     border: goldenrod 3px dashed;
@@ -29,7 +31,8 @@
 
     height: 23rem;
     width: 20rem;
-    div{
+
+    div {
         border-radius: 50%;
         height: 15rem;
         width: 15rem;
@@ -38,7 +41,7 @@
     }
 }
 
-.salaDiv{
+.salaDiv {
     display: flex;
     text-align: center;
     align-items: center;
@@ -46,14 +49,14 @@
     margin-bottom: 2rem;
 }
 
-.escondido{
+.escondido {
     display: none;
 }
 
-.localImg{
+.localImg {
     background-color: aqua;
 }
 
-.onlineImg{
+.onlineImg {
     background-color: peru;
 }
