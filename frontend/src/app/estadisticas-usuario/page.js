@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
 
-import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario?user=${req.query.id_usuario}"
+import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario"
 import Button from "@/components/Button";
 
 

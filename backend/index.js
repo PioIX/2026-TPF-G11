@@ -97,7 +97,7 @@ app.get("/getEstadisticasTPF", async function (req, res) {
 app.get("/getEstadisticasUsuario", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM EstadisticasTPF WHERE id_usuario = '${req.body.id_usuario}';
+        SELECT * FROM EstadisticasTPF WHERE id_usuario = '${req.query.id_usuario}';
     `);
   console.log({ respuesta });
   res.send(respuesta);

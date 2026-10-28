@@ -1,17 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Tabla from "./Tabla";
 
 export default function TablaEstadisticasUsuario({ refresh }) {
     const [estadisticas, setEstadisticas] = useState([])
+    const searchParams = useSearchParams();
+    const userID = searchParams.get("user");
 
     useEffect(() => {
-        fetch('http://localhost:4000/getEstadisticasUsuario')
+        fetch(`http://localhost:4000/getEstadisticasUsuario?user=${userID}`)
             .then(response => response.json())
             .then(data => {
                 setEstadisticas(data);
+                console.log(data)
             });
+            
     }, [refresh])
 
     return (
