@@ -4,7 +4,7 @@ import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
 import TablaStyles from "@/components/Juego/PuntajeTabla.module.css";
 
-export default function PuntajeTabla({ jugador1, jugador2, puntaje1j1, puntaje1j2, puntaje2j1, puntaje2j2, puntaje3j1, puntaje3j2, puntaje4j1, puntaje4j2, puntaje5j1, puntaje5j2, puntaje6j1, puntaje6j2, puntajeEscj1, puntajeEscj2, puntajeFullj1, puntajeFullj2, puntajePj1, puntajePj2, puntajeGj1, puntajeGj2, puntajeDGj1, puntajeDGj2 }) {
+export default function PuntajeTabla() {
     const esc = 20
     const full = 30
     const poker = 40

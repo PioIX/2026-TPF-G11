@@ -58,3 +58,39 @@
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
+.Tabla {
+    display: grid;
+    grid-template-columns: 5rem 6rem 6rem;
+    grid-template-rows: 3rem;
+
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+
+    div {
+        background-color: #fef5d8;
+        border: 1px solid #bcdddb;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        flex-direction: column-reverse;
+    }
+}
+
+.Div{
+    background-color: #fef5d8;
+    padding: 20px;
+    border-radius: 15px;
+
+    background-image: url(/recursos/img/fondo-div.jpg);
+    background-repeat: repeat-y;
+
+    height: fit-content;
+    width: fit-content;
+}
+
+.p {
+    font-size: 13px;
+    color: saddlebrown;
+}

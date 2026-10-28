@@ -12,28 +12,13 @@ export default function GeneralaLocal() {
     const [cantTiradas, setCantTiradas] = useState(0);
     const [dados, setDados] = useState([]);
     const [turnoJugador, setTurnoJugador] = useState(1);
-    const [puntaje, setPuntaje] = useState([
-        [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "escalera",
-            "full",
-            "poker",
-            "generala",
-            "doble",
-        ],
-        [null, null, null, null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null, null, null, null],
-    ]);
+    const [puntaje1, setPuntaje1] = useState([]);
+    const [puntaje2, setPuntaje2] = useState([]);
     const [dadosBloqueados, setDadosBloqueados] = useState([]);
     const [titulo, setTitulo] = useState("Turno del Jugador 1")
 
     const cambiarTurno = () => {
-        if (puntaje.some((row => row.includes(null)))) {
+        if (puntaje1.length < 10 && puntaje2.length < 0) {
 
             if (turnoJugador == 1) {
                 setTurnoJugador(2);
@@ -42,10 +27,10 @@ export default function GeneralaLocal() {
                 setTurnoJugador(1);
                 setTitulo("Turno del Jugador 1")
             }
-            // Ver para después como hacer para sacar los dados bloqueados
+            setDadosBloqueados([]);
             tirarDados();
         } else {
-            finJuego();
+            finJuego(null);
         }
     }
 
@@ -55,8 +40,8 @@ export default function GeneralaLocal() {
 
         if (!ganador) {
             for (let i = 0; i < 11; i++) {
-                puntajeJugador1 += puntaje[1][i];
-                puntajeJugador2 += puntaje[2][i];
+                puntajeJugador1 += puntaje1[i];
+                puntajeJugador2 += puntaje2[i];
             }
             if (puntajeJugador1 > puntajeJugador2) {
                 setTitulo("Ganador: ¡ Jugador 1 !")
@@ -100,6 +85,39 @@ export default function GeneralaLocal() {
         }
     }
 
+    const guardarPuntaje = (puntos) => {
+        if (turnoJugador === 1) {
+            setPuntaje1([...puntaje1, puntos])
+        } else {
+            setPuntaje2([...puntaje2, puntos])
+        }
+        cambiarTurno();
+    }
+
+    const anotarNumero = () => {
+
+    }
+
+    const anotarGenerala = () => {
+
+    }
+
+    const anotarGeneralaDoble = () => {
+
+    }
+
+    const anotarPoker = () => {
+
+    }
+
+    const anotarFull = () => {
+
+    }
+
+    const anotarEscalera = () => {
+
+    }
+
 
     return (
         <section className={styles.Body}>
@@ -111,11 +129,11 @@ export default function GeneralaLocal() {
                     jugador1={"Jugador 1"} jugador2={"Jugador 2"}
                 ></PuntajeTabla>
                 <div className={styles.Tablero}>
-                    <Dado dataId={1} valor={X} onClick={() => bloquearDado(1)}></Dado>
-                    <Dado dataId={2} valor={X} onClick={() => bloquearDado(2)}></Dado>
-                    <Dado dataId={3} valor={X} onClick={() => bloquearDado(3)}></Dado>
-                    <Dado dataId={4} valor={X} onClick={() => bloquearDado(4)}></Dado>
-                    <Dado dataId={5} valor={X} onClick={() => bloquearDado(5)}></Dado>
+                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)}></Dado>
+                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)}></Dado>
+                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)}></Dado>
+                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)}></Dado>
+                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)}></Dado>
                 </div>
                 <div>
                     <div className={styles.Guia}>
