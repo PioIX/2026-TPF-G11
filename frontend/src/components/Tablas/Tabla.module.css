@@ -1,25 +1,26 @@
 .tabla {
-    border: 3px solid goldenrod;
-    background-color: antiquewhite;
+  border: 3px solid goldenrod;
+  background-color: antiquewhite;
 
-    border-radius: 5px;
-    padding: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  color: rgb(158, 120, 22);
 }
 
 .tabla thead {
-    text-transform: uppercase;
-    background-color: rgb(219, 199, 173);
-    color: saddlebrown;
+  text-transform: uppercase;
+  background-color: rgb(219, 199, 173);
+  color: saddlebrown;
 }
 
 .tabla th,
 .tabla td {
-    border: 1px solid saddlebrown;
-    border-radius: 5px;
-    padding: 5px;
+  border: 1px solid saddlebrown;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .tabla tr:nth-child(even) {
-    background-color: rgb(219, 199, 173);
-    color: saddlebrown;
+  background-color: rgb(219, 199, 173);
+  color: saddlebrown;
 }

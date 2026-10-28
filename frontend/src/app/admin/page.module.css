@@ -1,8 +1,9 @@
-.body{
-    display: flex;
-        flex-direction: row-reverse;
+.body {
+  display: flex;
+  flex-direction: row-reverse;
+  color: rgb(255, 223, 162);
 }
 
-.tablasContainer{
-    padding: 1rem;
+.tablasContainer {
+  padding: 1rem;
 }

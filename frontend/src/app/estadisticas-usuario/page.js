@@ -1,31 +1,33 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
 
-import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario"
+import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario";
 import Button from "@/components/Button";
 
-
 export default function EstadisticasUsuarioPage() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const userID = searchParams.get("user");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const userID = searchParams.get("user");
 
-    const paginaModoJuego = () => {
-        router.back();
-    }
+  const paginaModoJuego = () => {
+    router.back();
+  };
 
+  return (
+    <>
+      <div className={styles.pagina}>
+        <div className={styles.tabla}>
+          <h1>Estadisticas</h1>
+          <TablaEstadisticasUsuario />
+        </div>
+        <Button onClick={paginaModoJuego} text="Volver" />
 
-    return (
-        <>
-            <div>
-            <h1>Estadisticas</h1>
-            <TablaEstadisticasUsuario />
-            </div>
-            <Button onClick={paginaModoJuego} text="Volver"/>
-        </>
-    )
+        <img className={styles.img} src="recursos/cat-spinning.gif" />
+      </div>
+    </>
+  );
 }
