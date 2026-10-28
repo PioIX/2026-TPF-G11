@@ -1,27 +1,122 @@
 "use client"
-import Tablero from "@/components/Juego/Tablero"
 import PuntajeTabla from "@/components/Juego/PuntajeTabla"
 import Tirar from "@/components/Juego/Tirar";
+import Dado from "@/components/Juego/Dado";
 
 import clsx from "clsx";
 import { useState } from "react";
 
 import styles from "./page.module.css";
 
-/*<Tablero valor1={1} valor2={2} valor3={3} valor4={4} valor5={5}></Tablero>*/
-
 export default function GeneralaLocal() {
+    const [cantTiradas, setCantTiradas] = useState(0);
+    const [dados, setDados] = useState([]);
+    const [turnoJugador, setTurnoJugador] = useState(1);
+    const [puntaje, setPuntaje] = useState([
+        [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "escalera",
+            "full",
+            "poker",
+            "generala",
+            "doble",
+        ],
+        [null, null, null, null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null, null, null, null],
+    ]);
+    const [dadosBloqueados, setDadosBloqueados] = useState([]);
+    const [titulo, setTitulo] = useState("Turno del Jugador 1")
+
+    const cambiarTurno = () => {
+        if (puntaje.some((row => row.includes(null)))) {
+
+            if (turnoJugador == 1) {
+                setTurnoJugador(2);
+                setTitulo("Turno del Jugador 2")
+            } else {
+                setTurnoJugador(1);
+                setTitulo("Turno del Jugador 1")
+            }
+            // Ver para después como hacer para sacar los dados bloqueados
+            tirarDados();
+        } else {
+            finJuego();
+        }
+    }
+
+    const finJuego = (ganador) => {
+        let puntajeJugador1 = 0;
+        let puntajeJugador2 = 0;
+
+        if (!ganador) {
+            for (let i = 0; i < 11; i++) {
+                puntajeJugador1 += puntaje[1][i];
+                puntajeJugador2 += puntaje[2][i];
+            }
+            if (puntajeJugador1 > puntajeJugador2) {
+                setTitulo("Ganador: ¡ Jugador 1 !")
+                // Animación de ganar
+            } else if (puntajeJugador2 > puntajeJugador1) {
+                setTitulo("Ganador: ¡ Jugador 2 !")
+                // Animación de ganar
+            } else {
+                setTitulo("¡ Empate !")
+                // Animación de ganar
+            }
+        } else {
+            setTitulo(`Ganador: ¡ ${ganador} !`)
+            // Animación de ganar
+        }
+    }
+
+    const bloquearDado = (dataId) => {
+        if (!dadosBloqueados.includes(dataId)) {
+            setDadosBloqueados([...dadosBloqueados, dataId]);
+            setBloqueado(true)
+        } else {
+            const index = dadosBloqueados.indexOf(dataId);
+            if (index > -1) {
+                setDadosBloqueados(dadosBloqueados.filter(e => e != dataId));
+            }
+        }
+    }
+
+    const juegoServido = () => {
+        if (cantTiradas === 1) {
+            return 5;
+        } else {
+            return 0;
+        }
+    }
+
+    const generalaServida = () => {
+        if (cantTiradas === 1) {
+            finJuego(`Jugador ${turnoJugador}`)
+        }
+    }
+
 
     return (
         <section className={styles.Body}>
             <div className={styles.TituloDiv}>
-                <h1 className={styles.Titulo}>Turno de: {"HOLA"}</h1>
+                <h1 className={styles.Titulo}>{titulo}</h1>
             </div>
             <div className={styles.Partes}>
                 <PuntajeTabla
-                    jugador1={"PUTA"} jugador2={"PUTO"}
+                    jugador1={"Jugador 1"} jugador2={"Jugador 2"}
                 ></PuntajeTabla>
-                <Tablero valor1={1} valor2={2} valor3={3} valor4={4} valor5={5}></Tablero>
+                <div className={styles.Tablero}>
+                    <Dado dataId={1} valor={X} onClick={() => bloquearDado(1)}></Dado>
+                    <Dado dataId={2} valor={X} onClick={() => bloquearDado(2)}></Dado>
+                    <Dado dataId={3} valor={X} onClick={() => bloquearDado(3)}></Dado>
+                    <Dado dataId={4} valor={X} onClick={() => bloquearDado(4)}></Dado>
+                    <Dado dataId={5} valor={X} onClick={() => bloquearDado(5)}></Dado>
+                </div>
                 <div>
                     <div className={styles.Guia}>
                         <h3>Controles y Tips</h3>

@@ -19,6 +19,23 @@
     color: saddlebrown;
 }
 
+.Tablero{
+    background-image: url("/recursos/img/fondo-tablero.jpg");
+    background-size: cover;
+
+    border: 3px goldenrod dashed;
+    border-radius: 10px;
+
+    width: 50rem;
+    height: 30rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    padding: 20px;
+}
+
 .Titulo{
     margin: 0;
 }
