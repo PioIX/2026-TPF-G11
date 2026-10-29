@@ -2,10 +2,10 @@
 
 import PuntajeStyles from "@/components/Juego/PuntajeBoton.module.css";
 
-export default function BotonPuntaje({puntaje, onClick, valor, jugador, valorServido}){
+export default function BotonPuntaje({puntaje, onClick}){
     return(
         <>
-            <button onClick={onClick} valor={valor} valorservido={valorServido} className={PuntajeStyles.button} jugador={jugador}>{puntaje}</button>
+            <button onClick={onClick} className={PuntajeStyles.button}>{puntaje}</button>
         </>
     )
 }
