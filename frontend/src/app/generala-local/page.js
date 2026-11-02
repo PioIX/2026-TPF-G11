@@ -208,57 +208,168 @@ export default function GeneralaLocal() {
 
     const anotarGeneralaDoble = (jugador) => {
         let esGen = true;
+        let anotado = false;
         if (jugador == turnoJugador) {
             switch (jugador) {
                 case 1:
-                    if (gen1 === "") {
-                        esGen = false;
+                    if (dobGen1 !== "") {
+                        anotado = true;
                     }
                     break
                 case 2:
-                    if (gen2 === "") {
-                        esGen = false;
+                    if (dobGen2 !== "") {
+                        anotado = true;
                     }
             }
 
-            if (esGen) {
-                for (let i = 0; i < 5; i++) {
-                    if (dados[i] !== dados[0]) {
-                        esGen = false;
-                        break;
+            if (!anotado) {
+                switch (jugador) {
+                    case 1:
+                        if (gen1 === "" || gen1 === 0) {
+                            esGen = false;
+                        }
+                        break
+                    case 2:
+                        if (gen1 === "" || gen1 === 0) {
+                            esGen = false;
+                        }
+                }
+
+                if (esGen) {
+                    for (let i = 0; i < 5; i++) {
+                        if (dados[i] !== dados[0]) {
+                            esGen = false;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (esGen) {
-                generalaServida();
-                guardarPuntaje(100)
-                if (jugador === 1) {
-                    setGen1(`${100}`)
+                if (esGen) {
+                    generalaServida();
+                    guardarPuntaje(100)
+                    if (jugador === 1) {
+                        setGen1(`${100}`)
+                    } else {
+                        setGen2(`${100}`)
+                    }
                 } else {
-                    setGen2(`${100}`)
-                }
-            } else {
-                guardarPuntaje(0)
-                if (jugador === 1) {
-                    setGen1(`${0}`)
-                } else {
-                    setGen2(`${0}`)
+                    guardarPuntaje(0)
+                    if (jugador === 1) {
+                        setGen1(`${0}`)
+                    } else {
+                        setGen2(`${0}`)
+                    }
                 }
             }
         }
     }
 
     const anotarPoker = (jugador) => {
+        let esPoker = true;
+        let contador = {};
+        let puntos = 0;
+        if (jugador == turnoJugador) {
+            switch (jugador) {
+                case 1:
+                    if (poker1 === "") {
+                        esPoker = false;
+                    }
+                    break
+                case 2:
+                    if (poker2 === "") {
+                        esPoker = false;
+                    }
+            }
 
+            for (let i = 0; i < dados.length; i++) {
+                contador[dados[i]] = (contador[dados[i]] || 0) + 1;
+            }
+
+            if (esPoker) {
+                esPoker = Object.values(contador).includes(4);
+            }
+
+            if (esPoker) {
+                puntos = 40 + juegoServido();
+            }
+
+            guardarPuntaje(puntos)
+
+            if (jugador === 1) {
+                setPoker1(`${puntos}`);
+            } else {
+                setPoker2(`${puntos}`);
+            }
+        }
     }
 
-    const anotarFull = (jugador) => {
 
+    const anotarFull = (jugador) => {
+        let esFull = true;
+        let puntos = 0;
+        let contador = {};
+        if (jugador == turnoJugador) {
+            switch (jugador) {
+                case 1:
+                    if (full1 === "") {
+                        esFull = false;
+                    }
+                    break
+                case 2:
+                    if (full2 === "") {
+                        esFull = false;
+                    }
+            }
+
+            if (esFull) {
+                esFull = Object.values(contador).includes(3) && Object.values(contador).includes(2);
+            }
+
+            if (esFull) {
+                puntos = 30 + juegoServido();
+            }
+
+            guardarPuntaje(puntos)
+
+            if (jugador === 1) {
+                setFull1(`${puntos}`);
+            } else {
+                setFull2(`${puntos}`);
+            }
+        }
     }
 
     const anotarEscalera = (jugador) => {
+        let esEsc = true;
+        let puntos = 0;
+        const escMenor = [1, 2, 3, 4, 5]
+        const escMayor = [2, 3, 4, 5, 6]
+        if (jugador == turnoJugador) {
+            switch (jugador) {
+                case 1:
+                    if (esc1 === "") {
+                        esEsc = false;
+                    }
+                    break
+                case 2:
+                    if (esc2 === "") {
+                        esEsc = false;
+                    }
+            }
 
+            let dadosOrdenados = dados.toSorted((a, b) => a - b)
+            esEsc = JSON.stringify(dadosOrdenados) === JSON.stringify(escMenor) || JSON.stringify(dadosOrdenados) === JSON.stringify(escMayor);
+
+            if (esEsc) {
+                puntos = 20 + juegoServido();
+            }
+
+            if (jugador === 1) {
+                setEsc1(`${puntos}`);
+            } else {
+                setEsc2(`${puntos}`);
+            }
+        }
     }
 
 
