@@ -1,7 +1,8 @@
 "use client"
-import PuntajeTabla from "@/components/Juego/PuntajeTabla"
+
 import Tirar from "@/components/Juego/Tirar";
 import Dado from "@/components/Juego/Dado";
+import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
 import clsx from "clsx";
 import { useState } from "react";
@@ -33,8 +34,8 @@ export default function GeneralaLocal() {
     const [dobGen1, setDobGen1] = useState("");
     const [dobGen2, setDobGen2] = useState("");
 
-    const [cantTiradas, setCantTiradas] = useState(0);
-    const [dados, setDados] = useState([]);
+    const [cantTiradas, setCantTiradas] = useState(1);
+    const [dados, setDados] = useState([0, 0, 0, 0, 0]);
     const [turnoJugador, setTurnoJugador] = useState(1);
     const [puntaje1, setPuntaje1] = useState([]);
     const [puntaje2, setPuntaje2] = useState([]);
@@ -42,7 +43,7 @@ export default function GeneralaLocal() {
     const [titulo, setTitulo] = useState("Turno del Jugador 1")
 
     const cambiarTurno = () => {
-        if (puntaje1.length < 10 && puntaje2.length < 0) {
+        if (puntaje1.length < 10 && puntaje2.length < 10) {
 
             if (turnoJugador == 1) {
                 setTurnoJugador(2);
@@ -52,6 +53,7 @@ export default function GeneralaLocal() {
                 setTitulo("Turno del Jugador 1")
             }
             setDadosBloqueados([]);
+            setCantTiradas(1);
             tirarDados();
         } else {
             finJuego(null);
@@ -84,14 +86,28 @@ export default function GeneralaLocal() {
     }
 
     const tirarDados = () => {
-
+        console.log("Tirar dados")
+        let nuevaTirada = [];
+        if (cantTiradas >= 3) {
+            alert("Ya hiciste tres tiradas")
+        } else {
+            for (let i = 1; i < 6; i++) {
+                nuevaTirada[i-1] = Math.floor(Math.random() * 6) + 1;
+            }
+            setDados(nuevaTirada)
+            setCantTiradas(cantTiradas + 1);
+        }
     }
 
     const bloquearDado = (dataId) => {
-        if (!dadosBloqueados.includes(dataId)) {
+        console.log(dataId)
+        console.log(dadosBloqueados)
+        if (!dadosBloqueados.some(dado => dado == dataId)) {
+            console.log("El dado no esta en el array")
             setDadosBloqueados([...dadosBloqueados, dataId]);
-            setBloqueado(true)
+            console.log(dadosBloqueados)
         } else {
+            console.log("Desbloquear el dado")
             const index = dadosBloqueados.indexOf(dataId);
             if (index > -1) {
                 setDadosBloqueados(dadosBloqueados.filter(e => e != dataId));
@@ -123,7 +139,7 @@ export default function GeneralaLocal() {
     }
 
     const anotarNumero = (numero, jugador) => {
-        const puntos = 0;
+        let puntos = 0;
         if (jugador === turnoJugador) {
             for (let i = 0; i < dados.length; i++) {
                 if (dados[i] === numero) {
@@ -180,27 +196,42 @@ export default function GeneralaLocal() {
 
     const anotarGenerala = (jugador) => {
         let esGen = true;
+        let anotado = false;
         if (jugador == turnoJugador) {
-            for (let i = 0; i < 5; i++) {
-                if (dados[i] !== dados[0]) {
-                    esGen = false;
-                    break;
-                }
+            switch (jugador) {
+                case 1:
+                    if (gen1 !== "") {
+                        anotado = true;
+                    }
+                    break
+                case 2:
+                    if (gen2 !== "") {
+                        anotado = true;
+                    }
             }
-            if (esGen) {
-                generalaServida();
-                guardarPuntaje(50)
-                if (jugador === 1) {
-                    setGen1(`${50}`)
-                } else {
-                    setGen2(`${50}`)
+
+            if (!anotado) {
+                for (let i = 0; i < 5; i++) {
+                    if (dados[i] !== dados[0]) {
+                        esGen = false;
+                        break;
+                    }
                 }
-            } else {
-                guardarPuntaje(0)
-                if (jugador === 1) {
-                    setGen1(`${0}`)
+                if (esGen) {
+                    generalaServida();
+                    guardarPuntaje(50)
+                    if (jugador === 1) {
+                        setGen1(`${50}`)
+                    } else {
+                        setGen2(`${50}`)
+                    }
                 } else {
-                    setGen2(`${0}`)
+                    guardarPuntaje(0)
+                    if (jugador === 1) {
+                        setGen1(`${0}`)
+                    } else {
+                        setGen2(`${0}`)
+                    }
                 }
             }
         }
@@ -248,16 +279,16 @@ export default function GeneralaLocal() {
                     generalaServida();
                     guardarPuntaje(100)
                     if (jugador === 1) {
-                        setGen1(`${100}`)
+                        setDobGen1(`${100}`)
                     } else {
-                        setGen2(`${100}`)
+                        setDobGen2(`${100}`)
                     }
                 } else {
                     guardarPuntaje(0)
                     if (jugador === 1) {
-                        setGen1(`${0}`)
+                        setDobGen1(`${0}`)
                     } else {
-                        setGen2(`${0}`)
+                        setDobGen2(`${0}`)
                     }
                 }
             }
@@ -268,37 +299,52 @@ export default function GeneralaLocal() {
         let esPoker = true;
         let contador = {};
         let puntos = 0;
+        let anotado = false;
         if (jugador == turnoJugador) {
             switch (jugador) {
                 case 1:
-                    if (poker1 === "") {
-                        esPoker = false;
+                    if (poker1 !== "") {
+                        anotado = true;
                     }
                     break
                 case 2:
-                    if (poker2 === "") {
-                        esPoker = false;
+                    if (poker2 !== "") {
+                        anotado = true;
                     }
             }
 
-            for (let i = 0; i < dados.length; i++) {
-                contador[dados[i]] = (contador[dados[i]] || 0) + 1;
-            }
+            if (!anotado) {
+                switch (jugador) {
+                    case 1:
+                        if (poker1 === "") {
+                            esPoker = false;
+                        }
+                        break
+                    case 2:
+                        if (poker2 === "") {
+                            esPoker = false;
+                        }
+                }
 
-            if (esPoker) {
-                esPoker = Object.values(contador).includes(4);
-            }
+                for (let i = 0; i < dados.length; i++) {
+                    contador[dados[i]] = (contador[dados[i]] || 0) + 1;
+                }
 
-            if (esPoker) {
-                puntos = 40 + juegoServido();
-            }
+                if (esPoker) {
+                    esPoker = Object.values(contador).includes(4);
+                }
 
-            guardarPuntaje(puntos)
+                if (esPoker) {
+                    puntos = 40 + juegoServido();
+                }
 
-            if (jugador === 1) {
-                setPoker1(`${puntos}`);
-            } else {
-                setPoker2(`${puntos}`);
+                guardarPuntaje(puntos)
+
+                if (jugador === 1) {
+                    setPoker1(`${puntos}`);
+                } else {
+                    setPoker2(`${puntos}`);
+                }
             }
         }
     }
@@ -311,30 +357,44 @@ export default function GeneralaLocal() {
         if (jugador == turnoJugador) {
             switch (jugador) {
                 case 1:
-                    if (full1 === "") {
-                        esFull = false;
+                    if (poker1 !== "") {
+                        anotado = true;
                     }
                     break
                 case 2:
-                    if (full2 === "") {
-                        esFull = false;
+                    if (poker2 !== "") {
+                        anotado = true;
                     }
             }
 
-            if (esFull) {
-                esFull = Object.values(contador).includes(3) && Object.values(contador).includes(2);
-            }
+            if (!anotado) {
+                switch (jugador) {
+                    case 1:
+                        if (full1 === "") {
+                            esFull = false;
+                        }
+                        break
+                    case 2:
+                        if (full2 === "") {
+                            esFull = false;
+                        }
+                }
 
-            if (esFull) {
-                puntos = 30 + juegoServido();
-            }
+                if (esFull) {
+                    esFull = Object.values(contador).includes(3) && Object.values(contador).includes(2);
+                }
 
-            guardarPuntaje(puntos)
+                if (esFull) {
+                    puntos = 30 + juegoServido();
+                }
 
-            if (jugador === 1) {
-                setFull1(`${puntos}`);
-            } else {
-                setFull2(`${puntos}`);
+                guardarPuntaje(puntos)
+
+                if (jugador === 1) {
+                    setFull1(`${puntos}`);
+                } else {
+                    setFull2(`${puntos}`);
+                }
             }
         }
     }
@@ -347,27 +407,41 @@ export default function GeneralaLocal() {
         if (jugador == turnoJugador) {
             switch (jugador) {
                 case 1:
-                    if (esc1 === "") {
-                        esEsc = false;
+                    if (poker1 !== "") {
+                        anotado = true;
                     }
                     break
                 case 2:
-                    if (esc2 === "") {
-                        esEsc = false;
+                    if (poker2 !== "") {
+                        anotado = true;
                     }
             }
 
-            let dadosOrdenados = dados.toSorted((a, b) => a - b)
-            esEsc = JSON.stringify(dadosOrdenados) === JSON.stringify(escMenor) || JSON.stringify(dadosOrdenados) === JSON.stringify(escMayor);
+            if (!anotado) {
+                switch (jugador) {
+                    case 1:
+                        if (esc1 === "") {
+                            esEsc = false;
+                        }
+                        break
+                    case 2:
+                        if (esc2 === "") {
+                            esEsc = false;
+                        }
+                }
 
-            if (esEsc) {
-                puntos = 20 + juegoServido();
-            }
+                let dadosOrdenados = dados.toSorted((a, b) => a - b)
+                esEsc = JSON.stringify(dadosOrdenados) === JSON.stringify(escMenor) || JSON.stringify(dadosOrdenados) === JSON.stringify(escMayor);
 
-            if (jugador === 1) {
-                setEsc1(`${puntos}`);
-            } else {
-                setEsc2(`${puntos}`);
+                if (esEsc) {
+                    puntos = 20 + juegoServido();
+                }
+
+                if (jugador === 1) {
+                    setEsc1(`${puntos}`);
+                } else {
+                    setEsc2(`${puntos}`);
+                }
             }
         }
     }
@@ -379,11 +453,11 @@ export default function GeneralaLocal() {
                 <h1 className={styles.Titulo}>{titulo}</h1>
             </div>
             <div className={styles.Partes}>
-                <div className={styless.Div}>
+                <div className={styles.Div}>
                     <div className={styles.Tabla}>
                         <div></div>
-                        <div><p className={styles.p}><b>{jugador1}</b></p></div>
-                        <div><p className={styles.p}><b>{jugador2}</b></p></div>
+                        <div><p className={styles.p}><b>Jugador 1</b></p></div>
+                        <div><p className={styles.p}><b>Jugador 2</b></p></div>
 
                         <div><p className={styles.p}><b>1</b></p></div>
                         <div><PuntajeBoton onClick={() => anotarNumero(1, 1)} puntaje={uno1}></PuntajeBoton></div>
@@ -431,11 +505,21 @@ export default function GeneralaLocal() {
                     </div>
                 </div>
                 <div className={styles.Tablero}>
-                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)}></Dado>
-                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)}></Dado>
-                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)}></Dado>
-                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)}></Dado>
-                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)}></Dado>
+                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} className={clsx({
+                        [styles.DadoBloqueado]:dadosBloqueados.some(dado => dado == 0),
+                    })}></Dado>
+                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} className={clsx({
+                        [styles.DadoBloqueado]:dadosBloqueados.some(dado => dado == 1),
+                    })}></Dado>
+                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} className={clsx({
+                        [styles.DadoBloqueado]:dadosBloqueados.some(dado => dado == 2),
+                    })}></Dado>
+                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} className={clsx({
+                        [styles.DadoBloqueado]:dadosBloqueados.some(dado => dado == 3),
+                    })}></Dado>
+                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} className={clsx({
+                        [styles.DadoBloqueado]:dadosBloqueados.some(dado => dado == 4),
+                    })}></Dado>
                 </div>
                 <div>
                     <div className={styles.Guia}>
@@ -447,7 +531,7 @@ export default function GeneralaLocal() {
                             puntaje de tus dados.<br /><br />Los datos de esta partida
                             solo se guardaran para el usuario loggeado.</p>
                     </div>
-                    <Tirar></Tirar>
+                    <Tirar onClick={() => tirarDados()}></Tirar>
                 </div>
             </div>
         </section>

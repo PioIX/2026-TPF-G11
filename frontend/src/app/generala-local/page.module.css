@@ -90,6 +90,10 @@
     width: fit-content;
 }
 
+.DadoBloqueado {
+    filter: drop-shadow(0 0 0.75rem white);
+}
+
 .p {
     font-size: 13px;
     color: saddlebrown;
