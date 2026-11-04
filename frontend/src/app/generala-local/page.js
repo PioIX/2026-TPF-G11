@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { useState } from "react";
 
 import styles from "./page.module.css";
+import DadoStyles from "@/components/Juego/Dado.module.css";
 
 export default function GeneralaLocal() {
     const [uno1, setUno1] = useState("");
@@ -292,19 +293,19 @@ export default function GeneralaLocal() {
                     </div>
                 </div>
                 <div className={styles.Tablero}>
-                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} className={clsx({
+                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(1),
                     })}></Dado>
-                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} className={clsx({
+                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(2),
                     })}></Dado>
-                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} className={clsx({
+                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(3),
                     })}></Dado>
-                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} className={clsx({
+                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(4),
                     })}></Dado>
-                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} className={clsx({
+                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(5),
                     })}></Dado>
                 </div>
