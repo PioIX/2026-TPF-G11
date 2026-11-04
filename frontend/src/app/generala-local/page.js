@@ -44,6 +44,8 @@ export default function GeneralaLocal() {
     const [titulo, setTitulo] = useState("Turno del Jugador 1")
     const cantidadCategorias = 11;
 
+    const [animacion, setAnimacion] = useState(false);
+
     const cambiarTurno = () => {
         const siguienteJugador = turnoJugador === 1 ? 2 : 1;
         setTurnoJugador(siguienteJugador);
@@ -59,18 +61,15 @@ export default function GeneralaLocal() {
             ];
             if (puntajeJugador1 > puntajeJugador2) {
                 setTitulo("Ganador: ¡ Jugador 1 !")
-                // Animación de ganar
             } else if (puntajeJugador2 > puntajeJugador1) {
                 setTitulo("Ganador: ¡ Jugador 2 !")
-                // Animación de ganar
             } else {
                 setTitulo("¡ Empate !")
-                // Animación de ganar
             }
         } else {
             setTitulo(`Ganador: ¡ ${ganador} !`)
-            // Animación de ganar
         }
+        setAnimacion(true);
     }
 
     const tirarDados = (nuevaRonda = false) => {
@@ -237,7 +236,12 @@ export default function GeneralaLocal() {
 
     return (
         <section className={styles.Body}>
-            <div className={styles.TituloDiv}>
+            <img className={clsx(styles.Confetti, {
+                [styles.ConfettiGanar]: animacion,
+            })} src="/recursos/img/confetti.gif"></img>
+            <div className={clsx(styles.TituloDiv, {
+                [styles.TituloGanar]: animacion,
+            })}>
                 <h1 className={styles.Titulo}>{titulo}</h1>
             </div>
             <div className={styles.Partes}>
@@ -295,18 +299,23 @@ export default function GeneralaLocal() {
                 <div className={styles.Tablero}>
                     <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(1),
+                        [styles.ganarDado]: animacion,
                     })}></Dado>
                     <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(2),
+                        [styles.ganarDado]: animacion,
                     })}></Dado>
                     <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(3),
+                        [styles.ganarDado]: animacion,
                     })}></Dado>
                     <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(4),
+                        [styles.ganarDado]: animacion,
                     })}></Dado>
                     <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(5),
+                        [styles.ganarDado]: animacion,
                     })}></Dado>
                 </div>
                 <div>
