@@ -1,0 +1,41 @@
+.pagina {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@keyframes hover-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-12px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .img:hover,
+  .img:focus-visible {
+    animation: hover-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1;
+  }
+}
+.img {
+  padding: 3rem;
+}
+
+.tabla {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 4rem;
+}
