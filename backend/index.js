@@ -74,7 +74,6 @@ io.on("connection", (socket) => {
   });
 });
 
-
 // GET
 app.get("/getUsuariosTPF", async function (req, res) {
   console.log(req.query);
@@ -133,12 +132,12 @@ app.get("/getLoginEmail", async function (req, res) {
 
 // POST
 app.post("/postUsuariosTPF", async function (req, res) {
-  console.log("POST /postUsuariosTPF")
+  console.log("POST /postUsuariosTPF");
   console.log(req.body);
   let respuesta = await realizarQuery(
     `SELECT * FROM UsuariosTPF WHERE nombre_de_usuario = '${req.body.nombre_de_usuario}' OR email = '${req.body.email}'`
   );
-  console.log(respuesta)
+  console.log(respuesta);
   if (respuesta.length == 0) {
     await realizarQuery(
       `INSERT INTO UsuariosTPF(nombre, apellido, nombre_de_usuario, contraseña, email) VALUES ('${req.body.nombre}', '${req.body.apellido}', '${req.body.nombre_de_usuario}', '${req.body.contraseña}', '${req.body.email}')`
@@ -200,7 +199,10 @@ app.put("/putUsuariosTPF", async function (req, res) {
 
 app.put("/putEstadisticasTPF", async function (req, res) {
   console.log(req.body);
-  const porcentaje_victorias = req.body.partidas_totales > 0 ? (req.body.partidas_ganadas / req.body.partidas_totales) * 100 : 0;
+  const porcentaje_victorias =
+    req.body.partidas_totales > 0
+      ? (req.body.partidas_ganadas / req.body.partidas_totales) * 100
+      : 0;
   const respuesta = await realizarQuery(
     `UPDATE EstadisticasTPF SET generalas_totales = ${req.body.generalas_totales}, partidas_ganadas = ${req.body.partidas_ganadas}, partidas_perdidas = ${req.body.partidas_perdidas}, partidas_totales = ${req.body.partidas_totales}, porcentaje_victorias = ${porcentaje_victorias} WHERE id_usuario = ${req.body.id_usuario}`
   );
@@ -230,7 +232,7 @@ app.delete("/deleteUsuariosTPF", async function (req, res) {
 app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM UsuariosTPF WHERE id= ${req.body.id}`
+    `DELETE FROM UsuariosPartidaTPF WHERE id= ${req.body.id}`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -248,7 +250,7 @@ app.delete("/deleteEstadisticasTPF", async function (req, res) {
 app.delete("/deletePartidasTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM PartidasTPF WHERE id = ${req.body.id}`
+    `DELETE FROM PartidasTPF WHERE id_partida = ${req.body.id_partida}`
   );
   console.log({ respuesta });
   res.send(respuesta);
