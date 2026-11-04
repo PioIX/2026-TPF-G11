@@ -1,9 +1,25 @@
-.Body{
+.Body {
     margin: auto;
     width: 85%;
 }
 
-.TituloDiv{
+.Confetti{
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.ConfettiGanar{
+    display: block;
+}
+
+.TituloDiv {
     width: 75%;
     height: 4rem;
     margin: auto;
@@ -19,7 +35,15 @@
     color: saddlebrown;
 }
 
-.Tablero{
+.TituloGanar{
+    animation-name: "winAnimation-div";
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+}
+
+.Tablero {
     background-image: url("/recursos/img/fondo-tablero.jpg");
     background-size: cover;
 
@@ -36,7 +60,7 @@
     padding: 20px;
 }
 
-.Titulo{
+.Titulo {
     margin: 0;
 }
 
@@ -47,7 +71,7 @@
     align-items: center;
 }
 
-.Guia{
+.Guia {
     height: fit-content;
     width: 20rem;
     max-height: 30rem;
@@ -78,7 +102,7 @@
     }
 }
 
-.Div{
+.Div {
     background-color: #fef5d8;
     padding: 20px;
     border-radius: 15px;
@@ -116,10 +140,10 @@
     filter: drop-shadow(0 0 0.75rem white);
 }
 
-.ganarDado{
+.ganarDado {
     animation-name: "winAnimation-dados";
     animation-iteration-count: infinite;
-    animation-duration: 1s;
+    animation-duration: 0.7s;
     animation-timing-function: ease-in-out;
     animation-direction: alternate;
 }
@@ -130,7 +154,20 @@
 }
 
 @keyframes winAnimation-dados {
-    0%{transform: rotate(0turn);}
-    50%{transform: rotate(0.25turn);}
-    100%{transform: rotate(-0.25turn);}
+    0% {
+        transform: rotate(0.25turn);
+    }
+
+    100% {
+        transform: rotate(-0.25turn);
+    }
+}
+
+@keyframes winAnimation-div {
+  0% {background-color: red;}
+  20% {background-color: yellow;}
+  40%{background-color: greenyellow;}
+  60%{background-color: blue;}
+  80%{background-color: purple;}
+  100%{background-color: hotpink;}
 }

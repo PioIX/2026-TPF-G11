@@ -236,7 +236,12 @@ export default function GeneralaLocal() {
 
     return (
         <section className={styles.Body}>
-            <div className={styles.TituloDiv}>
+            <img className={clsx(styles.Confetti, {
+                [styles.ConfettiGanar]: animacion,
+            })} src="/recursos/img/confetti.gif"></img>
+            <div className={clsx(styles.TituloDiv, {
+                [styles.TituloGanar]: animacion,
+            })}>
                 <h1 className={styles.Titulo}>{titulo}</h1>
             </div>
             <div className={styles.Partes}>
