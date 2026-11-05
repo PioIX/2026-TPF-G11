@@ -47,7 +47,7 @@ export default function GeneralaLocal() {
     const [animacion, setAnimacion] = useState(false);
 
     const [skinTablero, setSkinTablero] = useState(1)
-    const [skinDado, setSkinDado] = useState("dado")
+    const [skinDado, setSkinDado] = useState("dorado")
 
     const cambiarTurno = () => {
         const siguienteJugador = turnoJugador === 1 ? 2 : 1;

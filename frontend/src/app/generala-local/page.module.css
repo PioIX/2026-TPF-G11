@@ -1,8 +1,10 @@
 .Body {
     margin: auto;
-    width: 85%;
+    padding-top: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem;
 }
-
 .Confetti {
     display: none;
     position: fixed;
@@ -47,34 +49,37 @@
 .Tablero {
     border: 3px goldenrod dashed;
     border-radius: 10px;
-    width: 50rem;
+    min-width: 37rem;
+    max-width: 50rem;
     height: 30rem;
 
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 
+    background-size: cover;
+
     padding: 20px;
 }
 
 .Normal{
-    background-image: "/recursos/img/tablero1.jpg";
+    background-image: url("/recursos/img/tablero1.png");
 }
 
 .Rojo{
-    background-image: "/recursos/img/tablero2.jpg";
+    background-image: url("/recursos/img/tablero2.png");
 }
 
 .Azul{
-    background-image: "/recursos/img/tablero3.jpg";
+    background-image: url("/recursos/img/tablero3.png");
 }
 
 .Tigre{
-    background-image: "/recursos/img/tablero4.jpg";
+    background-image: url("/recursos/img/tablero4.png");
 }
 
 .Marmol{
-    background-image: "/recursos/img/tablero5.jpg";
+    background-image: url("/recursos/img/tablero5.png");
 }
 
 .Titulo {
@@ -145,7 +150,7 @@
         width: 100%;
         height: 100%;
         object-fit: fill;
-        border-radius: inherit;
+        border-radius: 17px;
     }
 }
 
