@@ -40,7 +40,7 @@ export default function ModoJuego() {
     }
   };
 
-  const paginaEst = () => {
+  const paginaAjustes = () => {
     router.push(`/ajustes-usuario?user=${userID}`);
   };
 
@@ -100,7 +100,7 @@ export default function ModoJuego() {
         </div>
       </div>
       <Button
-        onClick={paginaEst}
+        onClick={paginaAjustes}
         text={"Ajustes"}
         className={clsx(ButtonStyles.Button, {
           [ButtonStyles.estadisticas]: true,
