@@ -1,9 +1,11 @@
 .Body {
     margin: auto;
-    width: 85%;
+    padding-top: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 2rem;
 }
-
-.Confetti{
+.Confetti {
     display: none;
     position: fixed;
     top: 0;
@@ -15,7 +17,7 @@
     height: 100%;
 }
 
-.ConfettiGanar{
+.ConfettiGanar {
     display: block;
 }
 
@@ -35,7 +37,7 @@
     color: saddlebrown;
 }
 
-.TituloGanar{
+.TituloGanar {
     animation-name: "winAnimation-div";
     animation-iteration-count: infinite;
     animation-duration: 1s;
@@ -43,21 +45,41 @@
     animation-direction: alternate;
 }
 
-.Tablero {
-    background-image: url("/recursos/img/fondo-tablero.jpg");
-    background-size: cover;
 
+.Tablero {
     border: 3px goldenrod dashed;
     border-radius: 10px;
-
-    width: 50rem;
+    min-width: 37rem;
+    max-width: 50rem;
     height: 30rem;
 
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 
+    background-size: cover;
+
     padding: 20px;
+}
+
+.Normal{
+    background-image: url("/recursos/img/tablero1.png");
+}
+
+.Rojo{
+    background-image: url("/recursos/img/tablero2.png");
+}
+
+.Azul{
+    background-image: url("/recursos/img/tablero3.png");
+}
+
+.Tigre{
+    background-image: url("/recursos/img/tablero4.png");
+}
+
+.Marmol{
+    background-image: url("/recursos/img/tablero5.png");
 }
 
 .Titulo {
@@ -128,7 +150,7 @@
         width: 100%;
         height: 100%;
         object-fit: fill;
-        border-radius: inherit;
+        border-radius: 17px;
     }
 }
 
@@ -164,10 +186,27 @@
 }
 
 @keyframes winAnimation-div {
-  0% {background-color: red;}
-  20% {background-color: yellow;}
-  40%{background-color: greenyellow;}
-  60%{background-color: blue;}
-  80%{background-color: purple;}
-  100%{background-color: hotpink;}
+    0% {
+        background-color: red;
+    }
+
+    20% {
+        background-color: yellow;
+    }
+
+    40% {
+        background-color: greenyellow;
+    }
+
+    60% {
+        background-color: blue;
+    }
+
+    80% {
+        background-color: purple;
+    }
+
+    100% {
+        background-color: hotpink;
+    }
 }

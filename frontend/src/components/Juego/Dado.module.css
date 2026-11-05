@@ -7,13 +7,6 @@
     width: 110px;
 
     border-radius: 20px;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: fill;
-        border-radius: inherit;
-    }
 }
 
 .Dado:hover {

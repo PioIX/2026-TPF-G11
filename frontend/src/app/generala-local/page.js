@@ -5,7 +5,7 @@ import Dado from "@/components/Juego/Dado";
 import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
 import clsx from "clsx";
-import { useState } from "react";
+import { use, useState } from "react";
 
 import styles from "./page.module.css";
 import DadoStyles from "@/components/Juego/Dado.module.css";
@@ -45,6 +45,9 @@ export default function GeneralaLocal() {
     const cantidadCategorias = 11;
 
     const [animacion, setAnimacion] = useState(false);
+
+    const [skinTablero, setSkinTablero] = useState(1)
+    const [skinDado, setSkinDado] = useState("dorado")
 
     const cambiarTurno = () => {
         const siguienteJugador = turnoJugador === 1 ? 2 : 1;
@@ -296,24 +299,30 @@ export default function GeneralaLocal() {
                         <div><PuntajeBoton onClick={() => anotarGeneralaDoble(2)} puntaje={dobGen2}></PuntajeBoton></div>
                     </div>
                 </div>
-                <div className={styles.Tablero}>
-                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} className={clsx(styles.Dado, {
+                <div className={clsx(styles.Tablero, {
+                    [styles.Normal]: (skinTablero == 1),
+                    [styles.Rojo]: (skinTablero == 2),
+                    [styles.Azul]: (skinTablero == 3),
+                    [styles.Tigre]: (skinTablero == 4),
+                    [styles.Marmol]: (skinTablero == 5),
+                })}>
+                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(1),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} className={clsx(styles.Dado,{
+                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} skin={skinDado} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(2),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} className={clsx(styles.Dado,{
+                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} skin={skinDado} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(3),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} className={clsx(styles.Dado,{
+                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} skin={skinDado} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(4),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} className={clsx(styles.Dado,{
+                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} skin={skinDado} className={clsx(styles.Dado,{
                         [styles.DadoBloqueado]: dadosBloqueados.includes(5),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
@@ -334,3 +343,5 @@ export default function GeneralaLocal() {
         </section>
     )
 }
+
+/* {styles.Tablero} */
