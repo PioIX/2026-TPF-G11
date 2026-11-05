@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import styles from "./page.module.css";
 
@@ -10,8 +9,6 @@ import Button from "@/components/Button";
 
 export default function EstadisticasUsuarioPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const userID = searchParams.get("user");
 
   const paginaModoJuego = () => {
     router.back();
