@@ -127,6 +127,16 @@ app.get("/getLoginEmail", async function (req, res) {
   res.send(respuesta);
 });
 
+// GET SKIN
+app.get("/getSkin", async function (req, res) {
+  console.log("get /getSkin req.query:", req.query);
+  const respuesta = await realizarQuery(`
+    SELECT skin_dado, skin_tablero FROM UsuariosTPF WHERE id_usuario = '${req.query.id_usuario}';
+  `);
+  console.log({ respuesta: respuesta });
+  res.send(respuesta);
+});
+
 // POST
 app.post("/postUsuariosTPF", async function (req, res) {
   console.log("POST /postUsuariosTPF");
