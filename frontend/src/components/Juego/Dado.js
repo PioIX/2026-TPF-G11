@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import DadoStyles from "@/components/Juego/Dado.module.css";
 
-export default function Dado({ dataId, valor, onClick, className, skin }) {
+export default function Dado({ dataId, valor, onClick, skin }) {
   return (
     <>
       <button
