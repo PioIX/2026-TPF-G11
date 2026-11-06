@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 const sessionMiddleware = session({
-  secret: "supersarasa",
+  secret: "keysupersecreta",
   resave: false,
   saveUninitialized: false,
 });
@@ -34,18 +34,15 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
 
-let contador = 0;
-
 io.on("connection", (socket) => {
   const req = socket.request;
 
   socket.on("joinRoom", (data) => {
-    if (req.session.room != undefined && req.session.room.length > 0) {
+    console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
+    if (req.session.room != undefined && req.session.room.length > 0)
       socket.leave(req.session.room);
-    }
     req.session.room = data.room;
     socket.join(req.session.room);
-
     io.to(req.session.room).emit("chat-messages", {
       user: req.session.user,
       room: req.session.room,
