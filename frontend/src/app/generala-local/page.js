@@ -5,12 +5,17 @@ import Dado from "@/components/Juego/Dado";
 import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
 import clsx from "clsx";
-import { use, useState } from "react";
+import { useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
 import DadoStyles from "@/components/Juego/Dado.module.css";
 
 export default function GeneralaLocal() {
+    const searchParams = useSearchParams();
+    const userID = searchParams.get("user");
+    const estadisticasActualizadas = useRef(false);
+
     const [uno1, setUno1] = useState("");
     const [uno2, setUno2] = useState("");
     const [dos1, setDos1] = useState("");
@@ -56,15 +61,48 @@ export default function GeneralaLocal() {
         tirarDados(true);
     }
 
-    const finJuego = (ganador, puntajesFinales) => {
+    const actualizarEstadisticas = async (ganador, generalaGanada) => {
+        const estadisticasResponse = await fetch(
+            `http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`
+        );
+        const estadisticas = await estadisticasResponse.json();
+        if (estadisticas.length !== 0) {
+
+            const estadistica = estadisticas[0];
+            const jugadorGano = ganador === "Jugador 1";
+            const jugadorPerdio = ganador === "Jugador 2";
+            const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id_usuario: Number(userID),
+                    generalas_totales:
+                        Number(estadistica.generalas_totales) + generalaGanada,
+                    partidas_ganadas:
+                        Number(estadistica.partidas_ganadas) + Number(jugadorGano),
+                    partidas_perdidas:
+                        Number(estadistica.partidas_perdidas) + Number(jugadorPerdio),
+                    partidas_totales: Number(estadistica.partidas_totales) + 1,
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+        }
+    };
+
+    const finJuego = (ganador, puntajesFinales, generalaGanada = false) => {
+        let ganadorFinal = ganador;
         if (!ganador) {
             const [puntajeJugador1, puntajeJugador2] = puntajesFinales ?? [
                 puntaje1.reduce((total, puntos) => total + puntos, 0),
                 puntaje2.reduce((total, puntos) => total + puntos, 0),
             ];
             if (puntajeJugador1 > puntajeJugador2) {
+                ganadorFinal = "Jugador 1";
                 setTitulo("Ganador: ¡ Jugador 1 !")
             } else if (puntajeJugador2 > puntajeJugador1) {
+                ganadorFinal = "Jugador 2";
                 setTitulo("Ganador: ¡ Jugador 2 !")
             } else {
                 setTitulo("¡ Empate !")
@@ -73,6 +111,10 @@ export default function GeneralaLocal() {
             setTitulo(`Ganador: ¡ ${ganador} !`)
         }
         setAnimacion(true);
+        const generalasDelJugador1 = Number(gen1 === "50")
+            + Number(dobGen1 === "100")
+            + Number(generalaGanada);
+        actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
     }
 
     const tirarDados = (nuevaRonda = false) => {
@@ -139,14 +181,14 @@ export default function GeneralaLocal() {
         guardarPuntaje(puntos);
     }
 
-    const guardarPuntaje = (puntos, ganador = null) => {
+    const guardarPuntaje = (puntos, ganador = null, generalaGanada = false) => {
         const nuevoPuntaje1 = turnoJugador === 1 ? [...puntaje1, puntos] : puntaje1;
         const nuevoPuntaje2 = turnoJugador === 2 ? [...puntaje2, puntos] : puntaje2;
         setPuntaje1(nuevoPuntaje1);
         setPuntaje2(nuevoPuntaje2);
 
         if (ganador) {
-            finJuego(ganador);
+            finJuego(ganador, undefined, generalaGanada);
             return;
         }
 
@@ -154,7 +196,7 @@ export default function GeneralaLocal() {
             finJuego(null, [
                 nuevoPuntaje1.reduce((total, valor) => total + valor, 0),
                 nuevoPuntaje2.reduce((total, valor) => total + valor, 0),
-            ]);
+            ], generalaGanada);
             return;
         }
 
@@ -174,7 +216,7 @@ export default function GeneralaLocal() {
         const puntos = esGen ? 50 : 0;
         (jugador === 1 ? setGen1 : setGen2)(`${puntos}`);
         const ganador = esGen && generalaServida() ? `Jugador ${jugador}` : null;
-        guardarPuntaje(puntos, ganador);
+        guardarPuntaje(puntos, ganador, jugador === 1 && esGen);
     }
 
     const anotarGeneralaDoble = (jugador) => {
@@ -187,7 +229,7 @@ export default function GeneralaLocal() {
         const esGen = Number(generalaAnterior) === 50 && dados.every(dado => dado === dados[0]);
         const puntos = esGen ? 100 : 0;
         (jugador === 1 ? setDobGen1 : setDobGen2)(`${puntos}`);
-        guardarPuntaje(puntos);
+        guardarPuntaje(puntos, null, jugador === 1 && esGen);
     }
 
     const anotarPoker = (jugador) => {
@@ -310,19 +352,19 @@ export default function GeneralaLocal() {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(1),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} skin={skinDado} className={clsx(styles.Dado,{
+                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(2),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} skin={skinDado} className={clsx(styles.Dado,{
+                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(3),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} skin={skinDado} className={clsx(styles.Dado,{
+                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(4),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
-                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} skin={skinDado} className={clsx(styles.Dado,{
+                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(5),
                         [styles.ganarDado]: animacion,
                     })}></Dado>
