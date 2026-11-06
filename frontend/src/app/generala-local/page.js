@@ -5,7 +5,7 @@ import Dado from "@/components/Juego/Dado";
 import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
 import clsx from "clsx";
-import { useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
@@ -14,7 +14,6 @@ import DadoStyles from "@/components/Juego/Dado.module.css";
 export default function GeneralaLocal() {
     const searchParams = useSearchParams();
     const userID = searchParams.get("user");
-    const estadisticasActualizadas = useRef(false);
 
     const [uno1, setUno1] = useState("");
     const [uno2, setUno2] = useState("");
@@ -51,8 +50,8 @@ export default function GeneralaLocal() {
 
     const [animacion, setAnimacion] = useState(false);
 
-    const [skinTablero, setSkinTablero] = useState()
-    const [skinDado, setSkinDado] = useState()
+    const [skinTablero, setSkinTablero] = useState(1)
+    const [skinDado, setSkinDado] = useState("dado")
 
     const skinUsuario = async () => {
         const skinResponse = await fetch(
@@ -62,7 +61,10 @@ export default function GeneralaLocal() {
         setSkinTablero(skins[0].skin_tablero);
         setSkinDado(skins[0].skin_dado);
     }
-    skinUsuario();
+
+    useEffect(() => {
+        skinUsuario();
+    }, []);
 
     const cambiarTurno = () => {
         const siguienteJugador = turnoJugador === 1 ? 2 : 1;
