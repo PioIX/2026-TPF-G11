@@ -51,8 +51,18 @@ export default function GeneralaLocal() {
 
     const [animacion, setAnimacion] = useState(false);
 
-    const [skinTablero, setSkinTablero] = useState(1)
-    const [skinDado, setSkinDado] = useState("dorado")
+    const [skinTablero, setSkinTablero] = useState()
+    const [skinDado, setSkinDado] = useState()
+
+    const skinUsuario = async () => {
+        const skinResponse = await fetch(
+            `http://localhost:4000/getSkin?id_usuario=${userID}`
+        );
+        const skins = await skinResponse.json();
+        setSkinTablero(skins[0].skin_tablero);
+        setSkinDado(skins[0].skin_dado);
+    }
+    skinUsuario();
 
     const cambiarTurno = () => {
         const siguienteJugador = turnoJugador === 1 ? 2 : 1;
