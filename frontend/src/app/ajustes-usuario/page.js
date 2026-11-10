@@ -34,6 +34,7 @@ export default function EstadisticasUsuarioPage() {
           <Dado skin="dorado" valor="6" />
 
           <h3>Tableros</h3>
+          
         </div>
         <Button onClick={paginaModoJuego} text="Volver" />
 
@@ -42,3 +43,4 @@ export default function EstadisticasUsuarioPage() {
     </>
   );
 }
+/* Hay que agregar el componente de tableros */

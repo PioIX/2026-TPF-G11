@@ -5,8 +5,8 @@ CREATE TABLE UsuariosTPF (
     nombre_de_usuario varchar(40),
     email varchar(40),
     contraseña varchar(40),
-    skin_dado varchar(15),
-    skin_tablero int
+    skin_dado varchar(15) DEFAULT "dado",
+    skin_tablero int DEFAULT 1
 );
 
 CREATE TABLE EstadisticasTPF  (
@@ -20,6 +20,7 @@ CREATE TABLE EstadisticasTPF  (
     CONSTRAINT fk_usuario3
     FOREIGN KEY (id_usuario)
     REFERENCES UsuariosTPF(id_usuario)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE PartidasTPF (
@@ -31,6 +32,7 @@ CREATE TABLE PartidasTPF (
     CONSTRAINT fk_usuario2
     FOREIGN KEY (id_usuario)
     REFERENCES UsuariosTPF(id_usuario)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE UsuariosPartidaTPF (
@@ -38,15 +40,11 @@ CREATE TABLE UsuariosPartidaTPF (
     id_usuario int,
     CONSTRAINT fk_usuario4
     FOREIGN KEY (id_usuario)
-    REFERENCES UsuariosTPF(id_usuario),
+    REFERENCES UsuariosTPF(id_usuario)
+    ON DELETE CASCADE,
     id_partida int,
     CONSTRAINT fk_partida
     FOREIGN KEY (id_partida)
     REFERENCES PartidasTPF(id_partida)
+    ON DELETE CASCADE
 );
-
-SELECT * FROM EstadisticasTPF
-
-
-
-
