@@ -27,11 +27,11 @@ export default function EstadisticasUsuarioPage() {
           <h2>Apariencia</h2>
 
           <h3>Dados</h3>
-          <Dado skin="dado" valor="6" />
-          <Dado skin="nube" valor="6" />
-          <Dado skin="rayo" valor="6" />
-          <Dado skin="chino" valor="6" />
-          <Dado skin="dorado" valor="6" />
+          <Dado onClick={() => null} dataId={0} valor={5} skin={"dado"} className={styles.Dado}></Dado>
+          <Dado onClick={() => null} dataId={0} valor={5} skin={"nube"}></Dado>
+          <Dado onClick={() => null} dataId={0} valor={5} skin={"rayo"}></Dado>
+          <Dado onClick={() => null} dataId={0} valor={5} skin={"chino"}></Dado>
+          <Dado onClick={() => null} dataId={0} valor={5} skin={"dorado"}></Dado>
 
           <h3>Tableros</h3>
           
@@ -44,3 +44,9 @@ export default function EstadisticasUsuarioPage() {
   );
 }
 /* Hay que agregar el componente de tableros */
+
+/* <Dado skin="dado" valor="6" />
+          <Dado skin="nube" valor="6" />
+          <Dado skin="rayo" valor="6" />
+          <Dado skin="chino" valor="6" />
+          <Dado skin="dorado" valor="6" /> */
