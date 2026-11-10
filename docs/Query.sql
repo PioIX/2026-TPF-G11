@@ -4,7 +4,9 @@ CREATE TABLE UsuariosTPF (
     apellido varchar(40),
     nombre_de_usuario varchar(40),
     email varchar(40),
-    contraseña varchar(40)
+    contraseña varchar(40),
+    skin_dado varchar(15),
+    skin_tablero int
 );
 
 CREATE TABLE EstadisticasTPF  (
