@@ -37,49 +37,6 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   const req = socket.request;
 
-  const puntajeJugador1 = {
-    1: null,
-    2: null,
-    3: null,
-    4: null,
-    5: null,
-    6: null,
-    full: null,
-    poker: null,
-    esc: null,
-    gen: null,
-    dobGen: null
-  }
-
-    const puntajeJugador2 = {
-    1: null,
-    2: null,
-    3: null,
-    4: null,
-    5: null,
-    6: null,
-    full: null,
-    poker: null,
-    esc: null,
-    gen: null,
-    dobGen: null
-  }
-
-  let cantTiradas = 0;
-  let dados = [0, 0, 0, 0, 0];
-  let turnoJugador = 1;
-  let dadosBloqueados = [];
-  let titulo1 = "";
-  let titulo2 = "";
-  let animacion = false;
-
-
-  socket.on("cambiarTurno", () => {
-    turnoJugador = turnoJugador === 1 ? 2 : 1;
-    // cambiar titulo dependiendo del jugador ("es tu turno" o "espera tu turno")
-    socket.emit("turnoCambiado", { turno: turnoJugador, titulo:  tituloJugador});
-  });
-
   socket.on("disconnect", () => {
     console.log("Disconnect");
   });
