@@ -6,8 +6,9 @@ import styles from "./page.module.css";
 
 import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario";
 import Button from "@/components/Button";
-
 import Dado from "@/components/Juego/Dado";
+
+
 
 export default function EstadisticasUsuarioPage() {
   const router = useRouter();
@@ -15,6 +16,46 @@ export default function EstadisticasUsuarioPage() {
   const paginaModoJuego = () => {
     router.back();
   };
+
+  useEffect(() => {
+    fetch('http://localhost:4000/getDadoUsuario')
+      .then(response => response.json())
+      .then(data => {
+        setEstadisticas(data);
+      });
+  }, [refresh])
+
+  useEffect(() => {
+    fetch('http://localhost:4000/putDadoUsuario'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+      .then(response => response.json())
+      .then(data => {
+      });
+  }, [refresh])
+
+  useEffect(() => {
+    fetch('http://localhost:4000/getTableroUsuario')
+      .then(response => response.json())
+      .then(data => {
+        setEstadisticas(data);
+      });
+  }, [refresh])
+
+  useEffect(() => {
+    fetch('http://localhost:4000/putTableroUsuario'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }
+      .then(response => response.json())
+      .then(data => {
+      });
+  }, [refresh])
 
   return (
     <>
@@ -34,7 +75,8 @@ export default function EstadisticasUsuarioPage() {
           <Dado onClick={() => null} dataId={0} valor={5} skin={"dorado"}></Dado>
 
           <h3>Tableros</h3>
-          
+          <Button />
+
         </div>
         <Button onClick={paginaModoJuego} text="Volver" />
 

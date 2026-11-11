@@ -84,6 +84,24 @@ app.get("/getUsuariosTPF", async function (req, res) {
   res.send(respuesta);
 });
 
+app.get("/getDadoUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        SELECT skin_dado FROM UsuariosTPF;
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.get("/getTableroUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        SELECT skin_tablero FROM UsuariosTPF;
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
 app.get("/getEstadisticasTPF", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
@@ -193,6 +211,24 @@ app.put("/putUsuariosTPF", async function (req, res) {
   const respuesta = await realizarQuery(
     `UPDATE UsuariosTPF SET nombre = '${req.body.nombre}', apellido = '${req.body.apellido}', nombre_de_usuario = '${req.body.nombre_de_usuario}', contraseña = '${req.body.contraseña}', email = '${req.body.email}' WHERE id_usuario = ${req.body.id_usuario}`
   );
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.put("/putDadoUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_dado = '${req.body.skin_dado}';
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.put("/putTableroUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_tablero = '${req.body.skin_tablero}';
+    `);
   console.log({ respuesta });
   res.send(respuesta);
 });
