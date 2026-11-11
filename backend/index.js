@@ -37,33 +37,47 @@ io.use((socket, next) => {
 io.on("connection", (socket) => {
   const req = socket.request;
 
-  socket.on("joinRoom", (data) => {
-    console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
-    if (req.session.room != undefined && req.session.room.length > 0)
-      socket.leave(req.session.room);
-    req.session.room = data.room;
-    socket.join(req.session.room);
-    io.to(req.session.room).emit("chat-messages", {
-      user: req.session.user,
-      room: req.session.room,
-    });
-  });
+  const puntajeJugador1 = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+    full: null,
+    poker: null,
+    esc: null,
+    gen: null,
+    dobGen: null
+  }
 
-  socket.on("pingAll", (data) => {
-    console.log("PING ALL:", data);
-    io.emit("pingAll", { event: "Ping to all", message: data });
-  });
+    const puntajeJugador2 = {
+    1: null,
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+    full: null,
+    poker: null,
+    esc: null,
+    gen: null,
+    dobGen: null
+  }
 
-  socket.on("sendMessage", (data) => {
-    io.to(req.session.room).emit("newMessage", {
-      room: req.session.room,
-      message: data.message,
-    });
-  });
+  let cantTiradas = 0;
+  let dados = [0, 0, 0, 0, 0];
+  let turnoJugador = 1;
+  let dadosBloqueados = [];
+  let titulo1 = "";
+  let titulo2 = "";
+  let animacion = false;
 
-  socket.on("eventoPersonalizado", () => {
-    contador++;
-    socket.emit("respuestaPersonalizada", { contador });
+
+  socket.on("cambiarTurno", () => {
+    turnoJugador = turnoJugador === 1 ? 2 : 1;
+    // cambiar titulo dependiendo del jugador ("es tu turno" o "espera tu turno")
+    socket.emit("turnoCambiado", { turno: turnoJugador, titulo:  tituloJugador});
   });
 
   socket.on("disconnect", () => {
