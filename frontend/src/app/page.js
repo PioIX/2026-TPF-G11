@@ -68,23 +68,63 @@ export default function Home() {
       };
 
       const fetchData = async () => {
-        const response = await fetch('http://localhost:4000/postUsuariosTPF', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
-        const data = await response.json();
-        console.log(data);
+        try {
+          const response = await fetch('http://localhost:4000/postUsuariosTPF', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+          });
+          if (!response.ok) {
+            throw new Error("No se pudo crear la cuenta");
+          }
 
-        if (data.length === 0) {
-          router.push(`/modo-juego?user=${data[0].id_usuario}`);
-        } else {
-          console.log("Error: el usuario ya existe")
-          alert("Error: el usuario o el mail ya existen")
+          const data = await response.json();
+          console.log(data);
+
+          if (data.length !== 0) {
+            console.log("Error: el usuario ya existe");
+            alert("Error: el usuario o el mail ya existen");
+            return;
+          }
+
+          const usuarioResponse = await fetch(
+            `http://localhost:4000/getLoginEmail?email=${mail}`
+          );
+          if (!usuarioResponse.ok) {
+            throw new Error("No se pudo obtener el usuario recién creado");
+          }
+
+          const usuarios = await usuarioResponse.json();
+          if (usuarios.length === 0) {
+            throw new Error("No se encontró el usuario recién creado");
+          }
+
+          const nuevoUsuario = usuarios[0];
+          const estadisticasResponse = await fetch('http://localhost:4000/postEstadisticasTPF', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              generalas_totales: 0,
+              partidas_ganadas: 0,
+              partidas_perdidas: 0,
+              partidas_totales: 0,
+              porcentaje_victorias: 0,
+              id_usuario: nuevoUsuario.id_usuario
+            })
+          });
+          if (!estadisticasResponse.ok) {
+            throw new Error("No se pudieron crear las estadísticas del usuario");
+          }
+
+          router.push(`/modo-juego?user=${nuevoUsuario.id_usuario}`);
+        } catch (error) {
+          console.error("Error durante el registro:", error);
+          alert("No se pudo completar el registro. Intente nuevamente.");
         }
-
       };
 
       fetchData();
