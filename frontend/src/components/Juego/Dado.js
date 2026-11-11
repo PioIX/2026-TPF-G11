@@ -1,19 +1,18 @@
 "use client";
 
-import clsx from "clsx";
-import styles from "@/components/Juego/Dado.module.css";
+import DadoStyles from "@/components/Juego/Dado.module.css";
 
-export default function Dado({ dataId, valor, onClick, skin }) {
+export default function Dado({ dataId, valor, onClick, className, skin }) {
   return (
     <>
       <button
         onClick={onClick}
         data-id={dataId}
         valor={valor}
-        className={styles.Dado}
+        className={DadoStyles.Dado}
         skin={skin}
       >
-        <img src={`/recursos/img/${skin}_${valor}.png`} className={styles.Dado} ></img>
+        <img src={`/recursos/img/${skin}_${valor}.png`}></img>
       </button>
     </>
   );
