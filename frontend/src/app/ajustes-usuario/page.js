@@ -1,64 +1,53 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
 
 import TablaEstadisticasUsuario from "@/components/Tablas/TablaEstadisticasUsuario";
 import Button from "@/components/Button";
 import Dado from "@/components/Juego/Dado";
-import { useEffect, useState } from "react";
 
-export default function EstadisticasUsuarioPage(dado, tablero) {
+export default function AjustesUsuarioPage() {
   const router = useRouter();
-
-  const [skinDado, setSkinDado] = useState("dado");
-  const [skinTablero, setSkinTablero] = useState(1);
+  const searchParams = useSearchParams();
+  const userID = searchParams.get("user");
 
   const paginaModoJuego = () => {
     router.back();
   };
 
-  useEffect(() => {
-    fetch("http://localhost:4000/getDadoUsuario")
-      .then((response) => response.json())
-      .then((data) => {
-        setSkinDado(data);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch("http://localhost:4000/putDadoUsuario"),
+  const actualizarSkinDado = async (dado) => {
+    const response = await fetch(
+      `http://localhost:4000/putSkinDadoUsuario?id_usuario=${userID}`,
       {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dado),
-      };
-  }, []);
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          skin_dado: dado,
+        }),
+      }
+    );
 
-  useEffect(() => {
-    fetch("http://localhost:4000/getTableroUsuario")
-      .then((response) => response.json())
-      .then((data) => {
-        setSkinTablero(data);
-      });
-  }, []);
+    const data = await response.json();
+    console.log(data);
+  };
 
-  useEffect(() => {
-    fetch("http://localhost:4000/putTableroUsuario"),
+  const actualizarSkinTablero = async (tablero) => {
+    const response = await fetch(
+      `http://localhost:4000/putSkinTableroUsuario?id_usuario=${userID}`,
       {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(tablero),
-      };
-  }, []);
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          skin_tablero: Number(tablero),
+        }),
+      }
+    );
 
-  var dado = "dado";
-  var tablero = 1;
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <>
@@ -73,32 +62,32 @@ export default function EstadisticasUsuarioPage(dado, tablero) {
           <h3>Dados</h3>
           <div className={styles.DadoHolder}>
             <Dado
-              onClick={() => (dado = "dado")}
+              onClick={() => actualizarSkinDado("dado")}
               dataId={0}
               valor={5}
               skin={"dado"}
               className={styles.Dado}
             ></Dado>
             <Dado
-              onClick={() => (dado = "nube")}
+              onClick={() => actualizarSkinDado("nube")}
               dataId={0}
               valor={5}
               skin={"nube"}
             ></Dado>
             <Dado
-              onClick={() => (dado = "rayo")}
+              onClick={() => actualizarSkinDado("rayo")}
               dataId={0}
               valor={5}
               skin={"rayo"}
             ></Dado>
             <Dado
-              onClick={() => (dado = "rojo")}
+              onClick={() => actualizarSkinDado("rojo")}
               dataId={0}
               valor={5}
               skin={"rojo"}
             ></Dado>
             <Dado
-              onClick={() => (dado = "dorado")}
+              onClick={() => actualizarSkinDado("dorado")}
               dataId={0}
               valor={5}
               skin={"dorado"}
@@ -107,24 +96,39 @@ export default function EstadisticasUsuarioPage(dado, tablero) {
 
           <h3>Tableros</h3>
           <div className={styles.TablonHolder}>
-            <button onClick={() => (tablero = 1)} className={styles.tablero}>
+            <button
+              onClick={() => actualizarSkinTablero(1)}
+              className={styles.tablero}
+            >
               <img src="/recursos/img/tablero1.png" />
             </button>
-            <button onClick={() => (tablero = 2)} className={styles.tablero}>
+            <button
+              onClick={() => actualizarSkinTablero(2)}
+              className={styles.tablero}
+            >
               <img src="/recursos/img/tablero2.png" />
             </button>
-            <button onClick={() => (tablero = 3)} className={styles.tablero}>
+            <button
+              onClick={() => actualizarSkinTablero(3)}
+              className={styles.tablero}
+            >
               <img src="/recursos/img/tablero3.png" />
             </button>
-            <button onClick={() => (tablero = 4)} className={styles.tablero}>
+            <button
+              onClick={() => actualizarSkinTablero(4)}
+              className={styles.tablero}
+            >
               <img src="/recursos/img/tablero4.png" />
             </button>
-            <button onClick={() => (tablero = 5)} className={styles.tablero}>
+            <button
+              onClick={() => actualizarSkinTablero(5)}
+              className={styles.tablero}
+            >
               <img src="/recursos/img/tablero5.png" />
             </button>
           </div>
         </div>
-        <Button onClick={paginaModoJuego} text="Volver" />
+        <Button onClick={() => paginaModoJuego()} text="Volver" />
 
         <img className={styles.img} src="recursos/cat-spinning.gif" />
       </div>

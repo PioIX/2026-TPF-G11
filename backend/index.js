@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
       poker: null,
       esc: null,
       gen: null,
-      dobGen: null
+      dobGen: null,
     },
     puntajeJ2: {
       1: null,
@@ -68,13 +68,13 @@ io.on("connection", (socket) => {
       poker: null,
       esc: null,
       gen: null,
-      dobGen: null
-    }
-  }
+      dobGen: null,
+    },
+  };
 
   const tirarDados = () => {
-    pass
-  }
+    pass;
+  };
 
   socket.on("joinRoom", (data) => {
     console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
@@ -93,10 +93,7 @@ io.on("connection", (socket) => {
       datosPartida.turnoJugador = data.user;
     } else if (datosPartida.J2 == null) {
       datosPartida.J2 = data.user;
-    };
-
-
-
+    }
   });
 
   socket.on("cambiarTurno", () => {
@@ -117,8 +114,12 @@ io.on("connection", (socket) => {
   socket.on("tirarDados", (data) => {
     const tiradasActuales = data.nuevaRonda ? 0 : datosPartida.cantTiradas;
     if (data.user === datosPartida.turnoJugador) {
-      const dadosActuales = data.nuevaRonda ? [0, 0, 0, 0, 0] : datosPartida.dados;
-      const dadosBloqueadosActuales = data.nuevaRonda ? [] : datosPartida.dadosBloqueados;
+      const dadosActuales = data.nuevaRonda
+        ? [0, 0, 0, 0, 0]
+        : datosPartida.dados;
+      const dadosBloqueadosActuales = data.nuevaRonda
+        ? []
+        : datosPartida.dadosBloqueados;
       const nuevaTirada = dadosActuales.map((dado, index) =>
         tiradasActuales > 0 && dadosBloqueadosActuales.includes(index + 1)
           ? dado
@@ -129,7 +130,7 @@ io.on("connection", (socket) => {
       socket.to(req.session.room).emit("dadosTirados", {
         dados: datosPartida.dados,
         dadosBloqueados: datosPartida.dadosBloqueados,
-        cantTiradas: datosPartida.cantTiradas
+        cantTiradas: datosPartida.cantTiradas,
       });
     }
   });
@@ -140,24 +141,6 @@ app.get("/getUsuariosTPF", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
         SELECT * FROM UsuariosTPF;
-    `);
-  console.log({ respuesta });
-  res.send(respuesta);
-});
-
-app.get("/getDadoUsuario", async function (req, res) {
-  console.log(req.query);
-  const respuesta = await realizarQuery(`
-        SELECT skin_dado FROM UsuariosTPF;
-    `);
-  console.log({ respuesta });
-  res.send(respuesta);
-});
-
-app.get("/getTableroUsuario", async function (req, res) {
-  console.log(req.query);
-  const respuesta = await realizarQuery(`
-        SELECT skin_tablero FROM UsuariosTPF;
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -286,24 +269,6 @@ app.put("/putUsuariosTPF", async function (req, res) {
   res.send(respuesta);
 });
 
-app.put("/putDadoUsuario", async function (req, res) {
-  console.log(req.query);
-  const respuesta = await realizarQuery(`
-        UPDATE UsuariosTPF SET skin_dado = '${req.body.skin_dado}';
-    `);
-  console.log({ respuesta });
-  res.send(respuesta);
-});
-
-app.put("/putTableroUsuario", async function (req, res) {
-  console.log(req.query);
-  const respuesta = await realizarQuery(`
-        UPDATE UsuariosTPF SET skin_tablero = '${req.body.skin_tablero}';
-    `);
-  console.log({ respuesta });
-  res.send(respuesta);
-});
-
 app.put("/putEstadisticasTPF", async function (req, res) {
   console.log(req.body);
   const porcentaje_victorias =
@@ -322,6 +287,25 @@ app.put("/putPartidasTPF", async function (req, res) {
   const respuesta = await realizarQuery(
     `UPDATE PartidasTPF SET gano = ${req.body.gano}, fecha = '${req.body.fecha}', puntaje = ${req.body.puntaje} WHERE id = ${req.body.id_partida}`
   );
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+// PUT SKIN
+app.put("/putSkinDadoUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_dado = '${req.body.skin_dado}' WHERE id_usuario = '${req.query.id_usuario}';
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.put("/putSkinTableroUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_tablero = '${req.body.skin_tablero}' WHERE id_usuario = '${req.query.id_usuario}';
+    `);
   console.log({ respuesta });
   res.send(respuesta);
 });
