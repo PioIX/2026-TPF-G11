@@ -112,6 +112,20 @@ export default function GeneralaOnline() {
         });
     }, [socket]);
 
+    const bloquearDado = (dataId) => {
+        socket.emit("bloquearDados", { user: userID, dadoID: dataId })
+    }
+
+    useEffect(() => {
+        socket.on("nuevosDadosBloqueados", (data) => {
+            setDadosBloqueados(data.dados)
+        });
+    }, [socket]);
+
+    const anotarNumero = (numero) => {
+        socket.emit("anotarNumero", { user: userID, numero: numero})
+    }
+
     return (
         <section className={styles.Body}>
             <img className={clsx(styles.Confetti, {

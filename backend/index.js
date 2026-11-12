@@ -72,9 +72,15 @@ io.on("connection", (socket) => {
     }
   }
 
-  const tirarDados = () => {
-    pass
+  const juegoServido = () => {
+    if (cantTiradas === 1) {
+      return 5;
+    } else {
+      return 0;
+    }
   }
+
+  const generalaServida = () => cantTiradas === 1;
 
   socket.on("joinRoom", (data) => {
     console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
@@ -94,9 +100,6 @@ io.on("connection", (socket) => {
     } else if (datosPartida.J2 == null) {
       datosPartida.J2 = data.user;
     };
-
-
-
   });
 
   socket.on("cambiarTurno", () => {
@@ -133,6 +136,25 @@ io.on("connection", (socket) => {
       });
     }
   });
+
+  socket.on("bloquearDados", (data) => {
+    if (data.user === datosPartida.turnoJugador) {
+      if (!datosPartida.dadosBloqueados.includes(data.dadoID)) {
+        datosPartida.dadosBloqueados.push(data.dadoID);
+      } else {
+        const index = datosPartida.dadosBloqueados.indexOf(data.dadoID);
+        datosPartida.dadosBloqueados.splice(index, 1)
+      }
+
+      socket.to(req.session.room).emit("nuevosDadosBloqueados", {
+        dados: datosPartida.dadosBloqueados
+      })
+    }
+  })
+
+  socket.on("anotarNumero", (data) => {
+    
+  })
 });
 
 // GET

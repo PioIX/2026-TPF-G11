@@ -166,7 +166,7 @@ export default function GeneralaLocal() {
     const generalaServida = () => cantTiradas === 1;
 
     const anotarNumero = (numero, jugador) => {
-        const categorias = {
+        const categoriasJ1 = {
             1: [uno1, setUno1],
             2: [dos1, setDos1],
             3: [tres1, setTres1],
@@ -174,7 +174,7 @@ export default function GeneralaLocal() {
             5: [cinco1, setCinco1],
             6: [seis1, setSeis1],
         };
-        const categoriasJugador2 = {
+        const categoriasJ2 = {
             1: [uno2, setUno2],
             2: [dos2, setDos2],
             3: [tres2, setTres2],
@@ -182,14 +182,13 @@ export default function GeneralaLocal() {
             5: [cinco2, setCinco2],
             6: [seis2, setSeis2],
         };
-        const [puntajeActual, setPuntaje] = jugador === 1 ? categorias[numero] : categoriasJugador2[numero];
+        const puntajeActual = jugador === 1 ? categoriasJ1[numero] : categoriasJ2[numero];
 
         if (jugador !== turnoJugador || cantTiradas === 0 || puntajeActual !== "") {
             return;
         }
 
         const puntos = dados.reduce((total, dado) => total + (dado === numero ? numero : 0), 0);
-        setPuntaje(`${puntos}`);
         guardarPuntaje(puntos);
     }
 
