@@ -73,7 +73,7 @@ export default function GeneralaLocal() {
         tirarDados(true);
     }
 
-    const actualizarEstadisticas = async (ganador, generalaGanada) => {
+    const actualizarEstadisticas = async (ganador, cantGeneralas) => {
         const estadisticasResponse = await fetch(
             `http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`
         );
@@ -89,7 +89,7 @@ export default function GeneralaLocal() {
                 body: JSON.stringify({
                     id_usuario: Number(userID),
                     generalas_totales:
-                        Number(estadistica.generalas_totales) + generalaGanada,
+                        Number(estadistica.generalas_totales) + cantGeneralas,
                     partidas_ganadas:
                         Number(estadistica.partidas_ganadas) + Number(jugadorGano),
                     partidas_perdidas:

@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 const sessionMiddleware = session({
-  secret: "supersarasa",
+  secret: "keysupersecreta",
   resave: false,
   saveUninitialized: false,
 });
@@ -34,43 +34,104 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
 
-let contador = 0;
-
 io.on("connection", (socket) => {
   const req = socket.request;
 
-  socket.on("joinRoom", (data) => {
-    if (req.session.room != undefined && req.session.room.length > 0) {
-      socket.leave(req.session.room);
+  let datosPartida = {
+    J1: null,
+    J2: null,
+    turnoJugador: null,
+    dados: [0, 0, 0, 0, 0],
+    cantTiradas: 0,
+    dadosBloqueados: [],
+    puntajeJ1: {
+      1: null,
+      2: null,
+      3: null,
+      4: null,
+      5: null,
+      6: null,
+      full: null,
+      poker: null,
+      esc: null,
+      gen: null,
+      dobGen: null
+    },
+    puntajeJ2: {
+      1: null,
+      2: null,
+      3: null,
+      4: null,
+      5: null,
+      6: null,
+      full: null,
+      poker: null,
+      esc: null,
+      gen: null,
+      dobGen: null
     }
-    req.session.room = data.room;
-    socket.join(req.session.room);
+  }
 
+  const tirarDados = () => {
+    pass
+  }
+
+  socket.on("joinRoom", (data) => {
+    console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
+    if (req.session.room != undefined && req.session.room.length > 0)
+      socket.leave(req.session.room);
+    req.session.room = data.room;
+    req.session.user = data.user;
+    socket.join(req.session.room);
     io.to(req.session.room).emit("chat-messages", {
       user: req.session.user,
       room: req.session.room,
     });
+
+    if (datosPartida.J1 == null) {
+      datosPartida.J1 = data.user;
+      datosPartida.turnoJugador = data.user;
+    } else if (datosPartida.J2 == null) {
+      datosPartida.J2 = data.user;
+    };
+
+
+
   });
 
-  socket.on("pingAll", (data) => {
-    console.log("PING ALL:", data);
-    io.emit("pingAll", { event: "Ping to all", message: data });
-  });
+  socket.on("cambiarTurno", () => {
+    if (datosPartida.turnoJugador === datosPartida.J1) {
+      datosPartida.turnoJugador = datosPartida.J2;
+    } else {
+      datosPartida.turnoJugador = datosPartida.J1;
+    }
 
-  socket.on("sendMessage", (data) => {
-    io.to(req.session.room).emit("newMessage", {
-      room: req.session.room,
-      message: data.message,
+    tirarDados();
+
+    socket.to(req.session.room).emit("turnoCambiado", {
+      turnoJugador: datosPartida.turnoJugador,
+      dados: datosPartida.dados,
     });
   });
 
-  socket.on("eventoPersonalizado", () => {
-    contador++;
-    socket.emit("respuestaPersonalizada", { contador });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Disconnect");
+  socket.on("tirarDados", (data) => {
+    const tiradasActuales = data.nuevaRonda ? 0 : datosPartida.cantTiradas;
+    if (data.user === datosPartida.turnoJugador) {
+      const dadosActuales = data.nuevaRonda ? [0, 0, 0, 0, 0] : datosPartida.dados;
+      const dadosBloqueadosActuales = data.nuevaRonda ? [] : datosPartida.dadosBloqueados;
+      const nuevaTirada = dadosActuales.map((dado, index) =>
+        tiradasActuales > 0 && dadosBloqueadosActuales.includes(index + 1)
+          ? dado
+          : Math.floor(Math.random() * 6) + 1
+      );
+      datosPartida.dados = nuevaTirada;
+      datosPartida.cantTiradas = tiradasActuales + 1;
+      socket.to(req.session.room).emit("dadosTirados", {
+        dados: datosPartida.dados,
+        dadosBloqueados: datosPartida.dadosBloqueados,
+        cantTiradas: datosPartida.cantTiradas
+      });
+    }
   });
 });
 
