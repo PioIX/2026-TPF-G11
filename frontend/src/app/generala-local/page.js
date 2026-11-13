@@ -166,31 +166,43 @@ export default function GeneralaLocal() {
     const generalaServida = () => cantTiradas === 1;
 
     const anotarNumero = (numero, jugador) => {
-        const categoriasJ1 = {
-            1: [uno1, setUno1],
-            2: [dos1, setDos1],
-            3: [tres1, setTres1],
-            4: [cuatro1, setCuatro1],
-            5: [cinco1, setCinco1],
-            6: [seis1, setSeis1],
-        };
-        const categoriasJ2 = {
-            1: [uno2, setUno2],
-            2: [dos2, setDos2],
-            3: [tres2, setTres2],
-            4: [cuatro2, setCuatro2],
-            5: [cinco2, setCinco2],
-            6: [seis2, setSeis2],
-        };
-        const puntajeActual = jugador === 1 ? categoriasJ1[numero] : categoriasJ2[numero];
+        const puntajeActual = jugador === 1
+            ? { 1: uno1, 2: dos1, 3: tres1, 4: cuatro1, 5: cinco1, 6: seis1 }[numero]
+            : { 1: uno2, 2: dos2, 3: tres2, 4: cuatro2, 5: cinco2, 6: seis2 }[numero];
 
-        if (jugador !== turnoJugador || cantTiradas === 0 || puntajeActual !== "") {
+        if (jugador !== turnoJugador || puntajeActual !== "") {
             return;
         }
 
-        const puntos = dados.reduce((total, dado) => total + (dado === numero ? numero : 0), 0);
+        const puntos = dados.reduce(
+            (total, dado) => total + (dado === numero ? numero : 0),
+            0
+        );
+
+        if (jugador === 1) {
+            const setters = {
+                1: setUno1,
+                2: setDos1,
+                3: setTres1,
+                4: setCuatro1,
+                5: setCinco1,
+                6: setSeis1,
+            };
+            setters[numero](String(puntos));
+        } else {
+            const setters = {
+                1: setUno2,
+                2: setDos2,
+                3: setTres2,
+                4: setCuatro2,
+                5: setCinco2,
+                6: setSeis2,
+            };
+            setters[numero](String(puntos));
+        }
+
         guardarPuntaje(puntos);
-    }
+    };
 
     const guardarPuntaje = (puntos, ganador = null, generalaGanada = false) => {
         const nuevoPuntaje1 = turnoJugador === 1 ? [...puntaje1, puntos] : puntaje1;

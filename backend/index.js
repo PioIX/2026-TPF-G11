@@ -45,30 +45,30 @@ io.on("connection", (socket) => {
     cantTiradas: 0,
     dadosBloqueados: [],
     puntajeJ1: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
-      6: null,
-      full: null,
-      poker: null,
-      esc: null,
-      gen: null,
-      dobGen: null
+      1: "",
+      2: "",
+      3: "",
+      4: "",
+      5: "",
+      6: "",
+      full: "",
+      poker: "",
+      esc: "",
+      gen: "",
+      dobGen: ""
     },
     puntajeJ2: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
-      6: null,
-      full: null,
-      poker: null,
-      esc: null,
-      gen: null,
-      dobGen: null
+      1: "",
+      2: "",
+      3: "",
+      4: "",
+      5: "",
+      6: "",
+      full: "",
+      poker: "",
+      esc: "",
+      gen: "",
+      dobGen: ""
     }
   }
 
@@ -89,17 +89,17 @@ io.on("connection", (socket) => {
     req.session.room = data.room;
     req.session.user = data.user;
     socket.join(req.session.room);
-    io.to(req.session.room).emit("chat-messages", {
-      user: req.session.user,
-      room: req.session.room,
-    });
+
+    let numJugador;
 
     if (datosPartida.J1 == null) {
       datosPartida.J1 = data.user;
       datosPartida.turnoJugador = data.user;
+      numJugador = 1;
     } else if (datosPartida.J2 == null) {
       datosPartida.J2 = data.user;
-    };
+      numJugador = 2;
+    }
   });
 
   socket.on("cambiarTurno", () => {
@@ -108,8 +108,6 @@ io.on("connection", (socket) => {
     } else {
       datosPartida.turnoJugador = datosPartida.J1;
     }
-
-    tirarDados();
 
     socket.to(req.session.room).emit("turnoCambiado", {
       turnoJugador: datosPartida.turnoJugador,
@@ -143,18 +141,34 @@ io.on("connection", (socket) => {
         datosPartida.dadosBloqueados.push(data.dadoID);
       } else {
         const index = datosPartida.dadosBloqueados.indexOf(data.dadoID);
-        datosPartida.dadosBloqueados.splice(index, 1)
+        datosPartida.dadosBloqueados.splice(index, 1);
       }
 
       socket.to(req.session.room).emit("nuevosDadosBloqueados", {
         dados: datosPartida.dadosBloqueados
-      })
+      });
     }
-  })
+  });
 
   socket.on("anotarNumero", (data) => {
-    
-  })
+    if (data.user === datosPartida.turnoJugador) {
+      const puntajeActual = data.user === datosPartida.J1 ? datosPartida.puntajeJ1[data.numero] : datosPartida.puntajeJ2[data.numero];
+      if (puntajeActual === "") {
+        const puntos = datosPartida.dados.reduce((total, dado) => total + (dado === data.numero ? data.numero : 0), 0);
+        if (data.user === datosPartida.J1) {
+          datosPartida.puntajeJ1[data.numero] = puntos;
+        } else {
+          datosPartida.puntajeJ2[data.numero] = puntos;
+        }
+
+        socket.to(req.session.room).emit("numeroAnotado", {
+          puntos,
+          user: data.user
+        });
+      }
+    }
+  });
+
 });
 
 // GET

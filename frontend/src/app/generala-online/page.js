@@ -28,6 +28,30 @@ export default function GeneralaOnline() {
     const [skinTablero, setSkinTablero] = useState(1)
     const [skinDado, setSkinDado] = useState("dado")
 
+    const [uno1, setUno1] = useState("");
+    const [uno2, setUno2] = useState("");
+    const [dos1, setDos1] = useState("");
+    const [dos2, setDos2] = useState("");
+    const [tres1, setTres1] = useState("");
+    const [tres2, setTres2] = useState("");
+    const [cuatro1, setCuatro1] = useState("");
+    const [cuatro2, setCuatro2] = useState("");
+    const [cinco1, setCinco1] = useState("");
+    const [cinco2, setCinco2] = useState("");
+    const [seis1, setSeis1] = useState("");
+    const [seis2, setSeis2] = useState("");
+
+    const [esc1, setEsc1] = useState("");
+    const [esc2, setEsc2] = useState("");
+    const [full1, setFull1] = useState("");
+    const [full2, setFull2] = useState("");
+    const [poker1, setPoker1] = useState("");
+    const [poker2, setPoker2] = useState("");
+    const [gen1, setGen1] = useState("");
+    const [gen2, setGen2] = useState("");
+    const [dobGen1, setDobGen1] = useState("");
+    const [dobGen2, setDobGen2] = useState("");
+
     const skinUsuario = async () => {
         const skinResponse = await fetch(
             `http://localhost:4000/getSkin?id_usuario=${userID}`
@@ -53,6 +77,7 @@ export default function GeneralaOnline() {
     useEffect(() => {
         socket.on("turnoCambiado", (data) => {
             setDados(data.dados);
+            setTurnoJugador(data.turnoJugador);
             if (data.turnoJugador === userID) {
                 setTitulo("Es tu turno");
             } else {
@@ -123,7 +148,66 @@ export default function GeneralaOnline() {
     }, [socket]);
 
     const anotarNumero = (numero) => {
-        socket.emit("anotarNumero", { user: userID, numero: numero})
+        socket.emit("anotarNumero", { user: userID, numero: numero })
+    }
+
+    useEffect(() => {
+        socket.on("numeroAnotado", (data) => {
+            switch (data.numero) {
+                case 1:
+                    if (data.user === userID) {
+                        setUno1(data.puntos);
+                    } else {
+                        setUno2(data.puntos);
+                    }
+                    break;
+                case 2:
+                    if (data.user === userID) {
+                        setDos1(data.puntos);
+                    } else {
+                        setDos2(data.puntos);
+                    }
+                    break;
+                case 3:
+                    if (data.user === userID) {
+                        setTres1(data.puntos);
+                    } else {
+                        setTres2(data.puntos);
+                    }
+                    break;
+                case 4:
+                    if (data.user === userID) {
+                        setCuatro1(data.puntos);
+                    } else {
+                        setCuatro2(data.puntos);
+                    }
+                    break;
+                case 5:
+                    if (data.user === userID) {
+                        setCinco1(data.puntos);
+                    } else {
+                        setCinco2(data.puntos);
+                    }
+                    break;
+                case 6:
+                    if (data.user === userID) {
+                        setSeis1(data.puntos);
+                    } else {
+                        setSeis2(data.puntos);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+    }, [socket]);
+
+    const guardarPuntaje = () => {
+        pass
+    }
+
+    const puedeAnotar = () => {
+        pass
     }
 
     return (
