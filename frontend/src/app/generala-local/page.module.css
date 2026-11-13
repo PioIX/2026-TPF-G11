@@ -77,6 +77,7 @@
 }
 
 .Button {
+    z-index: 1;
     height: fit-content;
     width: 20vh;
     max-width: 30vh;
