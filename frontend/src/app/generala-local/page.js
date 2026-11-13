@@ -93,8 +93,10 @@ export default function GeneralaLocal() {
           partidas_perdidas:
             Number(estadistica.partidas_perdidas) + Number(jugadorPerdio),
           partidas_totales: Number(estadistica.partidas_totales) + 1,
+
         }),
       });
+      console.log(response.body);
 
       const data = await response.json();
       console.log(data);
