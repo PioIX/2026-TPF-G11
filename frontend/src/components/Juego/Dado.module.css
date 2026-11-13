@@ -20,11 +20,11 @@
     filter: drop-shadow(0 0 0.75rem white);
 }
 
-.DadoBloqueado {
+.bloqueado{
     filter: drop-shadow(0 0 0.75rem white);
 }
 
-.ganar {
+.animacion {
     animation-name: "winAnimation-dados";
     animation-iteration-count: infinite;
     animation-duration: 1s;

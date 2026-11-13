@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
-import DadoStyles from "@/components/Juego/Dado.module.css";
 
 export default function GeneralaLocal() {
   const searchParams = useSearchParams();
@@ -559,50 +558,40 @@ export default function GeneralaLocal() {
             valor={dados[0]}
             onClick={() => bloquearDado(1)}
             skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(1),
-              [styles.ganarDado]: animacion,
-            })}
+            animacion={animacion}
+            esBloqueado={dadosBloqueados.includes(1)}
           ></Dado>
           <Dado
             dataId={2}
             valor={dados[1]}
             onClick={() => bloquearDado(2)}
             skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(2),
-              [styles.ganarDado]: animacion,
-            })}
+            animacion={animacion}
+            esBloqueado={dadosBloqueados.includes(2)}
           ></Dado>
           <Dado
             dataId={3}
             valor={dados[2]}
             onClick={() => bloquearDado(3)}
             skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(3),
-              [styles.ganarDado]: animacion,
-            })}
+            animacion={animacion}
+            esBloqueado={dadosBloqueados.includes(3)}
           ></Dado>
           <Dado
             dataId={4}
             valor={dados[3]}
             onClick={() => bloquearDado(4)}
             skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(4),
-              [styles.ganarDado]: animacion,
-            })}
+            animacion={animacion}
+            esBloqueado={dadosBloqueados.includes(4)}
           ></Dado>
           <Dado
             dataId={5}
             valor={dados[4]}
             onClick={() => bloquearDado(5)}
             skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(5),
-              [styles.ganarDado]: animacion,
-            })}
+            animacion={animacion}
+            esBloqueado={dadosBloqueados.includes(5)}
           ></Dado>
         </div>
         <div>

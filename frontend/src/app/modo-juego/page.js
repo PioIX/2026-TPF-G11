@@ -51,29 +51,29 @@ export default function ModoJuego() {
         <main className={styles.main}>
           <div>
             <div className={styles.modoDiv}>
-              <div className={styles.localImg}></div>
+              <img className={styles.localImg} src="/recursos/img/logo_local.png" alt="Juego Local" />
               <h2>Juego Local</h2>
               <p>Puedes jugar en una sola computadora.</p>
+              <Button
+                onClick={jugarLocal}
+                text={"Jugar Localmente"}
+                className={ButtonStyles.Button}
+              ></Button>
             </div>
-            <Button
-              onClick={jugarLocal}
-              text={"Jugar Localmente"}
-              className={ButtonStyles.Button}
-            ></Button>
           </div>
           <div>
             <div className={styles.modoDiv}>
-              <div className={styles.onlineImg}></div>
+              <img className={styles.onlineImg} src="/recursos/img/logo_online.png" alt="Juego Online" />
               <h2>Juego Online</h2>
               <p>
                 Puedes jugar con dos computadoras, con un jugador en cada una.
               </p>
+              <Button
+                onClick={mostrarSala}
+                text={"Jugar Online"}
+                className={ButtonStyles.Button}
+              ></Button>
             </div>
-            <Button
-              onClick={mostrarSala}
-              text={"Jugar Online"}
-              className={ButtonStyles.Button}
-            ></Button>
           </div>
         </main>
         <div
@@ -99,13 +99,9 @@ export default function ModoJuego() {
           ></Button>
         </div>
       </div>
-      <Button
-        onClick={paginaAjustes}
-        text={"Ajustes"}
-        className={clsx(ButtonStyles.Button, {
-          [ButtonStyles.estadisticas]: true,
-        })}
-      ></Button>
+      <button onClick={paginaAjustes} className={styles.Button}>
+        Ajustes
+      </button>
     </section>
   );
 }
