@@ -132,8 +132,7 @@ export default function GeneralaOnline() {
             })}>
                 <div className={styles.PopupContent}>
                     <h1>¡Espera!</h1>
-                    <p className={styles.PopTexto}>¿Estás seguro de que quieres volver al menú?</p>
-                    <p><b>Perderás todo el progreso de la partida.</b></p>
+                    <p>¿Estás seguro de que quieres volver al menú?</p>
                     <div>
                         <button className={styles.Confirmar} onClick={() => VolverAtras()}>
                             Sí, Volver atras
