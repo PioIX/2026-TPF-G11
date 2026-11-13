@@ -6,12 +6,13 @@ import PuntajeBoton from "@/components/Juego/PuntajeBoton";
 
 import clsx from "clsx";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
 
 export default function GeneralaLocal() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const userID = searchParams.get("user");
 
   const [uno1, setUno1] = useState("");
@@ -48,6 +49,7 @@ export default function GeneralaLocal() {
   const cantidadCategorias = 11;
 
   const [animacion, setAnimacion] = useState(false);
+  const [escondido, setEscondido] = useState(true);
 
   const [skinTablero, setSkinTablero] = useState(1);
   const [skinDado, setSkinDado] = useState("dado");
@@ -307,8 +309,38 @@ export default function GeneralaLocal() {
     guardarPuntaje(puntos);
   };
 
+  const PopVolver = () => {
+    setEscondido(false);
+  }
+
+  const VolverAtras = () => {
+    router.back();
+    // HACER QUE TAMBIEN SE BORREN LOS DATOS (si no se borran ya lel)
+  }
+
   return (
     <section className={styles.Body}>
+      <button className={styles.Button} onClick={() => PopVolver()}>
+        Volver
+      </button>
+
+      <div className={clsx(styles.PopupVolver, {
+        [styles.escondido]: escondido,
+      })}>
+        <div className={styles.PopupContent}>
+          <h1>¡Espera!</h1>
+          <p className={styles.PopTexto}>¿Estás seguro de que quieres volver al menú?</p>
+          <p><b>Perderás todo el progreso de la partida.</b></p>
+          <div>
+            <button className={styles.Confirmar} onClick={() => VolverAtras()}>
+              Sí, Volver atras
+            </button>
+            <button className={styles.Cancelar} onClick={() => setEscondido(true)}>
+              No, Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
       <img
         className={clsx(styles.Confetti, {
           [styles.ConfettiGanar]: animacion,
