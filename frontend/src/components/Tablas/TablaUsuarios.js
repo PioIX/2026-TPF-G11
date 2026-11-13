@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Tabla from "./Tabla";
 
-export default function TablasUsuarios({ refresh}) {
+export default function TablasUsuarios({ refresh }) {
     const [usuarios, setUsuarios] = useState([])
 
     useEffect(() => {
