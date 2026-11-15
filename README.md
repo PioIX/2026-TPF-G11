@@ -24,7 +24,7 @@ Un inicio de sesión, que te envía a la página de admin en caso de ingresar co
 
 ### Bocetos
 
-![Diseño](/frontend/public/recursos/img/Img_concepto.png)
+![Diseño](C:\Users\alumnomaster1\Documents\GitHub\2026-TPF-G11\frontend\public\recursos\img\Img_concepto.png)
 
 ### DER
 

@@ -444,10 +444,10 @@ app.post("/postEstadisticasTPF", async function (req, res) {
   res.send(respuesta);
 });
 
-app.post("/postPartidasUsuarioTPF", async function (req, res) {
+app.post("/postUsuariosPartidaTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `INSERT INTO PartidasUsuarioTPF(id_usuario, id_partida) VALUES (${req.body.id_usuario}, ${req.body.id_partida})`
+    `INSERT INTO UsuariosPartidaTPF(id_usuario, id_partida) VALUES (${req.body.id_usuario}, ${req.body.id_partida})`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -501,8 +501,27 @@ app.put("/putEstadisticasTPF", async function (req, res) {
 app.put("/putPartidasTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `UPDATE PartidasTPF SET gano = ${req.body.gano}, fecha = '${req.body.fecha}', puntaje = ${req.body.puntaje} WHERE id = ${req.body.id}`
+    `UPDATE PartidasTPF SET gano = ${req.body.gano}, fecha = '${req.body.fecha}', puntaje = ${req.body.puntaje} WHERE id = ${req.body.id_partida}`
   );
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+// PUT SKIN
+app.put("/putSkinDadoUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_dado = '${req.body.skin_dado}' WHERE id_usuario = '${req.query.id_usuario}';
+    `);
+  console.log({ respuesta });
+  res.send(respuesta);
+});
+
+app.put("/putSkinTableroUsuario", async function (req, res) {
+  console.log(req.query);
+  const respuesta = await realizarQuery(`
+        UPDATE UsuariosTPF SET skin_tablero = '${req.body.skin_tablero}' WHERE id_usuario = '${req.query.id_usuario}';
+    `);
   console.log({ respuesta });
   res.send(respuesta);
 });

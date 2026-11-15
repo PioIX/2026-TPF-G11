@@ -4,6 +4,8 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+
+  text-align: center;
 }
 
 @keyframes hover-bounce {
@@ -32,10 +34,69 @@
   padding: 3rem;
 }
 
+.DadoHolder {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  width: fit-content;
+}
+
 .tabla {
   display: flex;
   flex-direction: column;
   align-items: center;
 
   padding: 4rem;
+}
+
+.Dado {
+  background-color: #ffffff;
+  border: 2px black solid;
+  padding: 0%;
+
+  height: 110px;
+  width: 110px;
+
+  border-radius: 20px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    border-radius: 17px;
+  }
+}
+
+.TablonHolder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tablero {
+  height: 20rem;
+  width: 30rem;
+
+  border-radius: 20px;
+
+  border: 2px goldenrod dashed;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+
+  padding: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+
+    border-radius: 17px;
+  }
+}
+
+.tablero:hover {
+  filter: drop-shadow(0 0 0.75rem white);
 }
