@@ -111,21 +111,20 @@ export default function GeneralaLocal() {
                 puntaje2.reduce((total, puntos) => total + puntos, 0),
             ];
             if (puntajeJugador1 > puntajeJugador2) {
-                ganadorFinal = "Jugador 1";
+                ganadorFinal = 1;
                 setTitulo("Ganador: ¡ Jugador 1 !")
             } else if (puntajeJugador2 > puntajeJugador1) {
-                ganadorFinal = "Jugador 2";
+                ganadorFinal = 2;
                 setTitulo("Ganador: ¡ Jugador 2 !")
             } else {
                 setTitulo("¡ Empate !")
             }
         } else {
-            setTitulo(`Ganador: ¡ ${ganador} !`)
+            setTitulo(`Ganador: ¡ Jugador ${ganador} !`)
         }
         setAnimacion(true);
-        const generalasDelJugador1 = Number(gen1 === "50")
-            + Number(dobGen1 === "100")
-            + Number(generalaGanada);
+        const generalasDelJugador1 = Number(gen1 === "50" || generalaGanada)
+            + Number(dobGen1 === "100");
         actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
     }
 
