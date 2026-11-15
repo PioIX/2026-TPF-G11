@@ -80,7 +80,34 @@ io.on("connection", (socket) => {
     }
   }
 
-  const generalaServida = () => cantTiradas === 1;
+  const generalaServida = () => {
+    return cantTiradas === 1;
+  };
+
+  const chequearPuntaje = (ganador = null, generala = false) => {
+    if (ganador) {
+      socket.emit("finJuego", {
+        ganador: ganador,
+        puntajesFinales: null,
+        generalaGanada: generala,
+      })
+      return;
+    }
+
+    if (Object.values(datosPartida.puntajeJ1).every(puntaje => puntaje !== "") &&
+      Object.values(datosPartida.puntajeJ2).every(puntaje => puntaje !== "")) {
+      const puntajeTotalJ1 = Object.values(datosPartida.puntajeJ1).reduce((total, puntaje) => total + puntaje, 0);
+      const puntajeTotalJ2 = Object.values(datosPartida.puntajeJ2).reduce((total, puntaje) => total + puntaje, 0);
+      socket.emit("finJuego", {
+        ganador: null,
+        puntajesFinales: {
+          J1: puntajeTotalJ1,
+          J2: puntajeTotalJ2
+        },
+        generalaGanada: false
+      })
+    }
+  }
 
   socket.on("joinRoom", (data) => {
     console.log("🚀 ~ io.on ~ req.session.room:", req.session.room);
@@ -168,6 +195,25 @@ io.on("connection", (socket) => {
       }
     }
   });
+
+  socket.on("anotarGenerala", (data) => {
+    if (data.user === datosPartida.turnoJugador) {
+      const esGen = datosPartida.dados.every(dado => dado === datosPartida.dados[0]);
+      const puntos = esGen ? 50 : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1[7] = puntos;
+      } else {
+        datosPartida.puntajeJ2[7] = puntos;
+      }
+      const ganador = esGen && generalaServida() ? data.user : null;
+    }
+  });
+
+  /*         const esGen = dados.every(dado => dado === dados[0]);
+      const puntos = esGen ? 50 : 0;
+      (jugador === 1 ? setGen1 : setGen2)(`${puntos}`);
+      const ganador = esGen && generalaServida() ? `Jugador ${jugador}` : null;
+      guardarPuntaje(puntos, ganador, jugador === 1 && esGen); */
 
 });
 

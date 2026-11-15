@@ -116,9 +116,10 @@ export default function GeneralaOnline() {
         }
     };
 
-    const finJuego = () => {
-        pass
-    }
+    useEffect(() => {
+        socket.on("finJuego", (data) => {
+            pass});
+    }, [socket]);
 
     const tirarDados = (nuevaRonda = false) => {
         const tiradasActuales = nuevaRonda ? 0 : cantTiradas;
@@ -199,15 +200,22 @@ export default function GeneralaOnline() {
                 default:
                     break;
             }
+            socket.emit("cambiarTurno");
         });
     }, [socket]);
 
-    const guardarPuntaje = () => {
-        pass
+    const puedeAnotar = (jugador, puntajeActual) => {
+        return jugador === turnoJugador && cantTiradas > 0 && puntajeActual === "";
     }
 
-    const puedeAnotar = () => {
-        pass
+    const anotarGenerala = (jugador) => {
+        const puntajeActual = jugador === 1 ? gen1 : gen2;
+
+        if (!puedeAnotar(jugador, puntajeActual)) {
+            return;
+        }
+
+        socket.emit("anotarGenerala", { user: userID, jugador: jugador });
     }
 
     return (

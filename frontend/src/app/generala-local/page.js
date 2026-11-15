@@ -81,8 +81,8 @@ export default function GeneralaLocal() {
         if (estadisticas.length !== 0) {
 
             const estadistica = estadisticas[0];
-            const jugadorGano = ganador === "Jugador 1";
-            const jugadorPerdio = ganador === "Jugador 2";
+            const jugadorGano = ganador === 1;
+            const jugadorPerdio = ganador === 2;
             const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -226,8 +226,9 @@ export default function GeneralaLocal() {
         cambiarTurno();
     }
 
-    const puedeAnotar = (jugador, puntajeActual) =>
-        jugador === turnoJugador && cantTiradas > 0 && puntajeActual === "";
+    const puedeAnotar = (jugador, puntajeActual) => {
+        return jugador === turnoJugador && cantTiradas > 0 && puntajeActual === "";
+    };
 
     const anotarGenerala = (jugador) => {
         const puntajeActual = jugador === 1 ? gen1 : gen2;
@@ -237,8 +238,12 @@ export default function GeneralaLocal() {
 
         const esGen = dados.every(dado => dado === dados[0]);
         const puntos = esGen ? 50 : 0;
-        (jugador === 1 ? setGen1 : setGen2)(`${puntos}`);
-        const ganador = esGen && generalaServida() ? `Jugador ${jugador}` : null;
+        if (jugador === 1) {
+            setGen1(`${puntos}`);
+        } else {
+            setGen2(`${puntos}`);
+        }
+        const ganador = esGen && generalaServida() ? jugador : null;
         guardarPuntaje(puntos, ganador, jugador === 1 && esGen);
     }
 
