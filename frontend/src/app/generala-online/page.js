@@ -21,12 +21,37 @@ export default function GeneralaOnline() {
     const [dados, setDados] = useState([0, 0, 0, 0, 0]);
     const [dadosBloqueados, setDadosBloqueados] = useState([]);
     const [titulo, setTitulo] = useState("")
+    const [turnoJugador, setTurnoJugador] = useState(null);
     const [cantTiradas, setCantTiradas] = useState(0);
 
     const [animacion, setAnimacion] = useState(false);
 
     const [skinTablero, setSkinTablero] = useState(1)
     const [skinDado, setSkinDado] = useState("dado")
+
+    const [uno1, setUno1] = useState("");
+    const [uno2, setUno2] = useState("");
+    const [dos1, setDos1] = useState("");
+    const [dos2, setDos2] = useState("");
+    const [tres1, setTres1] = useState("");
+    const [tres2, setTres2] = useState("");
+    const [cuatro1, setCuatro1] = useState("");
+    const [cuatro2, setCuatro2] = useState("");
+    const [cinco1, setCinco1] = useState("");
+    const [cinco2, setCinco2] = useState("");
+    const [seis1, setSeis1] = useState("");
+    const [seis2, setSeis2] = useState("");
+
+    const [esc1, setEsc1] = useState("");
+    const [esc2, setEsc2] = useState("");
+    const [full1, setFull1] = useState("");
+    const [full2, setFull2] = useState("");
+    const [poker1, setPoker1] = useState("");
+    const [poker2, setPoker2] = useState("");
+    const [gen1, setGen1] = useState("");
+    const [gen2, setGen2] = useState("");
+    const [dobGen1, setDobGen1] = useState("");
+    const [dobGen2, setDobGen2] = useState("");
 
     const skinUsuario = async () => {
         const skinResponse = await fetch(
@@ -46,20 +71,24 @@ export default function GeneralaOnline() {
         socket.emit("joinRoom", { room: sala, user: userID });
     }, [socket, sala]);
 
-    const cambiarTurno = () => {
-        socket.emit("cambiarTurno", {});
-    }
-
     useEffect(() => {
-        socket.on("turnoCambiado", (data) => {
+        if (!socket) return;
+        const handleTurnoCambiado = (data) => {
             setDados(data.dados);
+            setDadosBloqueados(data.dadosBloqueados);
+            setCantTiradas(data.cantTiradas);
+            if (data.turnoJugador !== turnoJugador) {
+                setTurnoJugador(data.turnoJugador);
+            }
             if (data.turnoJugador === userID) {
                 setTitulo("Es tu turno");
             } else {
                 setTitulo("Espera tu turno");
             }
-        });
-    }, [socket]);
+        };
+        socket.on("turnoCambiado", handleTurnoCambiado);
+        return () => socket.off("turnoCambiado", handleTurnoCambiado);
+    }, [socket, turnoJugador, userID]);
 
     const actualizarEstadisticas = async (ganador, cantGeneralas) => {
         const estadisticasResponse = await fetch(
@@ -69,8 +98,8 @@ export default function GeneralaOnline() {
         if (estadisticas.length !== 0) {
 
             const estadistica = estadisticas[0];
-            const jugadorGano = ganador === userID;
-            const jugadorPerdio = ganador !== userID;
+            const jugadorGano = ganador != null && String(ganador) === String(userID);
+            const jugadorPerdio = ganador != null && !jugadorGano;
             const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -91,9 +120,27 @@ export default function GeneralaOnline() {
         }
     };
 
-    const finJuego = () => {
-        pass
-    }
+    useEffect(() => {
+        if (!socket) return;
+        const handleFinJuego = (data) => {
+            const ganadorFinal = data.ganador;
+            const jugadorGano = ganadorFinal != null
+                && String(ganadorFinal) === String(userID);
+            if (ganadorFinal == null) {
+                setTitulo("¡ Empate !");
+            } else if (jugadorGano) {
+                setTitulo("¡ Ganaste !");
+            } else {
+                setTitulo("¡ Perdiste !");
+            }
+            setAnimacion(true);
+            const cantGeneralas = Number((data.generalaGanada && jugadorGano) || gen1 === "50")
+                + Number(dobGen1 === "100");
+            actualizarEstadisticas(ganadorFinal, cantGeneralas);
+        };
+        socket.on("finJuego", handleFinJuego);
+        return () => socket.off("finJuego", handleFinJuego);
+    }, [socket, gen1, dobGen1, userID]);
 
     const tirarDados = (nuevaRonda = false) => {
         const tiradasActuales = nuevaRonda ? 0 : cantTiradas;
@@ -105,11 +152,170 @@ export default function GeneralaOnline() {
     }
 
     useEffect(() => {
-        socket.on("dadosTirados", (data) => {
+        if (!socket) return;
+        const handleDadosTirados = (data) => {
             setDados(data.dados);
             setDadosBloqueados(data.dadosBloqueados);
             setCantTiradas(data.cantTiradas);
-        });
+        };
+        socket.on("dadosTirados", handleDadosTirados);
+        return () => socket.off("dadosTirados", handleDadosTirados);
+    }, [socket]);
+
+    const bloquearDado = (dataId) => {
+        socket.emit("bloquearDados", { user: userID, dadoID: dataId })
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleNuevosDadosBloqueados = (data) => {
+            setDadosBloqueados(data.dados)
+        };
+        socket.on("nuevosDadosBloqueados", handleNuevosDadosBloqueados);
+        return () => socket.off("nuevosDadosBloqueados", handleNuevosDadosBloqueados);
+    }, [socket]);
+
+    const anotarNumero = (numero) => {
+        socket.emit("anotarNumero", { user: userID, numero: numero })
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleNumeroAnotado = (data) => {
+            switch (data.numero) {
+                case 1:
+                    if (data.user === userID) {
+                        setUno1(data.puntos);
+                    } else {
+                        setUno2(data.puntos);
+                    }
+                    break;
+                case 2:
+                    if (data.user === userID) {
+                        setDos1(data.puntos);
+                    } else {
+                        setDos2(data.puntos);
+                    }
+                    break;
+                case 3:
+                    if (data.user === userID) {
+                        setTres1(data.puntos);
+                    } else {
+                        setTres2(data.puntos);
+                    }
+                    break;
+                case 4:
+                    if (data.user === userID) {
+                        setCuatro1(data.puntos);
+                    } else {
+                        setCuatro2(data.puntos);
+                    }
+                    break;
+                case 5:
+                    if (data.user === userID) {
+                        setCinco1(data.puntos);
+                    } else {
+                        setCinco2(data.puntos);
+                    }
+                    break;
+                case 6:
+                    if (data.user === userID) {
+                        setSeis1(data.puntos);
+                    } else {
+                        setSeis2(data.puntos);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        };
+        socket.on("numeroAnotado", handleNumeroAnotado);
+        return () => socket.off("numeroAnotado", handleNumeroAnotado);
+    }, [socket]);
+
+    const anotarGenerala = () => {
+        socket.emit("anotarGenerala", { user: userID });
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleGeneralaAnotada = (data) => {
+            if (data.user === userID) {
+                setGen1(`${data.puntos}`);
+            } else {
+                setGen2(`${data.puntos}`);
+            }
+        };
+        socket.on("generalaAnotada", handleGeneralaAnotada);
+        return () => socket.off("generalaAnotada", handleGeneralaAnotada);
+    }, [socket]);
+
+    const anotarGeneralaDoble = () => {
+        socket.emit("anotarGeneralaDoble", { user: userID });
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleGeneralaDobleAnotada = (data) => {
+            if (data.user === userID) {
+                setDobGen1(`${data.puntos}`);
+            } else {
+                setDobGen2(`${data.puntos}`);
+            }
+        };
+        socket.on("generalaDobleAnotada", handleGeneralaDobleAnotada);
+        return () => socket.off("generalaDobleAnotada", handleGeneralaDobleAnotada);
+    }, [socket]);
+
+    const anotarPoker = () => {
+        socket.emit("anotarPoker", { user: userID });
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handlePokerAnotado = (data) => {
+            if (data.user === userID) {
+                setPoker1(`${data.puntos}`);
+            } else {
+                setPoker2(`${data.puntos}`);
+            }
+        };
+        socket.on("pokerAnotado", handlePokerAnotado);
+        return () => socket.off("pokerAnotado", handlePokerAnotado);
+    }, [socket]);
+
+    const anotarFull = () => {
+        socket.emit("anotarFull", { user: userID });
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleFullAnotado = (data) => {
+            if (data.user === userID) {
+                setFull1(`${data.puntos}`);
+            } else {
+                setFull2(`${data.puntos}`);
+            }
+        };
+        socket.on("fullAnotado", handleFullAnotado);
+        return () => socket.off("fullAnotado", handleFullAnotado);
+    }, [socket]);
+
+    const anotarEscalera = () => {
+        socket.emit("anotarEscalera", { user: userID });
+    }
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleEscaleraAnotada = (data) => {
+            if (data.user === userID) {
+                setEsc1(`${data.puntos}`);
+            } else {
+                setEsc2(`${data.puntos}`);
+            }
+        };
+        socket.on("escaleraAnotada", handleEscaleraAnotada);
+        return () => socket.off("escaleraAnotada", handleEscaleraAnotada);
     }, [socket]);
 
     const PopVolver = () => {
@@ -155,52 +361,52 @@ export default function GeneralaOnline() {
                 <div className={styles.Div}>
                     <div className={styles.Tabla}>
                         <div></div>
-                        <div><p className={styles.p}><b>Jugador 1</b></p></div>
+                        <div><p className={styles.p}><b>Vos</b></p></div>
                         <div><p className={styles.p}><b>Jugador 2</b></p></div>
 
                         <div><p className={styles.p}><b>1</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(1, 1)} puntaje={uno1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(1, 2)} puntaje={uno2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(1)} puntaje={uno1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(1)} puntaje={uno2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>2</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(2, 1)} puntaje={dos1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(2, 2)} puntaje={dos2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(2)} puntaje={dos1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(2)} puntaje={dos2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>3</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(3, 1)} puntaje={tres1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(3, 2)} puntaje={tres2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(3)} puntaje={tres1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(3)} puntaje={tres2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>4</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(4, 1)} puntaje={cuatro1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(4, 2)} puntaje={cuatro2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(4)} puntaje={cuatro1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(4)} puntaje={cuatro2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>5</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(5, 1)} puntaje={cinco1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(5, 2)} puntaje={cinco2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(5)} puntaje={cinco1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(5)} puntaje={cinco2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>6</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(6, 1)} puntaje={seis1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarNumero(6, 2)} puntaje={seis2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(6)} puntaje={seis1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(6)} puntaje={seis2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>Escalera</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarEscalera(1)} puntaje={esc1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarEscalera(2)} puntaje={esc2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarEscalera()} puntaje={esc1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarEscalera()} puntaje={esc2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>Full<br />House</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarFull(1)} puntaje={full1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarFull(2)} puntaje={full2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarFull()} puntaje={full1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarFull()} puntaje={full2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>Poker</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarPoker(1)} puntaje={poker1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarPoker(2)} puntaje={poker2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarPoker()} puntaje={poker1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarPoker()} puntaje={poker2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>Generala</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarGenerala(1)} puntaje={gen1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarGenerala(2)} puntaje={gen2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGenerala()} puntaje={gen1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGenerala()} puntaje={gen2}></PuntajeBoton></div>
 
                         <div><p className={styles.p}><b>Doble<br />Generala</b></p></div>
-                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble(1)} puntaje={dobGen1}></PuntajeBoton></div>
-                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble(2)} puntaje={dobGen2}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble()} puntaje={dobGen1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble()} puntaje={dobGen2}></PuntajeBoton></div>
                     </div>
                 </div>
                 <div className={clsx(styles.Tablero, {

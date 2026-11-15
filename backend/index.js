@@ -34,46 +34,129 @@ io.use((socket, next) => {
   sessionMiddleware(socket.request, {}, next);
 });
 
+const partidas = new Map();
+
+const crearDatosPartida = () => ({
+  J1: null,
+  J2: null,
+  turnoJugador: null,
+  finalizada: false,
+  dados: [0, 0, 0, 0, 0],
+  cantTiradas: 0,
+  dadosBloqueados: [],
+  puntajeJ1: {
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+    6: "",
+    full: "",
+    poker: "",
+    esc: "",
+    gen: "",
+    dobGen: ""
+  },
+  puntajeJ2: {
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+    6: "",
+    full: "",
+    poker: "",
+    esc: "",
+    gen: "",
+    dobGen: ""
+  }
+});
+
 io.on("connection", (socket) => {
   const req = socket.request;
 
-  let datosPartida = {
-    J1: null,
-    J2: null,
-    turnoJugador: null,
-    dados: [0, 0, 0, 0, 0],
-    cantTiradas: 0,
-    dadosBloqueados: [],
-    puntajeJ1: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
-      6: null,
-      full: null,
-      poker: null,
-      esc: null,
-      gen: null,
-      dobGen: null,
-    },
-    puntajeJ2: {
-      1: null,
-      2: null,
-      3: null,
-      4: null,
-      5: null,
-      6: null,
-      full: null,
-      poker: null,
-      esc: null,
-      gen: null,
-      dobGen: null,
-    },
+  let datosPartida = crearDatosPartida();
+
+  const juegoServido = () => {
+    if (datosPartida.cantTiradas === 1) {
+      return 5;
+    } else {
+      return 0;
+    }
+  }
+
+  const generalaServida = () => {
+    return datosPartida.cantTiradas === 1;
   };
 
-  const tirarDados = () => {
-    pass;
+  const tirarDados = (nuevaRonda = false) => {
+    const tiradasActuales = nuevaRonda ? 0 : datosPartida.cantTiradas;
+    const dadosActuales = nuevaRonda ? [0, 0, 0, 0, 0] : datosPartida.dados;
+    const dadosBloqueadosActuales = nuevaRonda ? [] : datosPartida.dadosBloqueados;
+    datosPartida.dados = dadosActuales.map((dado, index) =>
+      tiradasActuales > 0 && dadosBloqueadosActuales.includes(index + 1)
+        ? dado
+        : Math.floor(Math.random() * 6) + 1
+    );
+    datosPartida.dadosBloqueados = dadosBloqueadosActuales;
+    datosPartida.cantTiradas = tiradasActuales + 1;
+
+    return {
+      dados: datosPartida.dados,
+      dadosBloqueados: datosPartida.dadosBloqueados,
+      cantTiradas: datosPartida.cantTiradas
+    };
+  };
+
+  const chequearPuntaje = (ganador = null, generala = false) => {
+    if (datosPartida.finalizada) return;
+
+    if (ganador) {
+      datosPartida.finalizada = true;
+      io.to(req.session.room).emit("finJuego", {
+        ganador: ganador,
+        generalaGanada: generala
+      })
+      return;
+    }
+
+    if (Object.values(datosPartida.puntajeJ1).every(puntaje => puntaje !== "") &&
+      Object.values(datosPartida.puntajeJ2).every(puntaje => puntaje !== "")) {
+      const puntajeTotalJ1 = Object.values(datosPartida.puntajeJ1).reduce((total, puntaje) => total + puntaje, 0);
+      const puntajeTotalJ2 = Object.values(datosPartida.puntajeJ2).reduce((total, puntaje) => total + puntaje, 0);
+      const ganadorFinal = puntajeTotalJ1 > puntajeTotalJ2
+        ? datosPartida.J1
+        : puntajeTotalJ2 > puntajeTotalJ1
+          ? datosPartida.J2
+          : null;
+      datosPartida.finalizada = true;
+      io.to(req.session.room).emit("finJuego", {
+        ganador: ganadorFinal,
+        puntajesFinales: {
+          J1: puntajeTotalJ1,
+          J2: puntajeTotalJ2
+        },
+        generalaGanada: false
+      })
+      return
+    }
+  }
+
+  const emitirTurno = () => {
+    io.to(req.session.room).emit("turnoCambiado", {
+      turnoJugador: datosPartida.turnoJugador,
+      dados: datosPartida.dados,
+      dadosBloqueados: datosPartida.dadosBloqueados,
+      cantTiradas: datosPartida.cantTiradas
+    });
+  };
+
+  const avanzarTurno = () => {
+    datosPartida.turnoJugador = datosPartida.turnoJugador === datosPartida.J1
+      ? datosPartida.J2
+      : datosPartida.J1;
+    tirarDados(true);
+    emitirTurno();
   };
 
   socket.on("joinRoom", (data) => {
@@ -83,57 +166,190 @@ io.on("connection", (socket) => {
     req.session.room = data.room;
     req.session.user = data.user;
     socket.join(req.session.room);
-    io.to(req.session.room).emit("chat-messages", {
-      user: req.session.user,
-      room: req.session.room,
-    });
+    if (!partidas.has(req.session.room)) {
+      partidas.set(req.session.room, crearDatosPartida());
+    }
+    datosPartida = partidas.get(req.session.room);
 
     if (datosPartida.J1 == null) {
       datosPartida.J1 = data.user;
       datosPartida.turnoJugador = data.user;
+      tirarDados(true);
+      numJugador = 1;
     } else if (datosPartida.J2 == null) {
       datosPartida.J2 = data.user;
+      numJugador = 2;
     }
-  });
-
-  socket.on("cambiarTurno", () => {
-    if (datosPartida.turnoJugador === datosPartida.J1) {
-      datosPartida.turnoJugador = datosPartida.J2;
-    } else {
-      datosPartida.turnoJugador = datosPartida.J1;
-    }
-
-    tirarDados();
-
-    socket.to(req.session.room).emit("turnoCambiado", {
-      turnoJugador: datosPartida.turnoJugador,
-      dados: datosPartida.dados,
-    });
+    emitirTurno();
   });
 
   socket.on("tirarDados", (data) => {
-    const tiradasActuales = data.nuevaRonda ? 0 : datosPartida.cantTiradas;
+    if (datosPartida.finalizada) return;
     if (data.user === datosPartida.turnoJugador) {
-      const dadosActuales = data.nuevaRonda
-        ? [0, 0, 0, 0, 0]
-        : datosPartida.dados;
-      const dadosBloqueadosActuales = data.nuevaRonda
-        ? []
-        : datosPartida.dadosBloqueados;
-      const nuevaTirada = dadosActuales.map((dado, index) =>
-        tiradasActuales > 0 && dadosBloqueadosActuales.includes(index + 1)
-          ? dado
-          : Math.floor(Math.random() * 6) + 1
-      );
-      datosPartida.dados = nuevaTirada;
-      datosPartida.cantTiradas = tiradasActuales + 1;
-      socket.to(req.session.room).emit("dadosTirados", {
-        dados: datosPartida.dados,
-        dadosBloqueados: datosPartida.dadosBloqueados,
-        cantTiradas: datosPartida.cantTiradas,
+      io.to(req.session.room).emit("dadosTirados", tirarDados(data.nuevaRonda));
+    }
+  });
+
+  socket.on("bloquearDados", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (!datosPartida.dadosBloqueados.includes(data.dadoID)) {
+        datosPartida.dadosBloqueados.push(data.dadoID);
+      } else {
+        const index = datosPartida.dadosBloqueados.indexOf(data.dadoID);
+        datosPartida.dadosBloqueados.splice(index, 1);
+      }
+
+      io.to(req.session.room).emit("nuevosDadosBloqueados", {
+        dados: datosPartida.dadosBloqueados
       });
     }
   });
+
+  socket.on("anotarNumero", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      const puntajeActual = data.user === datosPartida.J1 ? datosPartida.puntajeJ1[data.numero] : datosPartida.puntajeJ2[data.numero];
+      if (puntajeActual === "") {
+        const puntos = datosPartida.dados.reduce((total, dado) => total + (dado === data.numero ? data.numero : 0), 0);
+        if (data.user === datosPartida.J1) {
+          datosPartida.puntajeJ1[data.numero] = puntos;
+        } else {
+          datosPartida.puntajeJ2[data.numero] = puntos;
+        }
+
+        io.to(req.session.room).emit("numeroAnotado", {
+          numero: data.numero,
+          puntos: puntos,
+          user: data.user
+        });
+        avanzarTurno();
+        chequearPuntaje();
+      }
+    }
+  });
+
+  socket.on("anotarGenerala", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (data.user === datosPartida.J1 && datosPartida.puntajeJ1.gen !== "") return;
+      if (data.user === datosPartida.J2 && datosPartida.puntajeJ2.gen !== "") return;
+      const esGen = datosPartida.dados.every(dado => dado === datosPartida.dados[0]);
+      const puntos = esGen ? 50 : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1.gen = puntos;
+      } else {
+        datosPartida.puntajeJ2.gen = puntos;
+      }
+      const ganador = esGen && generalaServida() ? data.user : null;
+      io.to(req.session.room).emit("generalaAnotada", {
+        puntos: puntos,
+        user: data.user
+      });
+      if (!ganador) avanzarTurno();
+      chequearPuntaje(ganador, Boolean(ganador));
+    }
+  });
+
+  socket.on("anotarGeneralaDoble", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (data.user === datosPartida.J1 && datosPartida.puntajeJ1.dobGen !== "") return;
+      if (data.user === datosPartida.J2 && datosPartida.puntajeJ2.dobGen !== "") return;
+      const esGen = datosPartida.dados.every(dado => dado === datosPartida.dados[0]);
+      const puntajeGenerala = data.user === datosPartida.J1
+        ? datosPartida.puntajeJ1.gen
+        : datosPartida.puntajeJ2.gen;
+      const puntos = puntajeGenerala === 50 && esGen ? 100 : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1.dobGen = puntos;
+      } else {
+        datosPartida.puntajeJ2.dobGen = puntos;
+      }
+      const ganador = puntos === 100 && generalaServida() ? data.user : null;
+      io.to(req.session.room).emit("generalaDobleAnotada", {
+        puntos: puntos,
+        user: data.user
+      });
+      if (!ganador) avanzarTurno();
+      chequearPuntaje(ganador, Boolean(ganador));
+    }
+  });
+
+  socket.on("anotarPoker", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (data.user === datosPartida.J1 && datosPartida.puntajeJ1.poker !== "") return;
+      if (data.user === datosPartida.J2 && datosPartida.puntajeJ2.poker !== "") return;
+      const contador = datosPartida.dados.reduce((conteo, dado) => {
+        conteo[dado] = (conteo[dado] || 0) + 1;
+        return conteo;
+      }, {});
+      const puntos = Object.values(contador).includes(4) ? 40 + juegoServido() : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1.poker = puntos;
+      } else {
+        datosPartida.puntajeJ2.poker = puntos;
+      }
+      io.to(req.session.room).emit("pokerAnotado", {
+        puntos: puntos,
+        user: data.user
+      });
+      avanzarTurno();
+      chequearPuntaje();
+    }
+  });
+
+  socket.on("anotarFull", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (data.user === datosPartida.J1 && datosPartida.puntajeJ1.full !== "") return;
+      if (data.user === datosPartida.J2 && datosPartida.puntajeJ2.full !== "") return;
+      const contador = datosPartida.dados.reduce((conteo, dado) => {
+        conteo[dado] = (conteo[dado] || 0) + 1;
+        return conteo;
+      }, {});
+      const valores = Object.values(contador);
+      const puntos = valores.includes(3) && valores.includes(2) ? 30 + juegoServido() : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1.full = puntos;
+      } else {
+        datosPartida.puntajeJ2.full = puntos;
+      }
+      io.to(req.session.room).emit("fullAnotado", {
+        puntos: puntos,
+        user: data.user
+      });
+      avanzarTurno();
+      chequearPuntaje();
+    }
+  })
+
+  socket.on("anotarEscalera", (data) => {
+    if (datosPartida.finalizada) return;
+    if (data.user === datosPartida.turnoJugador) {
+      if (data.user === datosPartida.J1 && datosPartida.puntajeJ1.esc !== "") return;
+      if (data.user === datosPartida.J2 && datosPartida.puntajeJ2.esc !== "") return;
+      const dadosOrdenados = [...datosPartida.dados].sort((a, b) => a - b);
+      const escMenor = [1, 2, 3, 4, 5];
+      const escMayor = [2, 3, 4, 5, 6];
+      const esEsc = JSON.stringify(dadosOrdenados) === JSON.stringify(escMenor)
+        || JSON.stringify(dadosOrdenados) === JSON.stringify(escMayor);
+      const puntos = esEsc ? 20 + juegoServido() : 0;
+      if (data.user === datosPartida.J1) {
+        datosPartida.puntajeJ1.esc = puntos;
+      } else {
+        datosPartida.puntajeJ2.esc = puntos;
+      }
+      io.to(req.session.room).emit("escaleraAnotada", {
+        puntos: puntos,
+        user: data.user
+      });
+      avanzarTurno();
+      chequearPuntaje();
+    }
+  })
+
 });
 
 // GET

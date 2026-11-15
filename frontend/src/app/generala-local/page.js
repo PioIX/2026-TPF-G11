@@ -124,29 +124,60 @@ export default function GeneralaLocal() {
     } else {
       setTitulo(`Ganador: ¡ ${ganador} !`);
     }
-    setAnimacion(true);
-    const generalasDelJugador1 =
-      Number(gen1 === "50") +
-      Number(dobGen1 === "100") +
-      Number(generalaGanada);
-    actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
-  };
 
-  const tirarDados = (nuevaRonda = false) => {
-    const tiradasActuales = nuevaRonda ? 0 : cantTiradas;
-    if (tiradasActuales >= 3) {
-      alert("Ya hiciste tres tiradas");
-    } else {
-      const dadosActuales = nuevaRonda ? [0, 0, 0, 0, 0] : dados;
-      const dadosBloqueadosActuales = nuevaRonda ? [] : dadosBloqueados;
-      const nuevaTirada = dadosActuales.map((dado, index) =>
-        tiradasActuales > 0 && dadosBloqueadosActuales.includes(index + 1)
-          ? dado
-          : Math.floor(Math.random() * 6) + 1
-      );
-      setDados(nuevaTirada);
-      setDadosBloqueados(dadosBloqueadosActuales);
-      setCantTiradas(tiradasActuales + 1);
+    const actualizarEstadisticas = async (ganador, cantGeneralas) => {
+        const estadisticasResponse = await fetch(
+            `http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`
+        );
+        const estadisticas = await estadisticasResponse.json();
+        if (estadisticas.length !== 0) {
+
+            const estadistica = estadisticas[0];
+            const jugadorGano = ganador === 1;
+            const jugadorPerdio = ganador === 2;
+            const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id_usuario: Number(userID),
+                    generalas_totales:
+                        Number(estadistica.generalas_totales) + cantGeneralas,
+                    partidas_ganadas:
+                        Number(estadistica.partidas_ganadas) + Number(jugadorGano),
+                    partidas_perdidas:
+                        Number(estadistica.partidas_perdidas) + Number(jugadorPerdio),
+                    partidas_totales: Number(estadistica.partidas_totales) + 1,
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+        }
+    };
+
+    const finJuego = (ganador, puntajesFinales, generalaGanada = false) => {
+        let ganadorFinal = ganador;
+        if (!ganador) {
+            const [puntajeJugador1, puntajeJugador2] = puntajesFinales ?? [
+                puntaje1.reduce((total, puntos) => total + puntos, 0),
+                puntaje2.reduce((total, puntos) => total + puntos, 0),
+            ];
+            if (puntajeJugador1 > puntajeJugador2) {
+                ganadorFinal = 1;
+                setTitulo("Ganador: ¡ Jugador 1 !")
+            } else if (puntajeJugador2 > puntajeJugador1) {
+                ganadorFinal = 2;
+                setTitulo("Ganador: ¡ Jugador 2 !")
+            } else {
+                setTitulo("¡ Empate !")
+            }
+        } else {
+            setTitulo(`Ganador: ¡ Jugador ${ganador} !`)
+        }
+        setAnimacion(true);
+        const generalasDelJugador1 = Number(gen1 === "50" || generalaGanada)
+            + Number(dobGen1 === "100");
+        actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
     }
   };
 
@@ -192,24 +223,46 @@ export default function GeneralaLocal() {
       return;
     }
 
-    const puntos = dados.reduce(
-      (total, dado) => total + (dado === numero ? numero : 0),
-      0
-    );
-    setPuntaje(`${puntos}`);
-    guardarPuntaje(puntos);
-  };
+    const generalaServida = () => cantTiradas === 1;
 
-  const guardarPuntaje = (puntos, ganador = null, generalaGanada = false) => {
-    const nuevoPuntaje1 = turnoJugador === 1 ? [...puntaje1, puntos] : puntaje1;
-    const nuevoPuntaje2 = turnoJugador === 2 ? [...puntaje2, puntos] : puntaje2;
-    setPuntaje1(nuevoPuntaje1);
-    setPuntaje2(nuevoPuntaje2);
+    const anotarNumero = (numero, jugador) => {
+        const puntajeActual = jugador === 1
+            ? { 1: uno1, 2: dos1, 3: tres1, 4: cuatro1, 5: cinco1, 6: seis1 }[numero]
+            : { 1: uno2, 2: dos2, 3: tres2, 4: cuatro2, 5: cinco2, 6: seis2 }[numero];
 
-    if (ganador) {
-      finJuego(ganador, undefined, generalaGanada);
-      return;
-    }
+        if (jugador !== turnoJugador || puntajeActual !== "") {
+            return;
+        }
+
+        const puntos = dados.reduce(
+            (total, dado) => total + (dado === numero ? numero : 0),
+            0
+        );
+
+        if (jugador === 1) {
+            const setters = {
+                1: setUno1,
+                2: setDos1,
+                3: setTres1,
+                4: setCuatro1,
+                5: setCinco1,
+                6: setSeis1,
+            };
+            setters[numero](String(puntos));
+        } else {
+            const setters = {
+                1: setUno2,
+                2: setDos2,
+                3: setTres2,
+                4: setCuatro2,
+                5: setCinco2,
+                6: setSeis2,
+            };
+            setters[numero](String(puntos));
+        }
+
+        guardarPuntaje(puntos);
+    };
 
     if (
       nuevoPuntaje1.length === cantidadCategorias &&
@@ -226,16 +279,22 @@ export default function GeneralaLocal() {
       return;
     }
 
-    cambiarTurno();
-  };
+    const puedeAnotar = (jugador, puntajeActual) => {
+        return jugador === turnoJugador && cantTiradas > 0 && puntajeActual === "";
+    };
 
   const puedeAnotar = (jugador, puntajeActual) =>
     jugador === turnoJugador && cantTiradas > 0 && puntajeActual === "";
 
-  const anotarGenerala = (jugador) => {
-    const puntajeActual = jugador === 1 ? gen1 : gen2;
-    if (!puedeAnotar(jugador, puntajeActual)) {
-      return;
+        const esGen = dados.every(dado => dado === dados[0]);
+        const puntos = esGen ? 50 : 0;
+        if (jugador === 1) {
+            setGen1(`${puntos}`);
+        } else {
+            setGen2(`${puntos}`);
+        }
+        const ganador = esGen && generalaServida() ? jugador : null;
+        guardarPuntaje(puntos, ganador, jugador === 1 && esGen);
     }
 
     const esGen = dados.every((dado) => dado === dados[0]);
