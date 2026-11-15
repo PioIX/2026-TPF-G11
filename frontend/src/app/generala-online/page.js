@@ -25,6 +25,7 @@ export default function GeneralaOnline() {
     const [cantTiradas, setCantTiradas] = useState(0);
 
     const [animacion, setAnimacion] = useState(false);
+    const [escondido, setEscondido] = useState(true);
 
     const [skinTablero, setSkinTablero] = useState(1)
     const [skinDado, setSkinDado] = useState("dado")
