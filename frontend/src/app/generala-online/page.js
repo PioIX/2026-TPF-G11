@@ -416,6 +416,7 @@ export default function GeneralaOnline() {
                     [styles.Azul]: (skinTablero == 3),
                     [styles.Tigre]: (skinTablero == 4),
                     [styles.Marmol]: (skinTablero == 5),
+                    [styles.Filete]: (skinTablero == 6),
                 })}>
                     <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} skin={skinDado} className={clsx(styles.Dado, {
                         [styles.DadoBloqueado]: dadosBloqueados.includes(1),

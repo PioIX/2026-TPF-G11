@@ -175,6 +175,10 @@
     background-image: url("/recursos/img/tablero5.png");
 }
 
+.Filete {
+    background-image: url("/recursos/img/tablero6.png");
+}
+
 .Titulo {
     margin: 0;
 }

@@ -51,7 +51,11 @@ export default function ModoJuego() {
         <main className={styles.main}>
           <div>
             <div className={styles.modoDiv}>
-              <img className={styles.localImg} src="/recursos/img/logo_local.png" alt="Juego Local" />
+              <img
+                className={styles.localImg}
+                src="/recursos/img/local.png"
+                alt="Juego Local"
+              />
               <h2>Juego Local</h2>
               <p>Puedes jugar en una sola computadora.</p>
               <Button
@@ -63,7 +67,11 @@ export default function ModoJuego() {
           </div>
           <div>
             <div className={styles.modoDiv}>
-              <img className={styles.onlineImg} src="/recursos/img/logo_online.png" alt="Juego Online" />
+              <img
+                className={styles.onlineImg}
+                src="/recursos/img/online.png"
+                alt="Juego Online"
+              />
               <h2>Juego Online</h2>
               <p>
                 Puedes jugar con dos computadoras, con un jugador en cada una.

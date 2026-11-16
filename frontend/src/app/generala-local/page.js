@@ -584,6 +584,7 @@ export default function GeneralaLocal() {
             [styles.Azul]: skinTablero == 3,
             [styles.Tigre]: skinTablero == 4,
             [styles.Marmol]: skinTablero == 5,
+            [styles.Filete]: skinTablero == 6,
           })}
         >
           <Dado

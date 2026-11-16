@@ -1,304 +1,304 @@
 .Body {
-    margin: auto;
-    padding-top: 0;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 2rem;
+  margin: auto;
+  padding-top: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
 }
 
 .PopupVolver {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.438);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.438);
 
-    z-index: 998;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  z-index: 998;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .PopupContent {
-    background-color: goldenrod;
-    border-radius: 20px;
-    color: saddlebrown;
-    border: 3px darkred dashed;
+  background-color: goldenrod;
+  border-radius: 20px;
+  color: saddlebrown;
+  border: 3px darkred dashed;
 
+  width: 50vh;
+  height: 30vh;
 
-    width: 50vh;
-    height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
+  h1 {
+    margin: 0;
+  }
+
+  .PopTexto {
+    margin-bottom: 0;
+  }
+
+  div {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    gap: 1rem;
 
-    h1 {
-        margin: 0;
+    .Confirmar {
+      height: fit-content;
+      width: fit-content;
+      padding: 15px;
+      border-radius: 30px;
+      background-color: darkred;
+      color: antiquewhite;
     }
 
-    .PopTexto{
-        margin-bottom: 0;
+    .Cancelar {
+      height: fit-content;
+      width: fit-content;
+      padding: 15px;
+      border-radius: 30px;
+      background-color: darkgreen;
+      color: antiquewhite;
     }
-
-    div {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-
-        .Confirmar {
-            height: fit-content;
-            width: fit-content;
-            padding: 15px;
-            border-radius: 30px;
-            background-color: darkred;
-            color: antiquewhite;
-        }
-
-        .Cancelar{
-            height: fit-content;
-            width: fit-content;
-            padding: 15px;
-            border-radius: 30px;
-            background-color: darkgreen;
-            color: antiquewhite;
-        }
-    }
-
+  }
 }
 
 .escondido {
-    display: none;
+  display: none;
 }
 
 .Button {
-    z-index: 1;
-    height: fit-content;
-    width: 20vh;
-    max-width: 30vh;
-    padding: 15px;
-    border-radius: 30px;
-    border: darkgoldenrod 3px dashed;
-    background-color: darkred;
-    color: antiquewhite;
+  z-index: 1;
+  height: fit-content;
+  width: 20vh;
+  max-width: 30vh;
+  padding: 15px;
+  border-radius: 30px;
+  border: darkgoldenrod 3px dashed;
+  background-color: darkred;
+  color: antiquewhite;
 
-    position: fixed;
+  position: fixed;
 
-    left: 10vh;
-    top: 5vh;
+  left: 10vh;
+  top: 5vh;
 }
 
 .Button:hover {
-    background-color: rgb(180, 30, 30);
+  background-color: rgb(180, 30, 30);
 }
 
 .Confetti {
-    display: none;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .ConfettiGanar {
-    display: block;
+  display: block;
 }
 
 .TituloDiv {
-    width: 75%;
-    height: 6vh;
-    margin: auto;
+  width: 75%;
+  height: 6vh;
+  margin: auto;
 
-    background-color: goldenrod;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    text-align: center;
-    padding-top: 2.5vh;
+  background-color: goldenrod;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  text-align: center;
+  padding-top: 2.5vh;
 
-    margin-bottom: 3rem;
-    margin-top: 2rem;
-    color: saddlebrown;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+  color: saddlebrown;
 }
 
 .TituloGanar {
-    animation-name: "winAnimation-div";
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-    animation-direction: alternate;
+  animation-name: "winAnimation-div";
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
 }
 
-
 .Tablero {
-    border: 3px goldenrod dashed;
-    border-radius: 10px;
-    max-width: 80vh;
-    min-width: 65vh;
-    height: 50vh;
+  border: 3px goldenrod dashed;
+  border-radius: 10px;
+  width: 84vh;
+  height: 55vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 
-    background-size: cover;
+  background-size: cover;
 
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .Normal {
-    background-image: url("/recursos/img/tablero1.png");
+  background-image: url("/recursos/img/tablero1.png");
 }
 
 .Rojo {
-    background-image: url("/recursos/img/tablero2.png");
+  background-image: url("/recursos/img/tablero2.png");
 }
 
 .Azul {
-    background-image: url("/recursos/img/tablero3.png");
+  background-image: url("/recursos/img/tablero3.png");
 }
 
 .Tigre {
-    background-image: url("/recursos/img/tablero4.png");
+  background-image: url("/recursos/img/tablero4.png");
 }
 
 .Marmol {
-    background-image: url("/recursos/img/tablero5.png");
+  background-image: url("/recursos/img/tablero5.png");
+}
+
+.Filete {
+  background-image: url("/recursos/img/tablero6.png");
 }
 
 .Titulo {
-    margin: 0;
+  margin: 0;
 }
 
 .Partes {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 
-    align-items: center;
+  align-items: center;
 }
 
 .Guia {
-    height: fit-content;
-    width: 35vh;
-    max-height: 50vh;
+  height: fit-content;
+  width: 35vh;
+  max-height: 50vh;
 
-    padding: 1.5rem;
-    background-color: saddlebrown;
+  padding: 1.5rem;
+  background-color: saddlebrown;
 
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .Tabla {
-    display: grid;
-    grid-template-columns: 5rem 6rem 6rem;
-    grid-template-rows: 3rem;
+  display: grid;
+  grid-template-columns: 5rem 6rem 6rem;
+  grid-template-rows: 3rem;
 
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 10px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
 
-    div {
-        background-color: #fef5d8;
-        border: 1px solid #bcdddb;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        flex-wrap: nowrap;
-        flex-direction: column-reverse;
-    }
+  div {
+    background-color: #fef5d8;
+    border: 1px solid #bcdddb;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column-reverse;
+  }
 }
 
 .Div {
-    background-color: #fef5d8;
-    padding: 20px;
-    border-radius: 15px;
+  background-color: #fef5d8;
+  padding: 20px;
+  border-radius: 15px;
 
-    background-image: url(/recursos/img/fondo-div.jpg);
-    background-repeat: repeat-y;
+  background-image: url(/recursos/img/fondo-div.jpg);
+  background-repeat: repeat-y;
 
-    height: fit-content;
-    width: fit-content;
+  height: fit-content;
+  width: fit-content;
 }
 
 .Dado {
-    background-color: #ffffff;
-    border: 2px black solid;
-    padding: 0%;
+  background-color: #ffffff;
+  border: 2px black solid;
+  padding: 0%;
 
-    height: 110px;
-    width: 110px;
+  height: 110px;
+  width: 110px;
 
-    border-radius: 20px;
+  border-radius: 20px;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: fill;
-        border-radius: 17px;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    border-radius: 17px;
+  }
 }
 
 .Dado:hover {
-    filter: drop-shadow(0 0 0.75rem white);
+  filter: drop-shadow(0 0 0.75rem white);
 }
 
 .DadoBloqueado {
-    filter: drop-shadow(0 0 0.75rem white);
+  filter: drop-shadow(0 0 0.75rem white);
 }
 
 .ganarDado {
-    animation-name: "winAnimation-dados";
-    animation-iteration-count: infinite;
-    animation-duration: 0.7s;
-    animation-timing-function: ease-in-out;
-    animation-direction: alternate;
+  animation-name: "winAnimation-dados";
+  animation-iteration-count: infinite;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
 }
 
 .p {
-    font-size: 13px;
-    color: saddlebrown;
+  font-size: 13px;
+  color: saddlebrown;
 }
 
 @keyframes winAnimation-dados {
-    0% {
-        transform: rotate(0.25turn);
-    }
+  0% {
+    transform: rotate(0.25turn);
+  }
 
-    100% {
-        transform: rotate(-0.25turn);
-    }
+  100% {
+    transform: rotate(-0.25turn);
+  }
 }
 
 @keyframes winAnimation-div {
-    0% {
-        background-color: red;
-    }
+  0% {
+    background-color: red;
+  }
 
-    20% {
-        background-color: yellow;
-    }
+  20% {
+    background-color: yellow;
+  }
 
-    40% {
-        background-color: greenyellow;
-    }
+  40% {
+    background-color: greenyellow;
+  }
 
-    60% {
-        background-color: blue;
-    }
+  60% {
+    background-color: blue;
+  }
 
-    80% {
-        background-color: purple;
-    }
+  80% {
+    background-color: purple;
+  }
 
-    100% {
-        background-color: hotpink;
-    }
+  100% {
+    background-color: hotpink;
+  }
 }
