@@ -43,6 +43,9 @@ export default function ModoJuego() {
   const paginaAjustes = () => {
     router.push(`/ajustes-usuario?user=${userID}`);
   };
+  const paginaInicio = () => {
+    router.push("/");
+  };
 
   return (
     <section className={styles.section}>
@@ -109,6 +112,9 @@ export default function ModoJuego() {
       </div>
       <button onClick={paginaAjustes} className={styles.Button}>
         Ajustes
+      </button>
+      <button className={styles.Button2} onClick={() => paginaInicio()}>
+        Volver
       </button>
     </section>
   );

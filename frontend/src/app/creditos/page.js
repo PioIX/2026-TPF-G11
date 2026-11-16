@@ -1,12 +1,36 @@
 "use client";
 import styles from "./page.module.css";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Creditos() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const userID = searchParams.get("user");
+
+  const paginaModoJuego = () => {
+    router.push(`/modo-juego?user=${userID}`);
+  };
+
   return (
     <section className={styles.section}>
-      <img  src="/recursos/img/confetti.gif" className={styles.confetti}></img>
+      <button className={styles.Button} onClick={() => paginaModoJuego()}>
+        Volver
+      </button>
+
+      <img
+        src="/recursos/img/confetti.gif"
+        style={{
+          position: "fixed",
+          top: "0",
+          bottom: "0",
+          left: "0",
+          right: "0",
+          width: "100%",
+          height: "100%",
+        }}
+      ></img>
       <div className={styles.body}>
-        <div style={{display:"flex"}}>
+        <div style={{ display: "flex" }}>
           <img src="/recursos/cat-spinning.gif" />
           <h1 className={styles.title}>CREADORES</h1>
           <img src="/recursos/cat-spinning.gif" />
@@ -40,3 +64,8 @@ export default function Creditos() {
     </section>
   );
 }
+
+/* <button className={styles.Button} onClick={() => paginaModoJuego()}>
+          Volver
+        </button>
+        <img src="/recursos/img/confetti.gif" className={styles.confetti}></img> */

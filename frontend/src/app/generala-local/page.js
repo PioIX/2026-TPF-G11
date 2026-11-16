@@ -352,7 +352,7 @@ export default function GeneralaLocal() {
       <div className={clsx(styles.Creditos, {
         [styles.Mostrar]: animacion,
       })}>
-        <Button text={"Creditos"} onClick={() => (router.push("/creditos"))}></Button>
+        <Button text={"Creditos"} onClick={() => (router.push(`/creditos?user=${userID}`))}></Button>
       </div>
       <div
         className={clsx(styles.TituloDiv, {

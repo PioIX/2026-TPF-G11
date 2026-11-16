@@ -39,6 +39,27 @@
   background-color: rgb(180, 30, 30);
 }
 
+.Button2 {
+  z-index: 1;
+  height: fit-content;
+  width: 20vh;
+  max-width: 30vh;
+  padding: 15px;
+  border-radius: 30px;
+  border: darkgoldenrod 3px dashed;
+  background-color: darkred;
+  color: antiquewhite;
+
+  position: fixed;
+
+  left: 10vh;
+  top: 5vh;
+}
+
+.Button2:hover {
+  background-color: rgb(180, 30, 30);
+}
+
 .modoDiv {
   background-color: antiquewhite;
   border-radius: 20px;
