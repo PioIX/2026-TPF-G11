@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import styles from "./page.module.css";
+import Button from "@/components/Button";
 
 export default function GeneralaLocal() {
   const searchParams = useSearchParams();
@@ -344,10 +345,15 @@ export default function GeneralaLocal() {
       </div>
       <img
         className={clsx(styles.Confetti, {
-          [styles.ConfettiGanar]: animacion,
+          [styles.Mostrar]: animacion,
         })}
         src="/recursos/img/confetti.gif"
       ></img>
+      <div className={clsx(styles.Creditos, {
+        [styles.Mostrar]: animacion,
+      })}>
+        <Button text={"Creditos"} onClick={() => (router.push("/creditos"))}></Button>
+      </div>
       <div
         className={clsx(styles.TituloDiv, {
           [styles.TituloGanar]: animacion,
