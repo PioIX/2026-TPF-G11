@@ -36,6 +36,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+    width: 70vh;
+    height: 30vh;
 
   h1 {
     margin: 0;
@@ -125,19 +127,19 @@
 }
 
 .TituloDiv {
-  width: 75%;
-  height: 6vh;
-  margin: auto;
+    width: 75%;
+    height: 8vh;
+    margin: auto;
 
-  background-color: goldenrod;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  text-align: center;
-  padding-top: 2.5vh;
+    background-color: goldenrod;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: center;
+    padding-top: 2.5vh;
 
-  margin-bottom: 3rem;
-  margin-top: 2rem;
-  color: saddlebrown;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    color: saddlebrown;
 }
 
 .TituloGanar {

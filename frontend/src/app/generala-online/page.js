@@ -574,115 +574,146 @@ export default function GeneralaOnline() {
               ></PuntajeBoton>
             </div>
 
-            <div>
-              <p className={styles.p}>
-                <b>
-                  Doble
-                  <br />
-                  Generala
-                </b>
-              </p>
+            <div className={clsx(styles.PopupVolver, {
+                [styles.escondido]: escondido,
+            })}>
+                <div className={styles.PopupContent}>
+                    <h1>¡Espera!</h1>
+                    <p>¿Estás seguro de que quieres volver al menú?</p>
+                    <div>
+                        <button className={styles.Confirmar} onClick={() => VolverAtras()}>
+                            Sí, Volver atras
+                        </button>
+                        <button className={styles.Cancelar} onClick={() => setEscondido(true)}>
+                            No, Cancelar
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div>
-              <PuntajeBoton
-                onClick={() => anotarGeneralaDoble()}
-                puntaje={dobGen1}
-              ></PuntajeBoton>
+            <img className={clsx(styles.Confetti, {
+                [styles.ConfettiGanar]: animacion,
+            })} src="/recursos/img/confetti.gif"></img>
+            <div className={clsx(styles.TituloDiv, {
+                [styles.TituloGanar]: animacion,
+            })}>
+                <h1 className={styles.Titulo}>{titulo}</h1>
             </div>
-            <div>
-              <PuntajeBoton
-                onClick={() => anotarGeneralaDoble()}
-                puntaje={dobGen2}
-              ></PuntajeBoton>
+            <div className={styles.Partes}>
+                <div className={styles.Div}>
+                    <div className={styles.Tabla}>
+                        <div></div>
+                        <div><p className={styles.p}><b>Vos</b></p></div>
+                        <div><p className={styles.p}><b>Jugador 2</b></p></div>
+
+                        <div><p className={styles.p}><b>1</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(1)} puntaje={uno1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(1)} puntaje={uno2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>2</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(2)} puntaje={dos1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(2)} puntaje={dos2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>3</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(3)} puntaje={tres1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(3)} puntaje={tres2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>4</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(4)} puntaje={cuatro1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(4)} puntaje={cuatro2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>5</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(5)} puntaje={cinco1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(5)} puntaje={cinco2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>6</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(6)} puntaje={seis1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarNumero(6)} puntaje={seis2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>Escalera</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarEscalera()} puntaje={esc1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarEscalera()} puntaje={esc2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>Full<br />House</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarFull()} puntaje={full1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarFull()} puntaje={full2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>Poker</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarPoker()} puntaje={poker1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarPoker()} puntaje={poker2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>Generala</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarGenerala()} puntaje={gen1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGenerala()} puntaje={gen2}></PuntajeBoton></div>
+
+                        <div><p className={styles.p}><b>Doble<br />Generala</b></p></div>
+                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble()} puntaje={dobGen1}></PuntajeBoton></div>
+                        <div><PuntajeBoton onClick={() => anotarGeneralaDoble()} puntaje={dobGen2}></PuntajeBoton></div>
+                    </div>
+                </div>
+                <div className={clsx(styles.Tablero, {
+                    [styles.Normal]: (skinTablero == 1),
+                    [styles.Rojo]: (skinTablero == 2),
+                    [styles.Azul]: (skinTablero == 3),
+                    [styles.Tigre]: (skinTablero == 4),
+                    [styles.Marmol]: (skinTablero == 5),
+                    [styles.Filete]: skinTablero == 6,
+                })}>
+                    <Dado
+                        dataId={1}
+                        valor={dados[0]}
+                        onClick={() => bloquearDado(1)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(1)}
+                    ></Dado>
+                    <Dado
+                        dataId={2}
+                        valor={dados[1]}
+                        onClick={() => bloquearDado(2)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(2)}
+                    ></Dado>
+                    <Dado
+                        dataId={3}
+                        valor={dados[2]}
+                        onClick={() => bloquearDado(3)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(3)}
+                    ></Dado>
+                    <Dado
+                        dataId={4}
+                        valor={dados[3]}
+                        onClick={() => bloquearDado(4)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(4)}
+                    ></Dado>
+                    <Dado
+                        dataId={5}
+                        valor={dados[4]}
+                        onClick={() => bloquearDado(5)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(5)}
+                    ></Dado>
+                </div>
+                <div>
+                    <div className={styles.Guia}>
+                        <h3>Controles y Tips</h3>
+                        <p>Haz click sobre un dado para bloquearlo, haz click devuelta
+                            para desbloquearlo<br /><br />Los dados bloqueados no van a
+                            cambiar si vuelves a tirar tus dados.<br /><br />Haz click
+                            sobre el espacio vacio en el tablon de puntaje para anotar el
+                            puntaje de tus dados.<br /><br />Los datos de esta partida
+                            solo se guardaran para el usuario loggeado.</p>
+                    </div>
+                    <Tirar onClick={() => tirarDados()}></Tirar>
+                </div>
             </div>
-          </div>
-        </div>
-        <div
-          className={clsx(styles.Tablero, {
-            [styles.Normal]: skinTablero == 1,
-            [styles.Rojo]: skinTablero == 2,
-            [styles.Azul]: skinTablero == 3,
-            [styles.Tigre]: skinTablero == 4,
-            [styles.Marmol]: skinTablero == 5,
-            [styles.Filete]: skinTablero == 6,
-          })}
-        >
-          <Dado
-            dataId={1}
-            valor={dados[0]}
-            onClick={() => bloquearDado(1)}
-            skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(1),
-              [styles.ganarDado]: animacion,
-            })}
-          ></Dado>
-          <Dado
-            dataId={2}
-            valor={dados[1]}
-            onClick={() => bloquearDado(2)}
-            skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(2),
-              [styles.ganarDado]: animacion,
-            })}
-          ></Dado>
-          <Dado
-            dataId={3}
-            valor={dados[2]}
-            onClick={() => bloquearDado(3)}
-            skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(3),
-              [styles.ganarDado]: animacion,
-            })}
-          ></Dado>
-          <Dado
-            dataId={4}
-            valor={dados[3]}
-            onClick={() => bloquearDado(4)}
-            skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(4),
-              [styles.ganarDado]: animacion,
-            })}
-          ></Dado>
-          <Dado
-            dataId={5}
-            valor={dados[4]}
-            onClick={() => bloquearDado(5)}
-            skin={skinDado}
-            className={clsx(styles.Dado, {
-              [styles.DadoBloqueado]: dadosBloqueados.includes(5),
-              [styles.ganarDado]: animacion,
-            })}
-          ></Dado>
-        </div>
-        <div>
-          <div className={styles.Guia}>
-            <h3>Controles y Tips</h3>
-            <p>
-              Haz click sobre un dado para bloquearlo, haz click devuelta para
-              desbloquearlo
-              <br />
-              <br />
-              Los dados bloqueados no van a cambiar si vuelves a tirar tus
-              dados.
-              <br />
-              <br />
-              Haz click sobre el espacio vacio en el tablon de puntaje para
-              anotar el puntaje de tus dados.
-              <br />
-              <br />
-              Los datos de esta partida solo se guardaran para el usuario
-              loggeado.
-            </p>
-          </div>
-          <Tirar onClick={() => tirarDados()}></Tirar>
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    )
 }
 
 /* {styles.Tablero} */

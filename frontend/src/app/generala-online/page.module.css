@@ -30,7 +30,7 @@
     border: 3px darkred dashed;
 
 
-    width: 50vh;
+    width: 70vh;
     height: 30vh;
 
     display: flex;
@@ -42,7 +42,7 @@
         margin: 0;
     }
 
-    .PopTexto {
+    .PopTexto{
         margin-bottom: 0;
     }
 
@@ -60,7 +60,7 @@
             color: antiquewhite;
         }
 
-        .Cancelar {
+        .Cancelar{
             height: fit-content;
             width: fit-content;
             padding: 15px;
@@ -127,14 +127,14 @@
 }
 .TituloDiv {
     width: 75%;
-    height: 4rem;
+    height: 8vh;
     margin: auto;
 
     background-color: goldenrod;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
     text-align: center;
-    padding-top: 25px;
+    padding-top: 2.5vh;
 
     margin-bottom: 3rem;
     margin-top: 2rem;
@@ -153,9 +153,9 @@
 .Tablero {
     border: 3px goldenrod dashed;
     border-radius: 10px;
-    min-width: 37rem;
-    max-width: 50rem;
-    height: 30rem;
+    max-width: 80vh;
+    min-width: 65vh;
+    height: 50vh;
 
     display: flex;
     align-items: center;
@@ -163,7 +163,7 @@
 
     background-size: cover;
 
-    padding: 20px;
+    padding: 1rem;
 }
 
 .Normal {
@@ -203,8 +203,7 @@
 
 .Guia {
     height: fit-content;
-    width: 20rem;
-    max-height: 30rem;
+    width: 35vh;
 
     padding: 1.5rem;
     background-color: saddlebrown;
