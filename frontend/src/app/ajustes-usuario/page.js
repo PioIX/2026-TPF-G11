@@ -92,6 +92,12 @@ export default function AjustesUsuarioPage() {
               valor={5}
               skin={"dorado"}
             ></Dado>
+             <Dado
+              onClick={() => actualizarSkinDado("filete")}
+              dataId={0}
+              valor={5}
+              skin={"filete"}
+            ></Dado>
           </div>
 
           <h3>Tableros</h3>
@@ -125,6 +131,12 @@ export default function AjustesUsuarioPage() {
               className={styles.tablero}
             >
               <img src="/recursos/img/tablero5.png" />
+            </button>
+            <button
+              onClick={() => actualizarSkinTablero(6)}
+              className={styles.tablero}
+            >
+              <img src="/recursos/img/tablero6.png" />
             </button>
           </div>
         </div>
