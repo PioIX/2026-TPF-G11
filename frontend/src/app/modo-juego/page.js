@@ -32,14 +32,6 @@ export default function ModoJuego() {
     }
   };
 
-  const mostrarSala = () => {
-    if (escondido) {
-      setEscondido(false);
-    } else {
-      setEscondido(true);
-    }
-  };
-
   const paginaAjustes = () => {
     router.push(`/ajustes-usuario?user=${userID}`);
   };
@@ -49,6 +41,29 @@ export default function ModoJuego() {
 
   return (
     <section className={styles.section}>
+      <div className={clsx(styles.salaDiv, {
+        [styles.escondido]: escondido,
+      })}
+      >
+        <div className={styles.salaContent}>
+          <div className={styles.CerrarDiv}>
+            <button className={styles.Cerrar} onClick={() => setEscondido(true)}> X </button>
+          </div>
+          <Input
+            onChange={(e) => setSala(e.target.value)}
+            type={"text"}
+            title={"Escriba su sala"}
+            placeholder={"MiSala123"}
+            className={InputStyles.Input}
+          ></Input>
+          <p>Asegurate que la otra persona ponga exactamente el mismo nombre de sala</p>
+          <Button
+            onClick={jugarOnline}
+            text={"Jugar"}
+            className={ButtonStyles.Button}
+          ></Button>
+        </div>
+      </div>
       <div className={styles.body}>
         <h1 className={styles.title}>Elija el modo de juego:</h1>
         <main className={styles.main}>
@@ -80,35 +95,13 @@ export default function ModoJuego() {
                 Puedes jugar con dos computadoras, con un jugador en cada una.
               </p>
               <Button
-                onClick={mostrarSala}
+                onClick={() => setEscondido(false)}
                 text={"Jugar Online"}
                 className={ButtonStyles.Button}
               ></Button>
             </div>
           </div>
         </main>
-        <div
-          className={clsx(styles.salaDiv, {
-            [styles.escondido]: escondido,
-          })}
-        >
-          <p>
-            Asegurate que la otra persona ponga exactamente el mismo nombre de
-            sala
-          </p>
-          <Input
-            onChange={(e) => setSala(e.target.value)}
-            type={"text"}
-            title={"Escriba su sala"}
-            placeholder={"MiSala123"}
-            className={InputStyles.Input}
-          ></Input>
-          <Button
-            onClick={jugarOnline}
-            text={"Jugar"}
-            className={ButtonStyles.Button}
-          ></Button>
-        </div>
       </div>
       <button onClick={paginaAjustes} className={styles.Button}>
         Ajustes
