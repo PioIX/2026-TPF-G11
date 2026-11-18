@@ -27,6 +27,7 @@ export default function GeneralaOnline() {
 
     const [animacion, setAnimacion] = useState(false);
     const [escondido, setEscondido] = useState(true);
+    const [escondidoReglas, setEscondidoReglas] = useState(true);
 
     const [skinTablero, setSkinTablero] = useState(1)
     const [skinDado, setSkinDado] = useState("dado")
@@ -422,6 +423,7 @@ export default function GeneralaOnline() {
                     [styles.Azul]: (skinTablero == 3),
                     [styles.Tigre]: (skinTablero == 4),
                     [styles.Marmol]: (skinTablero == 5),
+                    [styles.Filete]: (skinTablero == 6),
                 })}>
                     <Dado
                         dataId={1}
@@ -471,8 +473,7 @@ export default function GeneralaOnline() {
                             para desbloquearlo<br /><br />Los dados bloqueados no van a
                             cambiar si vuelves a tirar tus dados.<br /><br />Haz click
                             sobre el espacio vacio en el tablon de puntaje para anotar el
-                            puntaje de tus dados.<br /><br />Los datos de esta partida
-                            solo se guardaran para el usuario loggeado.</p>
+                            puntaje de tus dados.<br /><br /></p>
                     </div>
                     <Tirar onClick={() => tirarDados()}></Tirar>
                 </div>

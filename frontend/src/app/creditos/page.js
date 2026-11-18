@@ -39,13 +39,13 @@ export default function Creditos() {
           <div>
             <img src="/recursos/img/ani.png" className={styles.img} />
             <h1>Anika Baldesari</h1>
-            <p>CEO del CSS, pionero en CSLX.</p>
+            <p>CEO del CSS, pionero en CLSX.</p>
           </div>
 
           <div>
             <img src="/recursos/img/mechi.png" className={styles.img} />
-            <h1>Mercedes Alievi</h1>
-            <p>CEO del Java Script, creadora del Socket.</p>
+            <h1>Mercedes Allievi</h1>
+            <p>CEO del JavaScript, creadora del Socket.</p>
           </div>
 
           <div>

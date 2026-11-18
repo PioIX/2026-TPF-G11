@@ -51,6 +51,7 @@ export default function GeneralaLocal() {
 
   const [animacion, setAnimacion] = useState(false);
   const [escondido, setEscondido] = useState(true);
+  const [escondidoReglas, setEscondidoReglas] = useState(true);
 
   const [skinTablero, setSkinTablero] = useState(1);
   const [skinDado, setSkinDado] = useState("dado");
@@ -321,12 +322,27 @@ export default function GeneralaLocal() {
     // HACER QUE TAMBIEN SE BORREN LOS DATOS (si no se borran ya lel)
   }
 
+  const MostrarReglas = () => {
+    setEscondidoReglas(false);
+  }
+
   return (
     <section className={styles.Body}>
       <button className={styles.Button} onClick={() => PopVolver()}>
         Volver
       </button>
-
+      <div className={clsx(styles.PopupVolver, {
+        [styles.escondido]: escondido,
+      })}>
+        <h1>Reglamento y cómo jugar</h1>
+        <div>
+          <h2>Puntaje:</h2>
+          <li>
+            <ul><p>El puntaje anotado a un numero se calcula por la cantidad de dados con ese numero al anotar.</p></ul>
+            <ul><p><b>Escalera:</b> (20pts) Es cuando tenes un dado de cada uno, es decir, 1-2-3-4-5 o 2-3-4-5-6. Los dados pueden estar desordenados en el tablon.</p></ul>
+          </li>
+        </div>
+      </div>
       <div className={clsx(styles.PopupVolver, {
         [styles.escondido]: escondido,
       })}>
@@ -636,6 +652,7 @@ export default function GeneralaLocal() {
         </div>
         <div>
           <div className={styles.Guia}>
+            <Button text={"Reglamento"} onClick={()=> mostrarReglas()}></Button>
             <h3>Controles y Tips</h3>
             <p>
               Haz click sobre un dado para bloquearlo, haz click devuelta para

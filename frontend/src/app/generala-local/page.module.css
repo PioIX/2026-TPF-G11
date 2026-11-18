@@ -203,13 +203,17 @@
 .Guia {
   height: fit-content;
   width: 35vh;
-  max-height: 50vh;
+  min-height: 50vh;
+  max-height: 80vh;
 
   padding: 1.5rem;
   background-color: saddlebrown;
 
   border-top-left-radius: 15px;
   border-bottom-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Tabla {
