@@ -27,6 +27,7 @@ export default function GeneralaOnline() {
 
     const [animacion, setAnimacion] = useState(false);
     const [escondido, setEscondido] = useState(true);
+    const [escondidoReglas, setEscondidoReglas] = useState(true);
 
     const [skinTablero, setSkinTablero] = useState(1)
     const [skinDado, setSkinDado] = useState("dado")
@@ -326,7 +327,6 @@ export default function GeneralaOnline() {
 
     const VolverAtras = () => {
         router.back();
-        // HACER QUE TAMBIEN SE BORREN LOS DATOS (si no se borran ya lel)
     }
 
     return (
@@ -334,7 +334,30 @@ export default function GeneralaOnline() {
             <button className={styles.Button} onClick={() => PopVolver()}>
                 Volver
             </button>
-
+            <div className={clsx(styles.Reglamento, {
+                [styles.escondido]: escondidoReglas,
+            })}>
+                <div className={styles.ReglamentoContent}>
+                    <div style={{ display: "flex", width: "100%", flex: "0", justifyContent: "space-between", alignItems: "center" }}>
+                        <h1>Reglamento y cómo jugar</h1>
+                        <div className={styles.CerrarDiv}>
+                            <button className={styles.Cerrar} onClick={() => setEscondidoReglas(true)}> X </button>
+                        </div>
+                    </div>
+                    <hr style={{ borderColor: 'darkred' }}></hr>
+                    <ul>
+                        <li><p>El puntaje anotado a un numero se calcula por la cantidad de dados con ese numero al anotar.</p></li>
+                        <li><p><b>Escalera:</b> (20pts) Es cuando tenes un dado de cada uno, es decir, 1-2-3-4-5 o 2-3-4-5-6. Los dados pueden estar desordenados en el tablon.</p></li>
+                        <li><p><b>Full House:</b> (30pts) 2 dados del mismo valor y 3 dados de otro valor.</p></li>
+                        <li><p><b>Poker:</b> (40pts) 4 dados del mismo valor y 1 dado de otro value.</p></li>
+                        <li><p><b>Generala:</b> (50pts) 5 dados del mismo value.</p></li>
+                        <li><p><b>Doble Generala:</b> (100pts) 5 dados del mismo valor una segunda vez. Gana el juego inmediatamente.</p></li>
+                    </ul>
+                    <hr style={{ borderColor: 'darkred' }}></hr>
+                    <p>Cada turno tenes 3 tiradas. La primera ocurre automáticamente cuando cambia el turno.</p>
+                    <p>Si querés "tachar" un puntaje, solo clickeá sobre el botón correspondiente. Se anotará como 0 puntos.</p>
+                </div>
+            </div>
             <div className={clsx(styles.PopupVolver, {
                 [styles.escondido]: escondido,
             })}>
@@ -422,6 +445,7 @@ export default function GeneralaOnline() {
                     [styles.Azul]: (skinTablero == 3),
                     [styles.Tigre]: (skinTablero == 4),
                     [styles.Marmol]: (skinTablero == 5),
+                    [styles.Filete]: (skinTablero == 6),
                 })}>
                     <Dado
                         dataId={1}
@@ -471,8 +495,8 @@ export default function GeneralaOnline() {
                             para desbloquearlo<br /><br />Los dados bloqueados no van a
                             cambiar si vuelves a tirar tus dados.<br /><br />Haz click
                             sobre el espacio vacio en el tablon de puntaje para anotar el
-                            puntaje de tus dados.<br /><br />Los datos de esta partida
-                            solo se guardaran para el usuario loggeado.</p>
+                            puntaje de tus dados.<br /><br /></p>
+                        <button onClick={() => setEscondidoReglas(false)} className={styles.ReglasBoton}>Cómo jugar</button>
                     </div>
                     <Tirar onClick={() => tirarDados()}></Tirar>
                 </div>
