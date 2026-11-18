@@ -106,6 +106,29 @@ export default function GeneralaLocal() {
     }
   };
 
+  function postUsuariosPartida() {
+      const body = {
+        jugador1: jugador1,
+        jugador2: jugador2,
+        id_partida:id_partida
+      };
+
+      const fetchData = async () => {
+        
+          const response = await fetch(`http://localhost:4000/postUsuariosPartidasTPF?id_usuario=${userID}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+          });
+          const data = await response.json();
+          console.log(data);
+        
+      }  
+  };       
+
+ 
   const finJuego = (ganador, puntajesFinales, generalaGanada = false) => {
     let ganadorFinal = ganador;
     if (!ganador) {
@@ -131,6 +154,7 @@ export default function GeneralaLocal() {
       Number(dobGen1 === "100") +
       Number(generalaGanada);
     actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
+    postUsuariosPartida()
   };
 
   const tirarDados = (nuevaRonda = false) => {
