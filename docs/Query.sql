@@ -25,21 +25,31 @@ CREATE TABLE EstadisticasTPF  (
 
 CREATE TABLE PartidasTPF (
 	id_partida int PRIMARY KEY AUTO_INCREMENT,
-    gano bool,
+    empate bool,
 	puntaje int,
-    fecha date,
-    id_usuario int,
-    CONSTRAINT fk_usuario2
-    FOREIGN KEY (id_usuario)
+    fecha datetime,
+    jugador1 int,
+    CONSTRAINT fk_usuarioJugador1
+    FOREIGN KEY (jugador1)
+    REFERENCES UsuariosTPF(id_usuario)
+    ON DELETE CASCADE,
+    jugador2 int DEFAULT 0,
+    CONSTRAINT fk_usuarioJugador2
+    FOREIGN KEY (jugador2)
     REFERENCES UsuariosTPF(id_usuario)
     ON DELETE CASCADE
 );
 
 CREATE TABLE UsuariosPartidaTPF (
-	id int PRIMARY KEY AUTO_INCREMENT,
-    id_usuario int,
-    CONSTRAINT fk_usuario4
-    FOREIGN KEY (id_usuario)
+	id_usuariosPartida int PRIMARY KEY AUTO_INCREMENT,
+    jugador1 int,
+    CONSTRAINT fk_usuarioPartidaJugador1
+    FOREIGN KEY (jugador1)
+    REFERENCES UsuariosTPF(id_usuario)
+    ON DELETE CASCADE,
+    jugador2 int DEFAULT 0,
+    CONSTRAINT fk_usuarioPartidaJugador2
+    FOREIGN KEY (jugador2)
     REFERENCES UsuariosTPF(id_usuario)
     ON DELETE CASCADE,
     id_partida int,
