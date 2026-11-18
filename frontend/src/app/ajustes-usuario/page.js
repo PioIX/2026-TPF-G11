@@ -29,7 +29,7 @@ export default function AjustesUsuarioPage() {
 
   useEffect(() => {
     skinUsuario();
-  }, [skinDado]);
+  }, []);
 
   const paginaModoJuego = () => {
     router.back();
@@ -49,6 +49,7 @@ export default function AjustesUsuarioPage() {
 
     const data = await response.json();
     console.log(data);
+    setSkinDado(dado);
   };
 
   const actualizarSkinTablero = async (tablero) => {
@@ -65,6 +66,7 @@ export default function AjustesUsuarioPage() {
 
     const data = await response.json();
     console.log(data);
+    setSkinTablero(tablero);
   };
 
   return (
