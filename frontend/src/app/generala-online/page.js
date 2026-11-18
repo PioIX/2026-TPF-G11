@@ -1,6 +1,7 @@
 "use client"
 
 import Tirar from "@/components/Juego/Tirar";
+import Button from "@/components/Button";
 import Dado from "@/components/Juego/Dado";
 import PuntajeBoton from "@/components/Juego/PuntajeBoton"
 
@@ -320,13 +321,13 @@ export default function GeneralaOnline() {
     }, [socket]);
 
     const PopVolver = () => {
-    setEscondido(false);
-  }
+        setEscondido(false);
+    }
 
-  const VolverAtras = () => {
-    router.back();
-    // HACER QUE TAMBIEN SE BORREN LOS DATOS (si no se borran ya lel)
-  }
+    const VolverAtras = () => {
+        router.back();
+        // HACER QUE TAMBIEN SE BORREN LOS DATOS (si no se borran ya lel)
+    }
 
     return (
         <section className={styles.Body}>
@@ -350,8 +351,13 @@ export default function GeneralaOnline() {
                     </div>
                 </div>
             </div>
+            <div className={clsx(styles.Creditos, {
+                [styles.Mostrar]: animacion,
+            })}>
+                <Button text={"Creditos"} onClick={() => (router.push(`/creditos?user=${userID}`))}></Button>
+            </div>
             <img className={clsx(styles.Confetti, {
-                [styles.ConfettiGanar]: animacion,
+                [styles.Mostrar]: animacion,
             })} src="/recursos/img/confetti.gif"></img>
             <div className={clsx(styles.TituloDiv, {
                 [styles.TituloGanar]: animacion,
@@ -417,26 +423,46 @@ export default function GeneralaOnline() {
                     [styles.Tigre]: (skinTablero == 4),
                     [styles.Marmol]: (skinTablero == 5),
                 })}>
-                    <Dado dataId={1} valor={dados[0]} onClick={() => bloquearDado(1)} skin={skinDado} className={clsx(styles.Dado, {
-                        [styles.DadoBloqueado]: dadosBloqueados.includes(1),
-                        [styles.ganarDado]: animacion,
-                    })}></Dado>
-                    <Dado dataId={2} valor={dados[1]} onClick={() => bloquearDado(2)} skin={skinDado} className={clsx(styles.Dado, {
-                        [styles.DadoBloqueado]: dadosBloqueados.includes(2),
-                        [styles.ganarDado]: animacion,
-                    })}></Dado>
-                    <Dado dataId={3} valor={dados[2]} onClick={() => bloquearDado(3)} skin={skinDado} className={clsx(styles.Dado, {
-                        [styles.DadoBloqueado]: dadosBloqueados.includes(3),
-                        [styles.ganarDado]: animacion,
-                    })}></Dado>
-                    <Dado dataId={4} valor={dados[3]} onClick={() => bloquearDado(4)} skin={skinDado} className={clsx(styles.Dado, {
-                        [styles.DadoBloqueado]: dadosBloqueados.includes(4),
-                        [styles.ganarDado]: animacion,
-                    })}></Dado>
-                    <Dado dataId={5} valor={dados[4]} onClick={() => bloquearDado(5)} skin={skinDado} className={clsx(styles.Dado, {
-                        [styles.DadoBloqueado]: dadosBloqueados.includes(5),
-                        [styles.ganarDado]: animacion,
-                    })}></Dado>
+                    <Dado
+                        dataId={1}
+                        valor={dados[0]}
+                        onClick={() => bloquearDado(1)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(1)}
+                    ></Dado>
+                    <Dado
+                        dataId={2}
+                        valor={dados[1]}
+                        onClick={() => bloquearDado(2)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(2)}
+                    ></Dado>
+                    <Dado
+                        dataId={3}
+                        valor={dados[2]}
+                        onClick={() => bloquearDado(3)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(3)}
+                    ></Dado>
+                    <Dado
+                        dataId={4}
+                        valor={dados[3]}
+                        onClick={() => bloquearDado(4)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(4)}
+                    ></Dado>
+                    <Dado
+                        dataId={5}
+                        valor={dados[4]}
+                        onClick={() => bloquearDado(5)}
+                        skin={skinDado}
+                        animacion={animacion}
+                        esBloqueado={dadosBloqueados.includes(5)}
+                    ></Dado>
                 </div>
                 <div>
                     <div className={styles.Guia}>
