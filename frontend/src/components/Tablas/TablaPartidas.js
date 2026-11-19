@@ -16,10 +16,18 @@ export default function TablaPartidas({ refresh }) {
 
   return (
     <Tabla
-      cabecera={["ID", "Gano", "Puntaje", "Fecha"]}
+      cabecera={["ID", "Jugador 1", "Jugador 2", "Empate", "Puntaje", "Fecha", "Sala"]}
       filas={partidas.map((partida) => {
-        const { id_partida, gano, puntaje, fecha } = partida;
-        return [id_partida, gano, puntaje, fecha];
+        const { id_partida, jugador1, jugador2, empate, puntaje, fecha, sala } = partida;
+        return [
+          id_partida,
+          jugador1,
+          jugador2,
+          empate ? "Sí" : "No",
+          puntaje,
+          fecha,
+          sala,
+        ];
       })}
     />
   );

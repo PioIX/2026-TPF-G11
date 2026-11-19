@@ -45,7 +45,7 @@ const eliminarUsuarios = [
 ];
 
 const eliminarUsuariosPartida = [
-  { id: 'id', requestKey: 'id', placeholder: 'ID registro' }
+  { id: 'id_usuariosPartida', requestKey: 'id', placeholder: 'ID' }
 ];
 
 const eliminarPartidas = [

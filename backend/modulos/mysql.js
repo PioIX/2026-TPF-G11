@@ -31,10 +31,11 @@ exports.realizarQuery = async function (queryString)
 	catch(err)
 	{
 		console.log(err);
+		return [];
 	}
 	finally
 	{
 		if(connection && connection.end) connection.end();
 	}
-	return returnObject[0];
+	return returnObject?.[0] ?? [];
 }

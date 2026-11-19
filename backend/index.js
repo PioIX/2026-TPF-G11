@@ -113,8 +113,16 @@ io.on("connection", (socket) => {
 
     if (ganador) {
       datosPartida.finalizada = true;
+      const puntajeTotalJ1 = Object.values(datosPartida.puntajeJ1).reduce((total, puntaje) => total + Number(puntaje || 0), 0);
+      const puntajeTotalJ2 = Object.values(datosPartida.puntajeJ2).reduce((total, puntaje) => total + Number(puntaje || 0), 0);
       io.to(req.session.room).emit("finJuego", {
         ganador: ganador,
+        J1: datosPartida.J1,
+        J2: datosPartida.J2,
+        puntajesFinales: {
+          J1: puntajeTotalJ1,
+          J2: puntajeTotalJ2
+        },
         generalaGanada: generala
       })
       return;
@@ -395,7 +403,12 @@ app.get("/getPartidasTPF", async function (req, res) {
         SELECT * FROM PartidasTPF;
     `);
   console.log({ respuesta });
-  res.send(respuesta);
+  res.send(
+    respuesta.map((partida) => ({
+      ...partida,
+      empate: Boolean(partida.empate),
+    }))
+  );
 });
 
 // GET LOGIN
@@ -447,7 +460,7 @@ app.post("/postEstadisticasTPF", async function (req, res) {
 app.post("/postUsuariosPartidaTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `INSERT INTO UsuariosPartidaTPF(id_usuario, id_partida) VALUES (${req.body.id_usuario}, ${req.body.id_partida})`
+    `INSERT INTO UsuariosPartidaTPF(jugador1, jugador2, id_partida) VALUES (${req.body.jugador1}, ${req.body.jugador2 ?? "NULL"}, ${req.body.id_partida ?? "NULL"})`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -455,8 +468,15 @@ app.post("/postUsuariosPartidaTPF", async function (req, res) {
 
 app.post("/postPartidasTPF", async function (req, res) {
   console.log(req.body);
+  const empate = req.body.empate === true || req.body.empate === 1 ? 1 : 0;
+  const sala = String(req.body.sala || "Local").replace(/'/g, "''");
+  const puntaje = Number(req.body.puntaje);
+  const fecha = new Date(req.body.fecha);
+  const fechaSql = Number.isNaN(fecha.getTime())
+    ? null
+    : fecha.toISOString().slice(0, 19).replace("T", " ");
   const respuesta = await realizarQuery(
-    `INSERT INTO PartidasTPF(gano, fecha, puntaje, id_usuario) VALUES (${req.body.gano}, '${req.body.fecha}', ${req.body.puntaje}, ${req.body.id_usuario})`
+    `INSERT INTO PartidasTPF(empate, fecha, puntaje, jugador1, jugador2, sala) VALUES (${empate}, ${fechaSql ? `'${fechaSql}'` : "NULL"}, ${Number.isFinite(puntaje) ? puntaje : 0}, ${req.body.jugador1}, ${req.body.jugador2 ?? "NULL"}, '${sala}')`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -500,8 +520,10 @@ app.put("/putEstadisticasTPF", async function (req, res) {
 
 app.put("/putPartidasTPF", async function (req, res) {
   console.log(req.body);
+  const empate = req.body.empate === true || req.body.empate === 1 ? 1 : 0;
+  const sala = String(req.body.sala || "Local").replace(/'/g, "''");
   const respuesta = await realizarQuery(
-    `UPDATE PartidasTPF SET gano = ${req.body.gano}, fecha = '${req.body.fecha}', puntaje = ${req.body.puntaje} WHERE id = ${req.body.id_partida}`
+    `UPDATE PartidasTPF SET empate = ${empate}, fecha = '${req.body.fecha}', puntaje = ${req.body.puntaje}, sala = '${sala}' WHERE id_partida = ${req.body.id_partida}`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -539,7 +561,7 @@ app.delete("/deleteUsuariosTPF", async function (req, res) {
 app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM UsuariosPartidaTPF WHERE id= ${req.body.id}`
+    `DELETE FROM UsuariosPartidaTPF WHERE id_usuariosPartida = ${req.body.id}`
   );
   console.log({ respuesta });
   res.send(respuesta);

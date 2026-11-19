@@ -11,6 +11,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import Button from "@/components/Button";
 
+const API_BASE_URL = "http://localhost:4000";
+
+const apiRequest = async (path, options) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, options);
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.status}`);
+  }
+  return response.json();
+};
+
 export default function GeneralaLocal() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -57,12 +67,15 @@ export default function GeneralaLocal() {
   const [skinDado, setSkinDado] = useState("dado");
 
   const skinUsuario = async () => {
-    const skinResponse = await fetch(
-      `http://localhost:4000/getSkin?id_usuario=${userID}`
-    );
-    const skins = await skinResponse.json();
-    setSkinTablero(skins[0].skin_tablero);
-    setSkinDado(skins[0].skin_dado);
+    try {
+      const skins = await apiRequest(`/getSkin?id_usuario=${userID}`);
+      if (skins.length > 0) {
+        setSkinTablero(skins[0].skin_tablero);
+        setSkinDado(skins[0].skin_dado);
+      }
+    } catch (error) {
+      console.error("No se pudo cargar el skin del usuario:", error);
+    }
   };
 
   useEffect(() => {
@@ -77,15 +90,15 @@ export default function GeneralaLocal() {
   };
 
   const actualizarEstadisticas = async (ganador, cantGeneralas) => {
-    const estadisticasResponse = await fetch(
-      `http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`
-    );
-    const estadisticas = await estadisticasResponse.json();
-    if (estadisticas.length !== 0) {
-      const estadistica = estadisticas[0];
-      const jugadorGano = ganador === "Jugador 1";
-      const jugadorPerdio = ganador === "Jugador 2";
-      const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
+    try {
+      const estadisticas = await apiRequest(
+        `/getEstadisticasUsuario?id_usuario=${userID}`
+      );
+      if (estadisticas.length !== 0) {
+        const estadistica = estadisticas[0];
+        const jugadorGano = ganador === "Jugador 1";
+        const jugadorPerdio = ganador === "Jugador 2";
+        await apiRequest("/putEstadisticasTPF", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -97,46 +110,68 @@ export default function GeneralaLocal() {
           partidas_perdidas:
             Number(estadistica.partidas_perdidas) + Number(jugadorPerdio),
           partidas_totales: Number(estadistica.partidas_totales) + 1,
-
         }),
-      });
-      console.log(response.body);
-
-      const data = await response.json();
-      console.log(data);
+        });
+      }
+    } catch (error) {
+      console.error("No se pudieron actualizar las estadísticas:", error);
     }
   };
 
-  function postUsuariosPartida() {
+  async function postUsuariosPartida(idPartida) {
+    try {
       const body = {
-        jugador1: jugador1,
-        jugador2: jugador2,
-        id_partida:id_partida
+        jugador1: userID,
+        jugador2: userID,
+        id_partida: idPartida,
       };
-
-      const fetchData = async () => {
-        
-          const response = await fetch(`http://localhost:4000/postUsuariosPartidasTPF?id_usuario=${userID}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          });
-          const data = await response.json();
-          console.log(data);
-        
-      }  
-  };       
-
+      await apiRequest(`/postUsuariosPartidaTPF?id_usuario=${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+    } catch (error) {
+      console.error("No se pudo registrar la participación:", error);
+    }
+  };
+  
+    async function postPartida(puntajesFinales) {
+      try {
+      const [puntajeJugador1, puntajeJugador2] = puntajesFinales;
+      const body = {
+        empate: puntajeJugador1 === puntajeJugador2,
+        jugador1: userID,
+        jugador2: userID,
+        puntaje: Math.max(puntajeJugador1, puntajeJugador2),
+        fecha: new Date(),
+        sala: "Local",
+      };
+      const partida = await apiRequest(`/postPartidasTPF?id_usuario=${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      return partida.insertId ?? null;
+      } catch (error) {
+        console.error("No se pudo registrar la partida:", error);
+        return null;
+      }
+  };    
  
   const finJuego = (ganador, puntajesFinales, generalaGanada = false) => {
     let ganadorFinal = ganador;
-    if (!ganador) {
-      const [puntajeJugador1, puntajeJugador2] = puntajesFinales ?? [
+    let puntajesCalculados =
+      puntajesFinales ??
+      [
         puntaje1.reduce((total, puntos) => total + puntos, 0),
         puntaje2.reduce((total, puntos) => total + puntos, 0),
       ];
+    if (!ganador) {
+      const [puntajeJugador1, puntajeJugador2] = puntajesCalculados;
       if (puntajeJugador1 > puntajeJugador2) {
         ganadorFinal = "Jugador 1";
         setTitulo("Ganador: ¡ Jugador 1 !");
@@ -155,7 +190,11 @@ export default function GeneralaLocal() {
       Number(dobGen1 === "100") +
       Number(generalaGanada);
     actualizarEstadisticas(ganadorFinal, generalasDelJugador1);
-    postUsuariosPartida()
+    postPartida(puntajesCalculados).then((idPartida) => {
+      if (idPartida) {
+        postUsuariosPartida(idPartida);
+      }
+    });
   };
 
   const tirarDados = (nuevaRonda = false) => {
