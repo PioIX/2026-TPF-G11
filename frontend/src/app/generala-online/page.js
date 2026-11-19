@@ -123,6 +123,51 @@ export default function GeneralaOnline() {
         }
     };
 
+     async function postUsuariosPartida(idPartida) {
+    try {
+      const body = {
+        jugador1: userID,
+        jugador2: userID,
+        id_partida: idPartida,
+      };
+      await apiRequest(`/postUsuariosPartidaTPF?id_usuario=${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+    } catch (error) {
+      console.error("No se pudo registrar la participación:", error);
+    }
+  };
+  
+    async function postPartida(puntajesFinales) {
+      try {
+      const [puntajeJugador1, puntajeJugador2] = puntajesFinales;
+      const hoy = new Date
+      const body = {
+        empate: puntajeJugador1 === puntajeJugador2,
+        jugador1: userID,
+        jugador2: userID,
+        puntaje: Math.max(puntajeJugador1, puntajeJugador2),
+        fecha: hoy.toLocaleDateString('en-CA'),
+        sala: sala,
+      };
+      const partida = await apiRequest(`/postPartidasTPF?id_usuario=${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      return partida.insertId ?? null;
+      } catch (error) {
+        console.error("No se pudo registrar la partida:", error);
+        return null;
+      }
+  };    
+
     useEffect(() => {
         if (!socket) return;
         const handleFinJuego = (data) => {

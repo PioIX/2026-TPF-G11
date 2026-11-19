@@ -49,7 +49,7 @@ const eliminarUsuariosPartida = [
 ];
 
 const eliminarPartidas = [
-  { id: 'id_partida', requestKey: 'id', placeholder: 'ID partida' }
+  { id: 'id_partida', requestKey: 'id', placeholder: 'ID' }
 ];
 
 export default function AdminPage() {

@@ -552,7 +552,7 @@ app.put("/putSkinTableroUsuario", async function (req, res) {
 app.delete("/deleteUsuariosTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM UsuariosTPF WHERE id_usuario = ${req.body.id_usuario}`
+    `DELETE FROM UsuariosTPF WHERE id_usuario = '${req.body.id_usuario}';`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -561,7 +561,7 @@ app.delete("/deleteUsuariosTPF", async function (req, res) {
 app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM UsuariosPartidaTPF WHERE id_usuariosPartida = ${req.body.id}`
+    `DELETE FROM UsuariosPartidaTPF WHERE id_usuariosPartida = '${req.body.id}';`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -570,7 +570,7 @@ app.delete("/deleteUsuariosPartidaTPF", async function (req, res) {
 app.delete("/deleteEstadisticasTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM EstadisticasTPF WHERE id_estadistica = ${req.body.id_estadistica}`
+    `DELETE FROM EstadisticasTPF WHERE id_estadistica = '${req.body.id_estadistica}';`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -579,7 +579,7 @@ app.delete("/deleteEstadisticasTPF", async function (req, res) {
 app.delete("/deletePartidasTPF", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `DELETE FROM PartidasTPF WHERE id_partida = ${req.body.id_partida}`
+    `DELETE FROM PartidasTPF WHERE id_partida = ${req.body.id_partida}';`
   );
   console.log({ respuesta });
   res.send(respuesta);

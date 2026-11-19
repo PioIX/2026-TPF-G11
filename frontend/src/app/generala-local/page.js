@@ -140,14 +140,16 @@ export default function GeneralaLocal() {
     async function postPartida(puntajesFinales) {
       try {
       const [puntajeJugador1, puntajeJugador2] = puntajesFinales;
+      const hoy = new Date
       const body = {
         empate: puntajeJugador1 === puntajeJugador2,
         jugador1: userID,
         jugador2: userID,
         puntaje: Math.max(puntajeJugador1, puntajeJugador2),
-        fecha: new Date(),
+        fecha: hoy.toLocaleDateString('en-CA'),
         sala: "Local",
       };
+      console.log(hoy.toLocaleDateString('es-AR'))
       const partida = await apiRequest(`/postPartidasTPF?id_usuario=${userID}`, {
         method: 'POST',
         headers: {
