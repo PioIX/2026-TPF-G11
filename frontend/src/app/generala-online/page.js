@@ -123,7 +123,7 @@ export default function GeneralaOnline() {
         }
     };
 
-     async function postUsuariosPartida(idPartida) {
+    /* async function postUsuariosPartida(idPartida) {
     try {
       const body = {
         jugador1: userID,
@@ -166,7 +166,7 @@ export default function GeneralaOnline() {
         console.error("No se pudo registrar la partida:", error);
         return null;
       }
-  };    
+  };    */
 
     useEffect(() => {
         if (!socket) return;
