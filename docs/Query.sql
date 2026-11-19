@@ -37,7 +37,8 @@ CREATE TABLE PartidasTPF (
     CONSTRAINT fk_usuarioJugador2
     FOREIGN KEY (jugador2)
     REFERENCES UsuariosTPF(id_usuario)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+    sala varchar(20) DEFAULT "Local"
 );
 
 CREATE TABLE UsuariosPartidaTPF (
@@ -56,6 +57,5 @@ CREATE TABLE UsuariosPartidaTPF (
     CONSTRAINT fk_partida
     FOREIGN KEY (id_partida)
     REFERENCES PartidasTPF(id_partida)
-    ON DELETE CASCADE,
-    sala varchar(20) DEFAULT "Local"
+    ON DELETE CASCADE
 );
