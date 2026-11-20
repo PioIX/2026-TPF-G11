@@ -10,6 +10,8 @@ import styles from "./page.module.css";
 export default function Home() {
   const router = useRouter();
 
+  const url = `localhost`;
+
   const [mail, setMail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [nombre, setNombre] = useState("");
@@ -28,7 +30,7 @@ export default function Home() {
       };
 
       const fetchData = async () => {
-        const response = await fetch('http://localhost:4000/postLogin', {
+        const response = await fetch(`http://${url}:4000/postLogin`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -69,7 +71,7 @@ export default function Home() {
 
       const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:4000/postUsuariosTPF', {
+          const response = await fetch(`http://${url}:4000/postUsuariosTPF`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -90,7 +92,7 @@ export default function Home() {
           }
 
           const usuarioResponse = await fetch(
-            `http://localhost:4000/getLoginEmail?email=${mail}`
+            `http://${url}:4000/getLoginEmail?email=${mail}`
           );
           if (!usuarioResponse.ok) {
             throw new Error("No se pudo obtener el usuario recién creado");
@@ -102,7 +104,7 @@ export default function Home() {
           }
 
           const nuevoUsuario = usuarios[0];
-          const estadisticasResponse = await fetch('http://localhost:4000/postEstadisticasTPF', {
+          const estadisticasResponse = await fetch(`http://${url}:4000/postEstadisticasTPF`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
