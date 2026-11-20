@@ -14,14 +14,13 @@ export default function AjustesUsuarioPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const userID = searchParams.get("user");
-  const url = `localhost`;
 
   const [skinTablero, setSkinTablero] = useState(1)
   const [skinDado, setSkinDado] = useState("dado")
 
   const skinUsuario = async () => {
     const skinResponse = await fetch(
-      `http://${url}:4000/getSkin?id_usuario=${userID}`
+      `http://localhost:4000/getSkin?id_usuario=${userID}`
     );
     const skins = await skinResponse.json();
     setSkinTablero(skins[0].skin_tablero);
@@ -38,7 +37,7 @@ export default function AjustesUsuarioPage() {
 
   const actualizarSkinDado = async (dado) => {
     const response = await fetch(
-      `http://${url}:4000/putSkinDadoUsuario?id_usuario=${userID}`,
+      `http://localhost:4000/putSkinDadoUsuario?id_usuario=${userID}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -55,7 +54,7 @@ export default function AjustesUsuarioPage() {
 
   const actualizarSkinTablero = async (tablero) => {
     const response = await fetch(
-      `http://${url}:4000/putSkinTableroUsuario?id_usuario=${userID}`,
+      `http://localhost:4000/putSkinTableroUsuario?id_usuario=${userID}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

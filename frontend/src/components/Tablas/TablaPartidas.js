@@ -5,10 +5,9 @@ import Tabla from "./Tabla";
 
 export default function TablaPartidas({ refresh }) {
   const [partidas, setPartidas] = useState([]);
-  const url = `localhost`
 
   useEffect(() => {
-    fetch(`http://${url}:4000/getPartidasTPF`)
+    fetch(`http://localhost:4000/getPartidasTPF`)
       .then((response) => response.json())
       .then((data) => {
         setPartidas(data);

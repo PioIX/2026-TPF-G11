@@ -5,11 +5,10 @@ import Tabla from "./Tabla";
 
 export default function TablasUsuarios({ refresh }) {
     const [usuarios, setUsuarios] = useState([])
-    const url = `localhost`;
 
     useEffect(() => {
         console.log(refresh)
-        fetch(`http://${url}:4000/getUsuariosTPF`)
+        fetch(`http://localhost:4000/getUsuariosTPF`)
             .then(response => response.json())
             .then(data => {
                 setUsuarios(data);

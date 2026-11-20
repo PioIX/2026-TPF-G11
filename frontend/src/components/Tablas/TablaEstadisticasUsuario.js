@@ -8,10 +8,9 @@ export default function TablaEstadisticasUsuario({ refresh }) {
   const [estadisticas, setEstadisticas] = useState([]);
   const searchParams = useSearchParams();
   const userID = searchParams.get("user");
-  const url = `localhost`;
 
   useEffect(() => {
-    fetch(`http://${url}:4000/getEstadisticasUsuario?id_usuario=${userID}`)
+    fetch(`http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`)
       .then((response) => response.json())
       .then((data) => {
         setEstadisticas(data);
