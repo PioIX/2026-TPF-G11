@@ -402,16 +402,17 @@ export default function GeneralaLocal() {
           </div>
           <hr style={{ borderColor: 'darkred' }}></hr>
           <ul>
-            <li><p>El puntaje anotado a un numero se calcula por la cantidad de dados con ese numero al anotar.</p></li>
-            <li><p><b>Escalera:</b> (20pts) Es cuando tenes un dado de cada uno, es decir, 1-2-3-4-5 o 2-3-4-5-6. Los dados pueden estar desordenados en el tablon.</p></li>
-            <li><p><b>Full House:</b> (30pts) 2 dados del mismo valor y 3 dados de otro valor.</p></li>
-            <li><p><b>Poker:</b> (40pts) 4 dados del mismo valor y 1 dado de otro value.</p></li>
-            <li><p><b>Generala:</b> (50pts) 5 dados del mismo value.</p></li>
-            <li><p><b>Doble Generala:</b> (100pts) 5 dados del mismo valor una segunda vez. Gana el juego inmediatamente.</p></li>
+            <li><p>En las categorías de número, se calcula el puntaje multiplicando el total de dados donde éste aparece por dicho número. Por ejemplo, dos 4 valen 8 puntos para el cuatro.</p></li>
+            <li><p><b>Escalera:</b> (20pts) 1-2-3-4-5 ó 2-3-4-5-6. Los dados pueden verse desordenados en el tablero, pero se suma el puntaje igualmente.</p></li>
+            <li><p><b>Full House:</b> (30pts) 2 dados iguales de un mismo valor y 3 dados iguales de otro valor.</p></li>
+            <li><p><b>Poker:</b> (40pts) 4 dados del mismo valor y 1 dado de otro valor.</p></li>
+            <li><p><b>Generala:</b> (50pts) 5 dados del mismo valor.</p></li>
+            <li><p><b>Doble Generala:</b> (100pts) 5 dados del mismo valor una segunda vez.</p></li>
           </ul>
           <hr style={{ borderColor: 'darkred' }}></hr>
-          <p>Cada turno tenes 3 tiradas. La primera ocurre automáticamente cuando cambia el turno.</p>
-          <p>Si querés "tachar" un puntaje, solo clickeá sobre el botón correspondiente. Se anotará como 0 puntos.</p>
+          <p>Cada turno tenés 3 tiradas. La primera ocurre automáticamente cuando cambia el turno. En caso de conseguir escalera, full house o póker en el primer turno, ocurre una jugada servida y se suman 5 puntos más. En caso de anotar una generala o generala doble servida, el jugador gana el juego automáticamente</p>
+          <p>Si querés descartar una categoría (tacharla), solo clickeá sobre el botón correspondiente. Se anotará como 0 puntos.</p>
+          <p>Cuando todas las categorías de los dos jugadores se hayan llenado, gana el jugador con mayor puntaje.</p>
         </div>
       </div>
       <div className={clsx(styles.PopupVolver, {

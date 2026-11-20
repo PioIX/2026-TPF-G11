@@ -18,6 +18,7 @@ export default function GeneralaOnline() {
     const sala = searchParams.get("sala");
     const userID = searchParams.get("user");
     const { socket, isConnected } = useSocket();
+    const url = `localhost`;
 
     const [dados, setDados] = useState([0, 0, 0, 0, 0]);
     const [dadosBloqueados, setDadosBloqueados] = useState([]);
@@ -58,7 +59,7 @@ export default function GeneralaOnline() {
 
     const skinUsuario = async () => {
         const skinResponse = await fetch(
-            `http://localhost:4000/getSkin?id_usuario=${userID}`
+            `http://${url}:4000/getSkin?id_usuario=${userID}`
         );
         const skins = await skinResponse.json();
         setSkinTablero(skins[0].skin_tablero);
@@ -95,7 +96,7 @@ export default function GeneralaOnline() {
 
     const actualizarEstadisticas = async (ganador, cantGeneralas) => {
         const estadisticasResponse = await fetch(
-            `http://localhost:4000/getEstadisticasUsuario?id_usuario=${userID}`
+            `http://${url}:4000/getEstadisticasUsuario?id_usuario=${userID}`
         );
         const estadisticas = await estadisticasResponse.json();
         if (estadisticas.length !== 0) {
@@ -103,7 +104,7 @@ export default function GeneralaOnline() {
             const estadistica = estadisticas[0];
             const jugadorGano = ganador != null && String(ganador) === String(userID);
             const jugadorPerdio = ganador != null && !jugadorGano;
-            const response = await fetch("http://localhost:4000/putEstadisticasTPF", {
+            const response = await fetch("http://${url}:4000/putEstadisticasTPF", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

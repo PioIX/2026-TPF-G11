@@ -6,6 +6,8 @@ import { useState } from "react";
 import styles from "@/components/Admin/InputsStyle.module.css";
 
 async function Borrar(id, url, idField) {
+    const url = `localhost`;
+
     if (id === null || id === "") {
         alert("Error: llenar todos los campos");
         return false;
@@ -27,10 +29,10 @@ async function Borrar(id, url, idField) {
 }
 
 const urls = {
-    usuarios: 'http://localhost:4000/deleteUsuariosTPF',
-    usuariosPartida: 'http://localhost:4000/deleteUsuariosPartidaTPF',
-    partidas: 'http://localhost:4000/deletePartidasTPF',
-    estadisticas: 'http://localhost:4000/deleteEstadisticasTPF'
+    usuarios: `http://${url}:4000/deleteUsuariosTPF`,
+    usuariosPartida: `http://${url}:4000/deleteUsuariosPartidaTPF`,
+    partidas: `http://${url}:4000/deletePartidasTPF`,
+    estadisticas: `http://${url}:4000/deleteEstadisticasTPF`
 };
 
 export default function Eliminar({tabla, data, onClick}){
