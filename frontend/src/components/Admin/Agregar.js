@@ -6,7 +6,6 @@ import { useState } from "react";
 import styles from "@/components/Admin/InputsStyle.module.css";
 
 function Añadir(dataInput, url, handler) {
-    const url = `${url}`;
 
     if (!dataInput || Object.keys(dataInput).length === 0) {
         console.log("Error, datos vacíos");
@@ -43,10 +42,10 @@ function Añadir(dataInput, url, handler) {
 }
 
 const urls = {
-    usuarios: `http://${url}:4000/postUsuariosTPF`,
-    usuariosPartida: `http://${url}:4000/postPartidasUsuarioTPF`,
-    partidas: `http://${url}:4000/postPartidasTPF`,
-    estadisticas: `http://${url}:4000/postEstadisticasTPF`
+    usuarios: `http://localhost:4000/postUsuariosTPF`,
+    usuariosPartida: `http://localhost:4000/postPartidasUsuarioTPF`,
+    partidas: `http://localhost:4000/postPartidasTPF`,
+    estadisticas: `http://localhost:4000/postEstadisticasTPF`
 };
 
 export default function Agregar({ tabla, data, onClick }) {

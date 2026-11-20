@@ -5,10 +5,9 @@ import Tabla from "./Tabla";
 
 export default function TablaUsuariosPartida({ refresh }) {
     const [usuarios_partida, setUsuariosPartida] = useState([])
-    const url = `localhost`;
 
     useEffect(() => {
-        fetch(`http://${url}:4000/getUsuariosPartidaTPF`)
+        fetch(`http://localhost:4000/getUsuariosPartidaTPF`)
             .then(response => response.json())
             .then(data => {
                 setUsuariosPartida(data);

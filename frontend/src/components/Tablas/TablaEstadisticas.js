@@ -5,10 +5,9 @@ import Tabla from "./Tabla";
 
 export default function TablaEstadisticas({ refresh }) {
     const [estadisticas, setEstadisticas] = useState([])
-    const url = `localhost`
 
     useEffect(() => {
-        fetch(`http://${url}:4000/getEstadisticasTPF`)
+        fetch(`http://localhost:4000/getEstadisticasTPF`)
             .then(response => response.json())
             .then(data => {
                 setEstadisticas(data);

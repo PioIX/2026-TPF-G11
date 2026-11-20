@@ -6,7 +6,6 @@ import { useState } from "react";
 import styles from "@/components/Admin/InputsStyle.module.css";
 
 async function Cambiar(dataInput, url) {
-  const url = `localhost`;
 
   if (!dataInput || Object.keys(dataInput).length === 0) {
     alert("Error: llenar todos los campos");
@@ -38,10 +37,10 @@ async function Cambiar(dataInput, url) {
 }
 
 const urls = {
-  usuarios: `http://${url}:4000/putUsuariosTPF`,
-  usuariosPartida: `http://${url}:4000/putUsuariosPartidaTPF`,
-  partidas: `http://${url}:4000/putPartidasTPF`,
-  estadisticas: `http://${url}:4000/putEstadisticasTPF`,
+  usuarios: `http://localhost:4000/putUsuariosTPF`,
+  usuariosPartida: `http://localhost:4000/putUsuariosPartidaTPF`,
+  partidas: `http://localhost:4000/putPartidasTPF`,
+  estadisticas: `http://localhost:4000/putEstadisticasTPF`,
 };
 
 export default function Modificar({ tabla, data, onClick }) {
